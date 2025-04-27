@@ -1,0 +1,171 @@
+/* Estilos adicionales para la sección de noticias en la página de inicio */
+
+/* Estilos para la sección de Últimas Noticias */
+.sesiones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sesiones h2 {
+    font-size: 1.75rem;
+    color: #333;
+}
+
+.botones-filtro .btn {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botones-filtro .btn.active,
+.botones-filtro .btn:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.noticias-grid {
+    margin-top: 1rem;
+}
+
+.noticias-grid .news {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden; /* Para ocultar contenido que exceda los bordes */
+}
+
+.noticias-grid .news .imagen {
+    overflow: hidden; /* Para que la imagen no se salga del contenedor */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.noticias-grid .news .imagen img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.noticias-grid .news:hover .imagen img {
+    transform: scale(1.05);
+}
+
+.noticias-grid .news .contenido-noticia {
+    padding: 1rem;
+}
+
+.noticias-grid .news .contenido-noticia .categoria {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.noticias-grid .news .contenido-noticia .categoria.nacionales {
+    background-color: #007bff;
+    color: white;
+}
+
+.noticias-grid .news .contenido-noticia .categoria.internacionales {
+    background-color: #dc3545;
+    color: white;
+}
+
+.noticias-grid .news .contenido-noticia h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+}
+
+.noticias-grid .news .contenido-noticia p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.noticias-grid .news .contenido-noticia .metas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.noticias-grid .news .contenido-noticia .metas span i {
+    margin-right: 0.3rem;
+}
+
+.noticias-grid .news .contenido-noticia .metas .vermas {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    padding: 0;
+}
+
+.noticias-grid .news .contenido-noticia .metas .vermas:hover {
+    color: #0056b3;
+}
+
+/* Estilos para la sección de Noticias Destacadas (adaptados del archivo destacados.css) */
+.noticias-destacadas-home h2 {
+    color: #2C3E50;
+    font-size: 1.75rem; /* Ajustado para la página de inicio */
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    text-align: left; /* Alineado a la izquierda en la página de inicio */
+}
+
+.noticias-destacadas-home .card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.noticias-destacadas-home .card:hover {
+    transform: translateY(-5px);
+}
+
+.noticias-destacadas-home .card-img-top {
+    height: 150px; /* Altura más pequeña para la página de inicio */
+    object-fit: cover;
+}
+
+.noticias-destacadas-home .card-title {
+    font-size: 1rem; /* Tamaño más pequeño para la página de inicio */
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.noticias-destacadas-home .card-text {
+    font-size: 0.85rem; /* Tamaño más pequeño para la página de inicio */
+    color: #555;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    overflow: hidden; /* Ocultar texto largo */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Mostrar solo 2 líneas */
+    line-clamp: 2; /* Propiedad estándar para compatibilidad */
+    -webkit-box-orient: vertical;
+}
+
+.noticias-destacadas-home .badge {
+    font-size: 0.7rem; /* Tamaño más pequeño para la página de inicio */
+}
+
+.noticias-destacadas-home .ver-mas-bootstrap {
+    font-size: 0.8rem; /* Tamaño más pequeño para la página de inicio */
+    font-weight: 600;
+}
+
+.noticias-destacadas-home .card-footer {
+    font-size: 0.75rem; /* Tamaño más pequeño para la página de inicio */
+}
