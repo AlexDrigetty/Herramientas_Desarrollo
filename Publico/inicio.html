@@ -9,8 +9,8 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/Css/nav.css">
-    <link rel="stylesheet" href="/Css/inicio.css">
+    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/nav.css">
+    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/inicio.css">
 </head>
 
 <body>
@@ -23,8 +23,16 @@
                     <li><a href="">Inicio</a></li>
                     <li><a href="">Nacionales</a></li>
                     <li><a href="">Internacional</a></li>
-                    <li><a href="">Destacados</a></li>
-                    <li><a href="">Categorias</a></li>
+                    <li><a href="destacados.html">Destacados</a></li>
+                    <li class="dropdown">
+                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categorías
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">Nacionales</a></li>
+                            <li><a class="dropdown-item" href="#">Internacionales</a></li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <button class="fas fa-bars"></button>
