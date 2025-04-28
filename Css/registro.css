@@ -1,0 +1,52 @@
+body {
+    background-color: #f5f5f5; /* Gris claro */
+    height: 100vh;
+}
+.register-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.register-header {
+    color: black;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+.register-header h2 {
+    font-weight: 700;
+}
+.register-body {
+    padding: 30px;
+}
+.btn-register {
+    background: rgb(255, 165, 0, 0.8);
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+.btn-register:hover {
+    background: #e05a2b; 
+}
+.iniciar{
+    color:black;
+    text-decoration: none;
+    font-weight: 600;
+    text-decoration: none;
+    list-style: none;
+}
+.iniciar:hover{
+    color: rgb(84, 84, 232);
+}
+.password-strength {
+    height: 5px;
+    background: #e9ecef;
+    margin-top: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s;
+}
