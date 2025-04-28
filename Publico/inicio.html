@@ -9,8 +9,10 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/nav.css">
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/nav.css">
+    <link rel="stylesheet" href="/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/destacados.css">
+    <link rel="stylesheet" href="/Css/login.css">
 </head>
 
 <body>
@@ -20,20 +22,24 @@
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
 
                 <ul class="nav-links">
-                    <li><a href="">Inicio</a></li>
-                    <li><a href="">Nacionales</a></li>
-                    <li><a href="">Internacional</a></li>
-                    <li><a href="destacados.html">Destacados</a></li>
+                    <li><a href="/Publico/inicio.html">Inicio</a></li>
+                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
+                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
+                    <li><a href="/Publico/destacados.html">Destacados</a></li>
                     <li class="dropdown">
-                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             Categorías
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="#">Internacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
                         </ul>
                     </li>
+
                 </ul>
+
+                <a class="login" href="/Publico/login.html">Login</a>
 
                 <button class="fas fa-bars"></button>
             </div>
@@ -46,7 +52,8 @@
                 <div class="col-12 ultimo mt-4">
                     <div class="carrusel_contenido active">
                         <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
+                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/12/14/639a1987cfdfbb2c8c439570.jpg"
+                                alt="imagen-1">
                         </div>
                         <div class="contenido-noticia">
                             <span class="categoria nacionales">Nacional</span>
@@ -64,7 +71,8 @@
 
                     <div class="carrusel_contenido ">
                         <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
+                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
+                                alt="imagen-1">
                         </div>
                         <div class="contenido-noticia">
                             <span class="categoria internacionales">internacional</span>
@@ -81,7 +89,8 @@
 
                     <div class="carrusel_contenido ">
                         <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
+                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
+                                alt="imagen-1">
                         </div>
                         <div class="contenido-noticia">
                             <span class="categoria nacionales">Nacional</span>
@@ -95,10 +104,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="botones">
-                    <button class="fas fa-arrow-right" id="siguiente"></button>
-                    <button class="fas fa-arrow-left" id="retroceder"></button>
+                    <div class="botones">
+                        <button class="fas fa-arrow-right" id="siguiente"></button>
+                        <button class="fas fa-arrow-left" id="retroceder"></button>
+                    </div>
                 </div>
             </div>
 
@@ -119,12 +128,13 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-9">
-                        <div class="row noticias">
+                    <div class="col-12 col-lg-9">
+                        <div class="row fila">
                             <div class="col-md-12 col-lg-4 columna mb-3" data-categoria="nacionales">
                                 <div class="news">
                                     <div class="imagen mb-4">
-                                        <img src="imagenes/logo.jpg" alt="imagen-1">
+                                        <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
+                                            alt="imagen-1">
                                     </div>
                                     <div class="contenido-noticia">
                                         <span class="categoria nacionales">Nacional</span>
@@ -143,8 +153,9 @@
 
                             <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
                                 <div class="news">
-                                    <div class="imagen mb-4">
-                                        <img src="imagenes/logo.jpg" alt="imagen-1">
+                                    <div class="imagen mb-2">
+                                        <img src="https://i.ytimg.com/vi/x0w2iZZ6zaU/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCLgD7J94lqgm4cK5NEXmA8OvAlKg"
+                                            alt="imagen-1">
                                     </div>
                                     <div class="contenido-noticia">
                                         <span class="categoria internacionales">Internacional</span>
@@ -164,8 +175,9 @@
 
                             <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
                                 <div class="news">
-                                    <div class="imagen mb-4">
-                                        <img src="imagenes/logo.jpg" alt="imagen-1">
+                                    <div class="imagen mb-2">
+                                        <img src="https://ahoratabasco.com/wp-content/uploads/2025/04/sddefault.jpg"
+                                            alt="imagen-1">
                                     </div>
                                     <div class="contenido-noticia">
                                         <span class="categoria internacionales">Internacional</span>
@@ -184,8 +196,9 @@
                             </div>
                             <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
                                 <div class="news">
-                                    <div class="imagen mb-4">
-                                        <img src="imagenes/logo.jpg" alt="imagen-1">
+                                    <div class="imagen mb-2">
+                                        <img src="https://portal.andina.pe/EDPfotografia3/Thumbnail/2020/04/30/000672281W.jpg"
+                                            alt="imagen-1">
                                     </div>
                                     <div class="contenido-noticia">
                                         <span class="categoria internacionales">Internacional</span>
@@ -204,8 +217,9 @@
                             </div>
                             <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="nacionales">
                                 <div class="news">
-                                    <div class="imagen mb-4">
-                                        <img src="imagenes/logo.jpg" alt="imagen-1">
+                                    <div class="imagen mb-2">
+                                        <img src="https://elcomercio.pe/resizer/v2/VLSVF2ZKJVGX7CMFDZPWHNEMVY.jpeg?auth=e65ce1a5e2669a1242eb747c3d20625a060095bc661975aa83e19e7246458075&width=320&height=180&quality=75&smart=true"
+                                            alt="imagen-1">
                                     </div>
                                     <div class="contenido-noticia">
                                         <span class="categoria nacionales">Nacional</span>
@@ -226,7 +240,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-12 col-lg-3 mt-4 mt-lg-0">
                         <div class="destacados">
                             <div class="row">
                                 <div class="col-12 noticias">
@@ -238,7 +252,8 @@
                                 <div class="col-12 noticias">
                                     <div class="destacadas">
                                         <div class="imagen">
-                                            <img src="imagenes/logo.jpg" alt="">
+                                            <img src="https://s.rfi.fr/media/display/851810ee-2362-11f0-9681-005056a97e36/w:980/p:16x9/7541ac33d5a353d689b5a86adcec83b9a3d0a4df.jpg"
+                                                alt="">
                                         </div>
 
                                         <div class="contenido">
@@ -254,7 +269,8 @@
 
                                     <div class="destacadas">
                                         <div class="imagen">
-                                            <img src="imagenes/logo.jpg" alt="">
+                                            <img src="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2025/04/27/17457600396041.jpg"
+                                                alt="">
                                         </div>
 
                                         <div class="contenido">
@@ -270,7 +286,8 @@
 
                                     <div class="destacadas">
                                         <div class="imagen">
-                                            <img src="imagenes/logo.jpg" alt="">
+                                            <img src="https://www.clarin.com/2023/06/14/WJlAYJhAg_2000x1500__1.jpg"
+                                                alt="">
                                         </div>
 
                                         <div class="contenido">
@@ -286,7 +303,8 @@
 
                                     <div class="destacadas">
                                         <div class="imagen">
-                                            <img src="imagenes/logo.jpg" alt="">
+                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2193583978.jpg?c=16x9&q=h_438,w_780,c_fill"
+                                                alt="">
                                         </div>
 
                                         <div class="contenido">
