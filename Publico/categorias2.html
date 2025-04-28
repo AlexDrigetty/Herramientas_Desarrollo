@@ -9,8 +9,9 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/nav.css">
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/nav.css">
+    <link rel="stylesheet" href="/Css/categroias2.css">
+    <link rel="stylesheet" href="/Css/destacados.css">
 </head>
 
 <body>
@@ -18,210 +19,112 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
+
                 <ul class="nav-links">
-                    <li><a href="inicio.html" class="active">Inicio</a></li>
-                    <li><a href="#">Nacionales</a></li>
-                    <li><a href="#">Internacional</a></li>
-                    <li><a href="destacados.html">Destacados</a></li>
+                    <li><a href="/Publico/inicio.html">Inicio</a></li>
+                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
+                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
+                    <li><a href="/Publico/destacados.html">Destacados</a></li>
                     <li class="dropdown">
                         <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             Categorías
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="#">Internacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
                         </ul>
                     </li>
+
                 </ul>
+
+                <a class="login" href="/Publico/login.html">Login</a>
+
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
-
-    <main class="mb-5">
+    <section class="header-section">
         <div class="container">
             <div class="row">
-                <div class="col-12 ultimo mt-4">
-                    <div class="carrusel_contenido active">
-                        <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
-                        </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria nacionales">Nacional</span>
-                            <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
+                <div class="col-12">
+                    <h1><i class="fas fa-newspaper me-2"></i> CATEGORIAS</h1>
+                    
+                    <!-- Filtro de búsqueda -->
+                    <div class="search w-100 py-2 d-flex justify-content-center gap-1">
+                        <!-- Campo de búsqueda por texto -->
+                        <input type="text" id="contenido" class="w-50 border-1 rounded-1 p-2"
+                            placeholder="Comenzar Búsqueda">
+                        <button id="buscar" class="rounded-1 border-1 px-5 py-2">Buscar</button>
+                    </div>
+    
+                    <!-- Filtros de categoría, fecha y tipo de noticia -->
+                    <div class="filters w-100 mt-4">
+                        <div class="row">
+                            <!-- Filtro de categorías -->
+                            <div class="col-md-4 mb-3">
+                                <label for="category-filter" class="form-label">Categoría:</label>
+                                <select id="category-filter" class="form-select custom-select">
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="política">Política</option>
+                                    <option value="economía">Economía</option>
+                                    <option value="salud">Salud</option>
+                                    <option value="educación">Educación</option>
+                                    <option value="deportes">Deportes</option>
+                                </select>
+                            </div>
+    
+                            <!-- Filtro de fecha -->
+                            <div class="col-md-4 mb-3">
+                                <label for="date-filter" class="form-label">Fecha de emisión:</label>
+                                <select id="date-filter" class="form-select custom-select">
+                                    <option value="">Seleccione una fecha</option>
+                                    <option value="hoy">Hoy</option>
+                                    <option value="ayer">Ayer</option>
+                                    <option value="ultima-semana">Última semana</option>
+                                    <option value="ultimo-mes">Último mes</option>
+                                </select>
+                            </div>
+    
+                            <!-- Filtro de tipo de noticia -->
+                            <div class="col-md-4 mb-3">
+                                <label for="type-filter" class="form-label">Tipo de noticia:</label>
+                                <select id="type-filter" class="form-select custom-select">
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="nacional">Nacional</option>
+                                    <option value="internacional">Internacional</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="carrusel_contenido ">
-                        <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
-                        </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria internacionales">internacional</span>
-                            <h3 class="py-3">Dina boluarte habla webadas</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carrusel_contenido ">
-                        <div class="imagen mb-4">
-                            <img src="imagenes/logo.jpg" alt="imagen-1">
-                        </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria nacionales">Nacional</span>
-                            <h3 class="py-3">Estudiantes de San Marcos hacen huelga en Semana Santa por Hambre</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="botones">
-                    <button class="fas fa-arrow-right" id="siguiente"></button>
-                    <button class="fas fa-arrow-left" id="retroceder"></button>
                 </div>
             </div>
-
-            <div class="container mt-5">
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="sesiones">
-                            <h2 class="sesion mb-4">Últimas Noticias</h2>
-                            <div class="botones-filtro">
-                                <button class="btn active" data-filtro="all">Todas</button>
-                                <button class="btn" data-filtro="nacionales">Nacionales</button>
-                                <button class="btn" data-filtro="internacionales">Internacionales</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row noticias-grid">
-                    <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="nacionales">
-                        <div class="news">
-                            <div class="imagen mb-4">
-                                <img src="imagenes/logo.jpg" alt="imagen-1">
-                            </div>
-                            <div class="contenido-noticia">
-                                <span class="categoria nacionales">Nacional</span>
-                                <h3 class="py-3">Título de la Última Noticia Nacional 1</h3>
-                                <p>Breve descripción de la noticia nacional...</p>
-                                <div class="metas">
-                                    <span><i class="far fa-clock"></i> Hace 2 horas</span>
-                                    <button class="vermas">Ver mas</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
-                        <div class="news">
-                            <div class="imagen mb-4">
-                                <img src="imagenes/logo.jpg" alt="imagen-1">
-                            </div>
-                            <div class="contenido-noticia">
-                                <span class="categoria internacionales">Internacional</span>
-                                <h3 class="py-3">Título de la Última Noticia Internacional 1</h3>
-                                <p>Breve descripción de la noticia internacional...</p>
-                                <div class="metas">
-                                    <span><i class="far fa-clock"></i> Hace 5 horas</span>
-                                    <button class="vermas">Ver mas</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 columna mb-3" data-categoria="nacionales">
-                        <div class="news">
-                            <div class="imagen mb-4">
-                                <img src="imagenes/logo.jpg" alt="imagen-1">
-                            </div>
-                            <div class="contenido-noticia">
-                                <span class="categoria nacionales">Nacional</span>
-                                <h3 class="py-3">Título de la Última Noticia Nacional 2</h3>
-                                <p>Breve descripción de otra noticia nacional...</p>
-                                <div class="metas">
-                                    <span><i class="far fa-clock"></i> Hace 8 horas</span>
-                                    <button class="vermas">Ver mas</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    </div>
-            </div>
-
-            <section class="container mt-5 mb-5">
-                <h2 class="mb-4">Noticias Destacadas</h2>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    <div class="col">
-                        <div class="card h-100 noticia-destacada">
-                            <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 1">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge bg-primary mb-2 nacionales">Nacional</span>
-                                <h5 class="card-title">Título de la Noticia Destacada 1</h5>
-                                <p class="card-text">Breve descripción de la noticia destacada...</p>
-                                <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                            </div>
-                            <div class="card-footer text-muted small">
-                                <i class="far fa-clock"></i> Hace 1 día
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 noticia-destacada">
-                            <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 2">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge bg-danger mb-2 internacionales">Internacional</span>
-                                <h5 class="card-title">Título de la Noticia Destacada 2</h5>
-                                <p class="card-text">Breve descripción de la noticia destacada internacional...</p>
-                                <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                            </div>
-                            <div class="card-footer text-muted small">
-                                <i class="far fa-clock"></i> Hace 2 días
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 noticia-destacada">
-                            <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 3">
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge bg-success mb-2 deportes">Deportes</span>
-                                <h5 class="card-title">Título de la Noticia Destacada de Deportes</h5>
-                                <p class="card-text">Breve descripción de la noticia destacada de deportes...</p>
-                                <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                            </div>
-                            <div class="card-footer text-muted small">
-                                <i class="far fa-clock"></i> Hace 3 días
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
-    </main>
+    </section>
+
+    <div class="container">
+        <div class="row news-container" id="news-container">
+        </div>
+
+        <div class="row">
+            <div class="pagination-container mb-5">
+                <ul class="pagination" id="pagination">
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="logo mb-3">focoGlobal</h4>
-                    <p>Información confiable y actualizada las 24 horas del día</p>
+
+                    <p class="anuncios">Información confiable y actualizada las 24 horas del día</p>
+
                     <div class="redes">
                         <button class="fab fa-facebook-f"></button>
                         <button class="fab fa-twitter"></button>
@@ -229,8 +132,10 @@
                         <button class="fab fa-youtube"></button>
                     </div>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Secciones</h4>
+
                     <ul class="aparts">
                         <li><a href="">Politica</a></li>
                         <li><a href="">Economía</a></li>
@@ -239,6 +144,7 @@
                         <li><a href="">Tecnología</a></li>
                     </ul>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Empresa</h4>
                     <ul class="aparts">
@@ -259,64 +165,207 @@
         </div>
     </footer>
 
-    <script>
-        document.querySelector(".fas").addEventListener("click", () => {
-            document.querySelector(".nav-links").classList.toggle("active");
-        });
-    </script>
 
     <script>
-        document.querySelectorAll(".botones-filtro .btn").forEach(button => {
-            button.addEventListener("click", () => {
-                document.querySelectorAll(" .botones-filtro .btn").forEach(btn => btn.classList.remove("active"));
-                button.classList.add("active")
+        const noticias = [
+            {
+                id: 1,
+                titulo: "Gobierno anuncia nuevo plan económico para reactivar el empleo",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 4 horas",
+                tipo: "nacional",
+                categoria: "política"
+            },
+            {
+                id: 2,
+                titulo: "Ministerio de Educación lanza programa de becas para estudiantes de bajos recursos",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 6 horas",
+                tipo: "internacionales",
+                categoria: "educación"
+            },
+            {
+                id: 3,
+                titulo: "Inauguran nuevo hospital regional con capacidad para 500 camas",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 8 horas",
+                tipo: "nacional",
+                categoria: "salud"
+            },
+            {
+                id: 4,
+                titulo: "Empresas nacionales aumentan exportaciones en un 15% durante el último trimestre",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "internacionales",
+                categoria: "economía"
+            },
+            {
+                id: 5,
+                titulo: "Nueva ley de protección animal establece multas por maltrato",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "nacional",
+                categoria: "medio-ambiente"
+            },
+            {
+                id: 6,
+                titulo: "Descubren yacimiento arqueológico con más de 500 piezas precolombinas",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 2 días",
+                tipo: "internacionales",
+                categoria: "cultura"
+            },
+            {
+                id: 7,
+                titulo: "Gobierno destina $200 millones para renovación de infraestructura vial",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 2 días",
+                tipo: "internacionales",
+                categoria: "política"
+            },
+            {
+                id: 8,
+                titulo: "Nuevo sistema de transporte público reduce tiempos de espera en un 30%",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 3 días",
+                tipo: "internacionales",
+                categoria: "tecnología"
+            }
+        ];
 
-                const filtro = button.getAttribute("data-filtro");
+        const noticiasPorPagina = 6;
+        let paginaActual = 1;
 
-                document.querySelectorAll(".noticias-grid .columna").forEach(
-                    caja => {
-                        if (filtro == "all") {
-                            caja.style.display = "block";
-                        } else {
-                            if (caja.getAttribute("data-categoria") == filtro) {
-                                caja.style.display = "block"
-                            } else {
-                                caja.style.display = "none"
-                            }
-                        }
-                    }
-                )
-            })
-        })
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const slides = document.querySelectorAll('.carrusel_contenido');
-            const siguiente = document.getElementById('siguiente');
-            const retroceder = document.getElementById('retroceder');
-            let indiceActual = 0;
+        // Función para mostrar noticias
+        function mostrarNoticias(pagina) {
+            const inicio = (pagina - 1) * noticiasPorPagina;
+            const fin = inicio + noticiasPorPagina;
+            const noticiasPagina = noticias.slice(inicio, fin);
 
-            function mostrarSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.remove('active');
-                    slide.style.display = 'none';
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = '';
+
+            noticiasPagina.forEach(noticia => {
+                const col = document.createElement('div');
+                col.className = 'col-lg-4 col-md-6';
+
+                col.innerHTML = `
+                    <div class="news mb-4">
+                        <div class="imagen">
+                            <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                        </div>
+                        <div class="contenido-noticia">
+                            
+                            <div class="contenido-etiqueta mb-2">
+                                <span class="categoria ${noticia.tipo} mb-2">${noticia.tipo}</span>
+                            <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
+                            </div>
+                            <h3>${noticia.titulo}</h3>
+                            <p>${noticia.resumen}</p>
+                            <div class="metas mb-1">
+                                <span><i class="far fa-clock"></i> ${noticia.fecha}</span>
+                                <button class="vermas">Ver más</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                newsContainer.appendChild(col);
+            });
+
+            actualizarPaginacion();
+        }
+
+        // Función para actualizar la paginación
+        function actualizarPaginacion() {
+            const totalPaginas = Math.ceil(noticias.length / noticiasPorPagina);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Botón Anterior
+            const liAnterior = document.createElement('li');
+            liAnterior.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+            liAnterior.innerHTML = `<a class="page-link" href="#" tabindex="-1">Anterior</a>`;
+            liAnterior.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual > 1) {
+                    paginaActual--;
+                    mostrarNoticias(paginaActual);
+                }
+            });
+            pagination.appendChild(liAnterior);
+
+            // Números de página
+            for (let i = 1; i <= totalPaginas; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    paginaActual = i;
+                    mostrarNoticias(paginaActual);
                 });
-                slides[index].classList.add('active');
-                slides[index].style.display = 'flex';
+                pagination.appendChild(li);
             }
 
-            siguiente.addEventListener('click', () => {
-                indiceActual = (indiceActual + 1) % slides.length;
-                mostrarSlide(indiceActual);
+            // Botón Siguiente
+            const liSiguiente = document.createElement('li');
+            liSiguiente.className = `page-item ${paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liSiguiente.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+            liSiguiente.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual < totalPaginas) {
+                    paginaActual++;
+                    mostrarNoticias(paginaActual);
+                }
             });
+            pagination.appendChild(liSiguiente);
+        }
 
-            retroceder.addEventListener('click', () => {
-                indiceActual = (indiceActual - 1 + slides.length) % slides.length;
-                mostrarSlide(indiceActual);
-            });
-            mostrarSlide(indiceActual);
+        mostrarNoticias(paginaActual);
+        const inicio = (pagina - 1) * noticiasPorPagina;
+        const fin = inicio + noticiasPorPagina;
+        const noticiasPagina = noticias.slice(inicio, fin);
+
+        const newsContainer = document.getElementById('news-container');
+        newsContainer.innerHTML = '';
+
+        noticiasPagina.forEach(noticia => {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6';
+
+            col.innerHTML = `
+            <div class="news mb-4">
+                <div class="imagen">
+                    <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                </div>
+                <div class="contenido-noticia">
+                    <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
+                    <h3>${noticia.titulo}</h3>
+                    <p>${noticia.resumen}</p>
+                    <div class="metas mb-1">
+                        <span><i class="far fa-clock"></i> ${noticia.fecha}</span>
+                        <button class="vermas">Ver más</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+            newsContainer.appendChild(col);
         });
+
+        actualizarPaginacion();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>

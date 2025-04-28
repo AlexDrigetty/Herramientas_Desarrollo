@@ -9,9 +9,8 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/nav.css">
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/inicio.css">
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/destacados.css">
+    <link rel="stylesheet" href="/Css/nav.css">
+    <link rel="stylesheet" href="/Css/destacados.css">
 </head>
 
 <body>
@@ -19,108 +18,70 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
+
                 <ul class="nav-links">
-                    <li><a href="inicio.html">Inicio</a></li>
-                    <li><a href="#">Nacionales</a></li>
-                    <li><a href="#">Internacional</a></li>
-                    <li><a href="destacados.html" class="active">Destacados</a></li>
+                    <li><a href="/Publico/inicio.html">Inicio</a></li>
+                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
+                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
+                    <li><a href="/Publico/destacados.html">Destacados</a></li>
                     <li class="dropdown">
                         <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             Categorías
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="#">Internacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
                         </ul>
                     </li>
+
                 </ul>
+
+                <a class="login" href="/Publico/login.html">Login</a>
+
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
 
-    <main class="container mt-5">
-        <section class="destacadas-page">
-            <h1 class="mb-4">Noticias Destacadas</h1>
-
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col">
-                    <div class="card h-100 noticia-destacada">
-                        <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 1">
-                        <div class="card-body d-flex flex-column">
-                            <span class="badge bg-primary mb-2 nacionales">Nacional</span>
-                            <h5 class="card-title">Título de la Noticia Destacada 1</h5>
-                            <p class="card-text">Breve descripción o extracto de la noticia destacada. Se pueden mostrar algunas líneas...</p>
-                            <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                        </div>
-                        <div class="card-footer text-muted small">
-                            <i class="far fa-clock"></i> Hace 4 horas
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 noticia-destacada">
-                        <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 2">
-                        <div class="card-body d-flex flex-column">
-                            <span class="badge bg-danger mb-2 internacionales">Internacional</span>
-                            <h5 class="card-title">Título de la Noticia Destacada 2</h5>
-                            <p class="card-text">Breve descripción o extracto de la noticia destacada. Se pueden mostrar algunas líneas...</p>
-                            <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                        </div>
-                        <div class="card-footer text-muted small">
-                            <i class="far fa-clock"></i> Hace 6 horas
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 noticia-destacada horizontal">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="imagenes/logo.jpg" class="img-fluid rounded-start h-100 object-fit-cover"
-                                    alt="Noticia Destacada 3">
-                            </div>
-                            <div class="col-md-8 d-flex flex-column">
-                                <div class="card-body">
-                                    <span class="badge bg-success mb-2 deportes">Deportes</span>
-                                    <h5 class="card-title">Título de la Noticia Destacada 3 (Horizontal)</h5>
-                                    <p class="card-text">Breve descripción o extracto de la noticia destacada con diseño horizontal...</p>
-                                </div>
-                                <div class="card-footer bg-white border-0 text-muted small mt-auto">
-                                    <i class="far fa-clock"></i> Hace 1 día
-                                    <a href="#" class="btn btn-dark btn-sm float-end ver-mas-bootstrap">Leer más</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 noticia-destacada">
-                        <img src="imagenes/logo.jpg" class="card-img-top" alt="Noticia Destacada 4">
-                        <div class="card-body d-flex flex-column">
-                            <span class="badge bg-warning text-dark mb-2 tecnologia">Tecnología</span>
-                            <h5 class="card-title">Título de la Noticia Destacada 4</h5>
-                            <p class="card-text">Breve descripción o extracto de la noticia destacada de tecnología...</p>
-                            <a href="#" class="btn btn-dark mt-auto ver-mas-bootstrap">Leer más</a>
-                        </div>
-                        <div class="card-footer text-muted small">
-                            <i class="far fa-clock"></i> Hace 10 horas
-                        </div>
+    <section class="header-section ">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1><i class="fas fa-newspaper me-2"></i> NOTICIAS DESTACADAS</h1>
+                    <div class="search w-100 py-2 d-flex justify-content-center gap-1">
+                        <input type="text" id="contenido" class="w-50 border-1 rounded-1 p-2"
+                            placeholder="Comenzar Busqueda">
+                        <button id="buscar" class="rounded-1 border-1 px-5 py-2">Buscar</button>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row news-container" id="news-container">
+        </div>
+
+        <div class="row">
+            <div class="pagination-container mb-5">
+                <ul class="pagination" id="pagination">
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="logo mb-3">focoGlobal</h4>
-                    <p>Información confiable y actualizada las 24 horas del día</p>
+
+                    <p class="anuncios">Información confiable y actualizada las 24 horas del día</p>
+
                     <div class="redes">
                         <button class="fab fa-facebook-f"></button>
                         <button class="fab fa-twitter"></button>
@@ -128,8 +89,10 @@
                         <button class="fab fa-youtube"></button>
                     </div>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Secciones</h4>
+
                     <ul class="aparts">
                         <li><a href="">Politica</a></li>
                         <li><a href="">Economía</a></li>
@@ -138,6 +101,7 @@
                         <li><a href="">Tecnología</a></li>
                     </ul>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Empresa</h4>
                     <ul class="aparts">
@@ -158,12 +122,207 @@
         </div>
     </footer>
 
-    <script>
-        document.querySelector(".fas").addEventListener("click", () => {
-            document.querySelector(".nav-links").classList.toggle("active");
-        });
-    </script>
 
+    <script>
+        const noticias = [
+            {
+                id: 1,
+                titulo: "Gobierno anuncia nuevo plan económico para reactivar el empleo",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 4 horas",
+                tipo: "nacional",
+                categoria: "política"
+            },
+            {
+                id: 2,
+                titulo: "Ministerio de Educación lanza programa de becas para estudiantes de bajos recursos",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 6 horas",
+                tipo: "internacionales",
+                categoria: "educación"
+            },
+            {
+                id: 3,
+                titulo: "Inauguran nuevo hospital regional con capacidad para 500 camas",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 8 horas",
+                tipo: "nacional",
+                categoria: "salud"
+            },
+            {
+                id: 4,
+                titulo: "Empresas nacionales aumentan exportaciones en un 15% durante el último trimestre",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "internacionales",
+                categoria: "economía"
+            },
+            {
+                id: 5,
+                titulo: "Nueva ley de protección animal establece multas por maltrato",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "nacional",
+                categoria: "medio-ambiente"
+            },
+            {
+                id: 6,
+                titulo: "Descubren yacimiento arqueológico con más de 500 piezas precolombinas",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 2 días",
+                tipo: "internacionales",
+                categoria: "cultura"
+            },
+            {
+                id: 7,
+                titulo: "Gobierno destina $200 millones para renovación de infraestructura vial",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 2 días",
+                tipo: "internacionales",
+                categoria: "política"
+            },
+            {
+                id: 8,
+                titulo: "Nuevo sistema de transporte público reduce tiempos de espera en un 30%",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Hace 3 días",
+                tipo: "internacionales",
+                categoria: "tecnología"
+            }
+        ];
+
+        const noticiasPorPagina = 6;
+        let paginaActual = 1;
+
+        // Función para mostrar noticias
+        function mostrarNoticias(pagina) {
+            const inicio = (pagina - 1) * noticiasPorPagina;
+            const fin = inicio + noticiasPorPagina;
+            const noticiasPagina = noticias.slice(inicio, fin);
+
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = '';
+
+            noticiasPagina.forEach(noticia => {
+                const col = document.createElement('div');
+                col.className = 'col-lg-4 col-md-6';
+
+                col.innerHTML = `
+                    <div class="news mb-4">
+                        <div class="imagen">
+                            <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                        </div>
+                        <div class="contenido-noticia">
+                            
+                            <div class="contenido-etiqueta mb-2">
+                                <span class="categoria ${noticia.tipo} mb-2">${noticia.tipo}</span>
+                            <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
+                            </div>
+                            <h3>${noticia.titulo}</h3>
+                            <p>${noticia.resumen}</p>
+                            <div class="metas mb-1">
+                                <span><i class="far fa-clock"></i> ${noticia.fecha}</span>
+                                <button class="vermas">Ver más</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                newsContainer.appendChild(col);
+            });
+
+            actualizarPaginacion();
+        }
+
+        // Función para actualizar la paginación
+        function actualizarPaginacion() {
+            const totalPaginas = Math.ceil(noticias.length / noticiasPorPagina);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Botón Anterior
+            const liAnterior = document.createElement('li');
+            liAnterior.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+            liAnterior.innerHTML = `<a class="page-link" href="#" tabindex="-1">Anterior</a>`;
+            liAnterior.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual > 1) {
+                    paginaActual--;
+                    mostrarNoticias(paginaActual);
+                }
+            });
+            pagination.appendChild(liAnterior);
+
+            // Números de página
+            for (let i = 1; i <= totalPaginas; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    paginaActual = i;
+                    mostrarNoticias(paginaActual);
+                });
+                pagination.appendChild(li);
+            }
+
+            // Botón Siguiente
+            const liSiguiente = document.createElement('li');
+            liSiguiente.className = `page-item ${paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liSiguiente.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+            liSiguiente.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual < totalPaginas) {
+                    paginaActual++;
+                    mostrarNoticias(paginaActual);
+                }
+            });
+            pagination.appendChild(liSiguiente);
+        }
+
+        mostrarNoticias(paginaActual);
+        const inicio = (pagina - 1) * noticiasPorPagina;
+        const fin = inicio + noticiasPorPagina;
+        const noticiasPagina = noticias.slice(inicio, fin);
+
+        const newsContainer = document.getElementById('news-container');
+        newsContainer.innerHTML = '';
+
+        noticiasPagina.forEach(noticia => {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6';
+
+            col.innerHTML = `
+            <div class="news mb-4">
+                <div class="imagen">
+                    <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                </div>
+                <div class="contenido-noticia">
+                    <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
+                    <h3>${noticia.titulo}</h3>
+                    <p>${noticia.resumen}</p>
+                    <div class="metas mb-1">
+                        <span><i class="far fa-clock"></i> ${noticia.fecha}</span>
+                        <button class="vermas">Ver más</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+            newsContainer.appendChild(col);
+        });
+
+        actualizarPaginacion();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>

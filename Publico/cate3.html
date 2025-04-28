@@ -9,8 +9,10 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/nav.css">
-    <link rel="stylesheet" href="/Herramientas_Desarrollo/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/nav.css">
+    <link rel="stylesheet" href="/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/destacados.css">
+    <link rel="stylesheet" href="/Css/registro.css">
 </head>
 
 <body>
@@ -18,27 +20,31 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
+
                 <ul class="nav-links">
-                    <li><a href="inicio.html" class="active">Inicio</a></li>
-                    <li><a href="#">Nacionales</a></li>
-                    <li><a href="#">Internacional</a></li>
-                    <li><a href="destacados.html">Destacados</a></li>
+                    <li><a href="/Publico/inicio.html">Inicio</a></li>
+                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
+                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
+                    <li><a href="/Publico/destacados.html">Destacados</a></li>
                     <li class="dropdown">
                         <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             Categorías
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="#">Internacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
+                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
                         </ul>
                     </li>
+
                 </ul>
+
+                <a class="login" href="/Publico/login.html">Login</a>
+
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
-
     <main class="mb-5">
         <div class="container">
             <div class="row">
@@ -184,7 +190,9 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="logo mb-3">focoGlobal</h4>
-                    <p>Información confiable y actualizada las 24 horas del día</p>
+
+                    <p class="anuncios">Información confiable y actualizada las 24 horas del día</p>
+
                     <div class="redes">
                         <button class="fab fa-facebook-f"></button>
                         <button class="fab fa-twitter"></button>
@@ -192,8 +200,10 @@
                         <button class="fab fa-youtube"></button>
                     </div>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Secciones</h4>
+
                     <ul class="aparts">
                         <li><a href="">Politica</a></li>
                         <li><a href="">Economía</a></li>
@@ -202,6 +212,7 @@
                         <li><a href="">Tecnología</a></li>
                     </ul>
                 </div>
+
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <h4 class="titulo mb-3">Empresa</h4>
                     <ul class="aparts">
@@ -221,6 +232,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         document.querySelector(".fas").addEventListener("click", () => {
             document.querySelector(".nav-links").classList.toggle("active");
