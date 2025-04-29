@@ -80,7 +80,7 @@ p {
 }
 
 .imagen {
-    min-height: 220px;
+    min-height: 0px;
 }
 
 .imagen img {

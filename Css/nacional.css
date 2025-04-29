@@ -82,7 +82,7 @@ p {
 }
 
 .imagen {
-    min-height: 200px;
+    min-height: 100px;
 }
 
 .imagen img {
@@ -156,6 +156,5 @@ p {
 @media (max-width: 768px) {
     .news {
         max-height: 400px;
-        min-height: 200px;
     }
 }

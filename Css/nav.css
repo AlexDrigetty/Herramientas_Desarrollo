@@ -106,10 +106,10 @@ body{
                 left: -500px;
                 height: 100vh;
                 padding: 10px 20px;
-                transition: 0.6s all ease-in-out;
+                transition: 0.5s all ease-in-out;
 
                 li{
-                    padding: 13px 30px;
+                    padding: 13px 40px;
                 }
             }
 
@@ -124,34 +124,7 @@ body{
         }
     }
 }
-.nav-links li.dropdown > button.mi-boton-categoria.btn.dropdown-toggle {
-    background: none !important; /* Elimina el fondo */
-    color: black !important; /* Asegura que el color del texto sea negro (como tus otros enlaces) */
-    border: none !important; /* Elimina el borde */
-    padding: 0 !important; /* Elimina el padding del botón */
-    margin-left: 30px !important; /* Aplica el mismo margen izquierdo que tus otros enlaces */
-    font-weight: 600 !important; /* Aplica la misma negrita que tus otros enlaces */
-    text-decoration: none !important; /* Evita cualquier decoración de texto */
-    box-shadow: none !important; /* Elimina cualquier sombra */
-    -webkit-appearance: none !important; /* Para algunos navegadores */
-    -moz-appearance: none !important; /* Para Firefox */
-    appearance: none !important; /* Estilo base para apariencia nativa */
-    cursor: pointer; /* Asegura que el cursor sea de puntero al pasar por encima */
-}
 
-.nav-links li.dropdown > button.mi-boton-categoria.btn.dropdown-toggle:hover {
-    color: orange !important; /* Aplica el mismo color naranja al pasar el ratón */
-    transition: 0.3s all ease-in-out !important; /* Aplica la misma transición */
-    background: none !important; /* Asegura que no aparezca un fondo al hacer hover */
-}
-
-/* Estilos para el menú desplegable (si necesitas ajustarlo) */
-.dropdown-menu {
-    /* Aquí puedes ajustar el estilo del menú desplegable si es necesario */
-    border: 1px solid #ccc; /* Ejemplo: mantener un borde para el menú */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Ejemplo: mantener una sombra para el menú */
-    /* ... otros estilos del menú ... */
-}
 
 .anuncios{
     color: white;

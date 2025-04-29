@@ -230,7 +230,7 @@
             }
         ];
 
-        const noticiasPorPagina = 6;
+        const noticiasPorPagina = 8;
         let paginaActual = 1;
 
         // Función para mostrar noticias
@@ -244,7 +244,7 @@
 
             noticiasPagina.forEach(noticia => {
                 const col = document.createElement('div');
-                col.className = 'col-6 col-lg-4 col-md-6 mb-4';
+                col.className = 'col-6 col-md-4 col-lg-3 mb-4';
 
                 col.innerHTML = `
                     <div class="news">
