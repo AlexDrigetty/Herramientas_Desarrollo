@@ -15,31 +15,20 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
-
                 <ul class="nav-links">
                     <li><a href="/Publico/inicio.html">Inicio</a></li>
                     <li><a href="/Publico/Nacional.html">Nacionales</a></li>
                     <li><a href="/Publico/Internacional.html">Internacional</a></li>
                     <li><a href="/Publico/destacados.html">Destacados</a></li>
-                    <li class="dropdown">
-                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categorías
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
-                        </ul>
+                    <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
-
                 </ul>
-
                 <a class="login" href="/Publico/login.html">Login</a>
-
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
+
     <section class="header-section ">
         <div class="container">
             <div class="row">
@@ -176,6 +165,27 @@
         imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
         resumen: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate.",
         fecha: "Hace 3 días"
+    },
+    {
+        id: 6,
+        titulo: "España: Grave sequía afecta al 60% del territorio nacional",
+        imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+        resumen: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquip ex ea commodo consequat.",
+        fecha: "Hace 2 días"
+    },
+    {
+        id: 7,
+        titulo: "Canadá anuncia plan para recibir 500,000 inmigrantes anuales para 2025",
+        imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+        resumen: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sunt in culpa qui officia deserunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sunt in culpa qui officia deserunt.",
+        fecha: "Hace 2 días"
+    },
+    {
+        id: 8,
+        titulo: "México y Argentina refuerzan lazos comerciales con nuevo acuerdo bilateral",
+        imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+        resumen: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate.",
+        fecha: "Hace 3 días"
     }
     ];
 
@@ -194,15 +204,15 @@
             
             noticiasPagina.forEach(noticia => {
                 const col = document.createElement('div');
-                col.className = 'col-lg-4 col-md-6';
+                col.className = 'col-6 col-md-4 col-lg-4 mb-4';
                 
                 col.innerHTML = `
-                    <div class="news mb-4">
+                    <div class="news">
                         <div class="imagen">
                             <img src="${noticia.imagen}" alt="${noticia.titulo}">
                         </div>
                         <div class="contenido-noticia">
-                            <span class="categoria internacional mb-2">Iternacionales</span>
+                            <span class="categoria internacional mb-2">Internacionales</span>
                             <h3>${noticia.titulo}</h3>
                             <p>${noticia.resumen}</p>
                             <div class="metas mb-1">
@@ -267,6 +277,12 @@
 
         // Inicializar
         mostrarNoticias(paginaActual);
+    </script>
+    <script>
+        document.querySelector(".fas").addEventListener("click", () => {
+
+            document.querySelector(".nav-links").classList.toggle("active");
+        });
     </script>
 </body>
 </html>

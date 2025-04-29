@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="/Css/nav.css">
-    <link rel="stylesheet" href="/Css/categroias2.css">
+    <link rel="stylesheet" href="/Css/categoria.css">
     <link rel="stylesheet" href="/Css/destacados.css">
 </head>
 
@@ -19,49 +19,34 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
-
                 <ul class="nav-links">
                     <li><a href="/Publico/inicio.html">Inicio</a></li>
                     <li><a href="/Publico/Nacional.html">Nacionales</a></li>
                     <li><a href="/Publico/Internacional.html">Internacional</a></li>
                     <li><a href="/Publico/destacados.html">Destacados</a></li>
-                    <li class="dropdown">
-                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categorías
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
-                        </ul>
+                    <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
-
                 </ul>
-
                 <a class="login" href="/Publico/login.html">Login</a>
-
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
+
     <section class="header-section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <h1><i class="fas fa-newspaper me-2"></i> CATEGORIAS</h1>
                     
-                    <!-- Filtro de búsqueda -->
                     <div class="search w-100 py-2 d-flex justify-content-center gap-1">
-                        <!-- Campo de búsqueda por texto -->
                         <input type="text" id="contenido" class="w-50 border-1 rounded-1 p-2"
                             placeholder="Comenzar Búsqueda">
                         <button id="buscar" class="rounded-1 border-1 px-5 py-2">Buscar</button>
                     </div>
-    
-                    <!-- Filtros de categoría, fecha y tipo de noticia -->
+
                     <div class="filters w-100 mt-4">
-                        <div class="row">
-                            <!-- Filtro de categorías -->
+                        <div class="row container-categoria">
                             <div class="col-md-4 mb-3">
                                 <label for="category-filter" class="form-label">Categoría:</label>
                                 <select id="category-filter" class="form-select custom-select">
@@ -74,7 +59,6 @@
                                 </select>
                             </div>
     
-                            <!-- Filtro de fecha -->
                             <div class="col-md-4 mb-3">
                                 <label for="date-filter" class="form-label">Fecha de emisión:</label>
                                 <select id="date-filter" class="form-select custom-select">
@@ -86,7 +70,6 @@
                                 </select>
                             </div>
     
-                            <!-- Filtro de tipo de noticia -->
                             <div class="col-md-4 mb-3">
                                 <label for="type-filter" class="form-label">Tipo de noticia:</label>
                                 <select id="type-filter" class="form-select custom-select">
@@ -165,7 +148,12 @@
         </div>
     </footer>
 
+    <script>
+        document.querySelector(".fas").addEventListener("click", () => {
 
+            document.querySelector(".nav-links").classList.toggle("active");
+        });
+    </script>
     <script>
         const noticias = [
             {
@@ -256,10 +244,10 @@
 
             noticiasPagina.forEach(noticia => {
                 const col = document.createElement('div');
-                col.className = 'col-lg-4 col-md-6';
+                col.className = 'col-6 col-lg-4 col-md-6 mb-4';
 
                 col.innerHTML = `
-                    <div class="news mb-4">
+                    <div class="news">
                         <div class="imagen">
                             <img src="${noticia.imagen}" alt="${noticia.titulo}">
                         </div>

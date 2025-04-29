@@ -18,31 +18,20 @@
         <div class="container">
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
-
                 <ul class="nav-links">
                     <li><a href="/Publico/inicio.html">Inicio</a></li>
                     <li><a href="/Publico/Nacional.html">Nacionales</a></li>
                     <li><a href="/Publico/Internacional.html">Internacional</a></li>
                     <li><a href="/Publico/destacados.html">Destacados</a></li>
-                    <li class="dropdown">
-                        <button class="mi-boton-categoria btn btn-secondary dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categorías
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="/Publico/cate3.html">Nacionales</a></li>
-                            <li><a class="dropdown-item" href="/Publico/categorias2.html">Internacionales</a></li>
-                        </ul>
+                    <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
-
                 </ul>
-
                 <a class="login" href="/Publico/login.html">Login</a>
-
                 <button class="fas fa-bars"></button>
             </div>
         </div>
     </nav>
+
 
     <section class="header-section ">
         <div class="container">
@@ -196,7 +185,24 @@
                 fecha: "Hace 3 días",
                 tipo: "internacionales",
                 categoria: "tecnología"
-            }
+            }, {
+                id: 4,
+                titulo: "Empresas nacionales aumentan exportaciones en un 15% durante el último trimestre",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "internacionales",
+                categoria: "economía"
+            },
+            {
+                id: 5,
+                titulo: "Nueva ley de protección animal establece multas por maltrato",
+                imagen: "https://thumbs.dreamstime.com/b/icono-del-vector-de-las-noticias-aislado-en-el-fondo-blanco-92670938.jpg",
+                resumen: "Lorem ipsum dolor sit amet consectetur...",
+                fecha: "Ayer",
+                tipo: "nacional",
+                categoria: "medio-ambiente"
+            },
         ];
 
         const noticiasPorPagina = 6;
@@ -213,18 +219,17 @@
 
             noticiasPagina.forEach(noticia => {
                 const col = document.createElement('div');
-                col.className = 'col-lg-4 col-md-6';
+                col.className = 'col-6 col-md-4 col-lg-4 mb-4';
 
                 col.innerHTML = `
-                    <div class="news mb-4">
+                    <div class="news">
                         <div class="imagen">
                             <img src="${noticia.imagen}" alt="${noticia.titulo}">
                         </div>
                         <div class="contenido-noticia">
-                            
                             <div class="contenido-etiqueta mb-2">
                                 <span class="categoria ${noticia.tipo} mb-2">${noticia.tipo}</span>
-                            <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
+                                <span class="categoria ${noticia.categoria}">${noticia.categoria}</span>
                             </div>
                             <h3>${noticia.titulo}</h3>
                             <p>${noticia.resumen}</p>
@@ -298,10 +303,10 @@
 
         noticiasPagina.forEach(noticia => {
             const col = document.createElement('div');
-            col.className = 'col-lg-4 col-md-6';
+            col.className = 'col-4 col-md-4 col-lg-4';
 
             col.innerHTML = `
-            <div class="news mb-4">
+            <div class="news">
                 <div class="imagen">
                     <img src="${noticia.imagen}" alt="${noticia.titulo}">
                 </div>
@@ -321,6 +326,13 @@
         });
 
         actualizarPaginacion();
+    </script>
+
+    <script>
+        document.querySelector(".fas").addEventListener("click", () => {
+
+            document.querySelector(".nav-links").classList.toggle("active");
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"

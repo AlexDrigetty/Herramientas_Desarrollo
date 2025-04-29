@@ -254,7 +254,7 @@
 
     .metas {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
 
         .vermas {
@@ -299,7 +299,7 @@
 
         h3 {
             padding: 10px 0;
-            font-size: 20px;
+            font-size: 35px;
         }
 
         .metas {

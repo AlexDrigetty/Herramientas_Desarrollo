@@ -29,6 +29,7 @@ body {
     justify-content: space-between;
     cursor: pointer;
     transition: 0.3s all ease-in-out;
+    width: 100%;
 }
 
 .news:hover {
@@ -81,7 +82,7 @@ p {
 }
 
 .imagen {
-    min-height: 220px;
+    min-height: 200px;
 }
 
 .imagen img {
@@ -154,6 +155,7 @@ p {
 
 @media (max-width: 768px) {
     .news {
-        max-height: none;
+        max-height: 400px;
+        min-height: 200px;
     }
 }
