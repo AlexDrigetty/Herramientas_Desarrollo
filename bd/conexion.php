@@ -1,5 +1,5 @@
 <?php
-$local = "localhost:3308";
+$local = "localhost";
 $username = "root";
 $password = "";
 $base_datos = "noticias_NI";
