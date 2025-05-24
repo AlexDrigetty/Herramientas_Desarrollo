@@ -1,3 +1,33 @@
+<?php
+session_start();
+include 'conexion.php';
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $correo = $_POST['correo'];
+    $contrasena = $_POST['contrasena'];
+
+    $sql = "SELECT * FROM usuarios WHERE correo = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+        $usuario = $resultado->fetch_assoc();
+        if (password_verify($contrasena, $usuario['contrasena'])) {
+            $_SESSION['usuario_id'] = $usuario['id'];
+            $_SESSION['nombre'] = $usuario['nombre'];
+            header("Location: panel.php");
+            exit;
+        } else {
+            echo "Contraseña incorrecta.";
+        }
+    } else {
+        echo "Usuario no encontrado.";
+    }
+    $stmt->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,10 +38,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome (íconos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../Css/nav.css">
-    <link rel="stylesheet" href="../Css/inicio.css">
-    <link rel="stylesheet" href="../Css/login.css">
-    <link rel="stylesheet" href="../Css/destacados.css">
+    <link rel="stylesheet" href="/Css/nav.css">
+    <link rel="stylesheet" href="/Css/inicio.css">
+    <link rel="stylesheet" href="/Css/login.css">
+    <link rel="stylesheet" href="/Css/destacados.css">
 </head>
 <body>
 
@@ -20,14 +50,14 @@
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
                 <ul class="nav-links">
-                    <li><a href="../Publico/inicio.html">Inicio</a></li>
-                    <li><a href="../Publico/Nacional.html">Nacionales</a></li>
-                    <li><a href="../Publico/Internacional.html">Internacional</a></li>
-                    <li><a href="../Publico/destacados.html">Destacados</a></li>
-                    <li><a href="../Publico/Categoria.html">Categoria</a>
+                    <li><a href="/Publico/inicio.html">Inicio</a></li>
+                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
+                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
+                    <li><a href="/Publico/destacados.html">Destacados</a></li>
+                    <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
                 </ul>
-                <a class="login" href="../Publico/login.html">Login</a>
+                <a class="login" href="/Publico/login.html">Login</a>
                 <button class="fas fa-bars"></button>
             </div>
         </div>
@@ -39,19 +69,19 @@
                 <h2 class="text-center">LOGIN</h2>
             </div>
             <div class="login-body">
-                <form>
+                <form method="POST" action="login.php">
                     <div class="mb-4">
                         <label for="email" class="form-label">Correo electrónico</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            <input type="email" class="form-control" id="email" placeholder="correo" required>
+                            <input type="email" class="form-control" name="correo" id="email" placeholder="correo" required>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="password" class="form-label">Contraseña</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                            <input type="password" class="form-control" name="contrasena" id="password" placeholder="Contraseña" required>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mb-4">
