@@ -1,8 +1,8 @@
 <?php
-$local = "localhost:3308";
+$local = "localhost:3306";
 $username = "root";
 $password = "";
-$base_datos = "noticias_NI";
+$base_datos = "noticias_ni";
 
 $conexion = mysqli_connect($local, $username, $password, $base_datos);
 

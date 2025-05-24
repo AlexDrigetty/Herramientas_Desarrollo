@@ -28,7 +28,7 @@
                     <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
                 </ul>
-                <a class="login" href="/Publico/login.html">Login</a>
+                <a class="login" href="/Publico/login.php">Login</a>
                 <button class="fas fa-bars"></button>
             </div>
         </div>
@@ -80,7 +80,7 @@
                         </div>
                         <button type="submit" class="btn btn-register w-100 py-2 mb-3">REGISTRARSE</button>
                         <div class="text-center">
-                            <p class="text-muted">¿Ya tienes cuenta? <a href="/Publico/login.html" class="iniciar">Inicia sesión</a></p>
+                            <p class="text-muted">¿Ya tienes cuenta? <a href="/Publico/login.php" class="iniciar">Inicia sesión</a></p>
                         </div>
                     </form>
                 </div>
