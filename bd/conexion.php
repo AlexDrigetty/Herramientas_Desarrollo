@@ -1,5 +1,5 @@
 <?php
-$local = "localhost:3306"; // Cambia el puerto si es necesario
+$local = "localhost:3308";
 $username = "root";
 $password = "";
 $base_datos = "noticias_ni";
