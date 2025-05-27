@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (password_verify($contrasena, $usuario['contrasena'])) {
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['nombre'] = $usuario['nombre'];
-            header("Location: panel.php");
+            header("Location: ../Publico/inicio.php");
             exit;
         } else {
             echo "Contraseña incorrecta.";
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <li><a href="/Publico/Categoria.html">Categoria</a>
                     </li>
                 </ul>
-                <a class="login" href="/Publico/login.html">Login</a>
+                <a class="login" href="../bd/login.html">Login</a>
                 <button class="fas fa-bars"></button>
             </div>
         </div>
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <button type="submit" class="btn btn-login w-100 py-2">INICIAR SESIÓN</button>
                     
                     <div class="text-center pt-3">
-                        <p>¿No tienes cuenta? <a href="/Publico/registro.php" class="text-decoration-none registro">Regístrate</a></p>
+                        <p>¿No tienes cuenta? <a href="../bd/registro.php" class="text-decoration-none registro">Regístrate</a></p>
                     </div>
                 </form>
             </div>
