@@ -1,6 +1,6 @@
+<?php include 'navar.php'?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,31 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="../Css/nav.css">
     <link rel="stylesheet" href="../Css/categoria.css">
     <link rel="stylesheet" href="../Css/destacados.css">
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="nav">
-                <a href="inicio.html" class="logo">foco<span>Global</span></a>
-                <ul class="nav-links">
-                    <li><a href="../Publico/inicio.html">Inicio</a></li>
-                    <li><a href="../Publico/Nacional.html">Nacionales</a></li>
-                    <li><a href="../Publico/Internacional.html">Internacional</a></li>
-                    <li><a href="../Publico/destacados.html">Destacados</a></li>
-                    <li><a href="../Publico/Categoria.html">Categoria</a>
-                    </li>
-                </ul>
-                <a class="login" href="../Publico/login.html">Login</a>
-                <button class="fas fa-bars"></button>
-            </div>
-        </div>
-    </nav>
-
     <section class="header-section">
         <div class="container">
             <div class="row">
@@ -99,55 +79,6 @@
             </div>
         </div>
     </div>
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
-                    <h4 class="logo mb-3">focoGlobal</h4>
-
-                    <p class="anuncios">Información confiable y actualizada las 24 horas del día</p>
-
-                    <div class="redes">
-                        <button class="fab fa-facebook-f"></button>
-                        <button class="fab fa-twitter"></button>
-                        <button class="fab fa-instagram"></button>
-                        <button class="fab fa-youtube"></button>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
-                    <h4 class="titulo mb-3">Secciones</h4>
-
-                    <ul class="aparts">
-                        <li><a href="">Politica</a></li>
-                        <li><a href="">Economía</a></li>
-                        <li><a href="">Deportes</a></li>
-                        <li><a href="">Cultura</a></li>
-                        <li><a href="">Tecnología</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
-                    <h4 class="titulo mb-3">Empresa</h4>
-                    <ul class="aparts">
-                        <li><a href="">Sobre Nosotros</a></li>
-                        <li><a href="">Equipo</a></li>
-                        <li><a href="">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
-                    <h4 class="titulo mb-3">Contacto</h4>
-                    <ul class="aparts">
-                        <li><i class="fas fa-map-marker-alt"></i> Direccion MZ Lt0, Piura</li>
-                        <li><i class="fas fa-phone"></i> +51 999999999</li>
-                        <li><i class="fas fa-envelope"></i> focoGlobal@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script>
         document.querySelector(".fas").addEventListener("click", () => {
 
@@ -357,6 +288,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
+    <?php include 'footer.php'?>
 </body>
 
 </html>
