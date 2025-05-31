@@ -1,5 +1,6 @@
 <?php
-include 'conexion.php';
+include '../bd/conexion.php';
+include "navar.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nombre = $_POST['nombre'];

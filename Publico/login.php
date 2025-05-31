@@ -1,6 +1,7 @@
 <?php
+include '../bd/conexion.php';
+include "navar.php";
 session_start();
-include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $correo = $_POST['correo'];
@@ -76,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     
                     <div class="text-center pt-3">
 
-                        <p>¿No tienes cuenta? <a href="../bd/registro.php" class="text-decoration-none registro">Regístrate</a></p>
+                        <p>¿No tienes cuenta? <a href="../Publico/registro.php" class="text-decoration-none registro">Regístrate</a></p>
                     </div>
                 </form>
             </div>
