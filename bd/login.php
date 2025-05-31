@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (password_verify($contrasena, $usuario['contrasena'])) {
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['nombre'] = $usuario['nombre'];
-            
+
             header("Location: ../Publico/inicio.php");
             exit;
         } else {
@@ -39,17 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome (íconos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="/Css/nav.css">
-    <link rel="stylesheet" href="/Css/inicio.css">
-    <link rel="stylesheet" href="/Css/login.css">
-    <link rel="stylesheet" href="/Css/destacados.css">
-=======
+
     <link rel="stylesheet" href="../Css/nav.css">
     <link rel="stylesheet" href="../Css/inicio.css">
     <link rel="stylesheet" href="../Css/login.css">
     <link rel="stylesheet" href="../Css/destacados.css">
->>>>>>> refs/remotes/origin/frank2
 </head>
 <body>
 
@@ -58,16 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="nav">
                 <a href="inicio.html" class="logo">foco<span>Global</span></a>
                 <ul class="nav-links">
-<<<<<<< HEAD
-                    <li><a href="/Publico/inicio.html">Inicio</a></li>
-                    <li><a href="/Publico/Nacional.html">Nacionales</a></li>
-                    <li><a href="/Publico/Internacional.html">Internacional</a></li>
-                    <li><a href="/Publico/destacados.html">Destacados</a></li>
-                    <li><a href="/Publico/Categoria.html">Categoria</a>
-                    </li>
-                </ul>
-                <a class="login" href="/Publico/login.html">Login</a>
-=======
+
                     <li><a href="../Publico/inicio.html">Inicio</a></li>
                     <li><a href="../Publico/Nacional.html">Nacionales</a></li>
                     <li><a href="../Publico/Internacional.html">Internacional</a></li>
@@ -75,12 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <li><a href="../Publico/Categoria.html">Categoria</a>
                     </li>
                 </ul>
-<<<<<<<< HEAD:Publico/login.php
-                <a class="login" href="../Publico/login.html">Login</a>
-========
+
                 <a class="login" href="../bd/login.html">Login</a>
->>>>>>>> refs/remotes/origin/frank2:bd/login.php
->>>>>>> refs/remotes/origin/frank2
                 <button class="fas fa-bars"></button>
             </div>
         </div>
@@ -117,15 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <button type="submit" class="btn btn-login w-100 py-2">INICIAR SESIÓN</button>
                     
                     <div class="text-center pt-3">
-<<<<<<< HEAD
-                        <p>¿No tienes cuenta? <a href="/Publico/registro.php" class="text-decoration-none registro">Regístrate</a></p>
-=======
-<<<<<<<< HEAD:Publico/login.php
-                        <p>¿No tienes cuenta? <a href="/Publico/registro.php" class="text-decoration-none registro">Regístrate</a></p>
-========
+
                         <p>¿No tienes cuenta? <a href="../bd/registro.php" class="text-decoration-none registro">Regístrate</a></p>
->>>>>>>> refs/remotes/origin/frank2:bd/login.php
->>>>>>> refs/remotes/origin/frank2
                     </div>
                 </form>
             </div>
