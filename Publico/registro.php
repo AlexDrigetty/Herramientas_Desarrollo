@@ -1,6 +1,25 @@
-    <?php
-    include 'navar.php';
-    ?>
+<?php
+include '../bd/conexion.php';
+include "navar.php";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $correo = $_POST['correo'];
+    $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO usuarios (nombre, apellido, correo, contrasena) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $nombre, $apellido, $correo, $contrasena);
+
+
+    if ($stmt->execute()) {
+        echo "Usuario registrado correctamente. <a href='login.php'>Iniciar sesión</a>";
+    } else {
+        echo "Error al registrar usuario: " . $stmt->error;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,29 +43,29 @@
                     <h2></i> Crear Cuenta</h2>
                 </div>
                 <div class="register-body">
-                    <form>
+                    <form action="" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Nombres" required>
+                                <input type="text" class="form-control" id="firstName" name="nombre" placeholder="Nombres" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="lastName" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Apellidos" required>
+                                <input type="text" class="form-control" id="lastName" name="apellido" placeholder="Apellidos" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo electrónico</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="email" class="form-control" id="email" placeholder="Correo" required>
+                                <input type="email" class="form-control" id="email" name="correo" placeholder="Correo" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                                <input type="password" class="form-control" id="password" name="contrasena" placeholder="Contraseña" required>
                             </div>
                         </div>
                         <div class="mb-4">
