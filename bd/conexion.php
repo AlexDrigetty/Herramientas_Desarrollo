@@ -1,15 +1,15 @@
 <?php
-$local = "localhost:3308";
+$local = "localhost:3306";
 $username = "root";
 $password = "";
 $base_datos = "noticias_ni";
 
-$conexion = mysqli_connect($local, $username, $password, $base_datos);
+$conn = mysqli_connect($local, $username, $password, $base_datos);
 
-if(!$conexion){
+if(!$conn){
     echo "OCURRIO UN ERROR AL CONECTAR LA BASE DE DATOS";
 } else {
     echo "CONEXION ESTABLECIDA";
 }
-
+$conn->set_charset("utf8mb4");
 ?>

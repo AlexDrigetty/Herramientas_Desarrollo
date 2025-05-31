@@ -26,7 +26,7 @@
                     <li><a href="../Publico/Categoria.html">Categoria</a>
                     </li>
                 </ul>
-                <a class="login" href="../Publico/login.html">Login</a>
+                <a class="login" href="../bd/login.php">Login</a>
                 <button class="fas fa-bars"></button>
             </div>
             
