@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="../Css/nav.css">
     <link rel="stylesheet" href="../Css/noticias.css">
+        <link rel="stylesheet" href="../Css/inicio.css">
 </head>
 
 <body>

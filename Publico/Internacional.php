@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/nav.css">
     <link rel="stylesheet" href="../Css/noticias.css">
+        <link rel="stylesheet" href="../Css/inicio.css">
 </head>
 
 <body>

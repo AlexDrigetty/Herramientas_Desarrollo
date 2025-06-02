@@ -1,4 +1,13 @@
 <?php include 'admin_navbar.php';?>
+<?php 
+session_start();
+
+// Redirige si no está logueado o no es ADMIN (en mayúsculas)
+if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'ADMIN') {
+    header("Location: ../Publico/login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

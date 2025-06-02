@@ -1,4 +1,5 @@
 <?php include 'admin_navbar.php';?>
+<?php include 'admin_auth.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 

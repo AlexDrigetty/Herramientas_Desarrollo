@@ -1,3 +1,4 @@
+
 <div class="slider">
         <div class="slider-content">
             <h4>FocoGlobal Admin</h4>
@@ -21,6 +22,7 @@
             <h3>Administración</h3>
             <ul>
                 <li><a href="Usuarios.php"><i class="fa fa-users"></i>Usuarios</a></li>
+                <li><a href="../bd/logout.php">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
