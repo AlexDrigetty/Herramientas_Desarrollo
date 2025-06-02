@@ -1,94 +1,48 @@
 <?php include 'navar.php'?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias-Inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="../Css/nav.css">
     <link rel="stylesheet" href="../Css/inicio.css">
 </head>
 
 <body>
-
     <main class="mb-5">
         <div class="container">
+            <!-- Carrusel de noticias destacadas -->
             <div class="row">
                 <div class="col-12 ultimo mt-4">
-                    <div class="carrusel_contenido active">
-                        <div class="imagen mb-4">
-                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/12/14/639a1987cfdfbb2c8c439570.jpg"
-                                alt="imagen-1">
+                    <div id="news-carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="carousel-inner">
+                            <!-- Las noticias se cargarán dinámicamente aquí -->
                         </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria nacionales">Nacional</span>
-                            <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="carrusel_contenido ">
-                        <div class="imagen mb-4">
-                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
-                                alt="imagen-1">
-                        </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria internacionales">internacional</span>
-                            <h3 class="py-3">Dina boluarte habla webadas</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carrusel_contenido ">
-                        <div class="imagen mb-4">
-                            <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
-                                alt="imagen-1">
-                        </div>
-                        <div class="contenido-noticia">
-                            <span class="categoria nacionales">Nacional</span>
-                            <h3 class="py-3">Estudiantes de San Marcos hacen huelga en Semana Santa por Hambre</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                <button class="vermas">Ver mas</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="botones">
-                        <button class="fas fa-arrow-right" id="siguiente"></button>
-                        <button class="fas fa-arrow-left" id="retroceder"></button>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#news-carousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#news-carousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Últimas noticias -->
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-12">
                         <div class="sesiones">
-                            <h4 class="sesion mb-4">Ultimas noticias</h4>
+                            <h4 class="sesion mb-4">Últimas noticias</h4>
                             <div class="botones">
                                 <button class="btn active" data-filtro="all">Todas</button>
-                                <button class="btn" data-filtro="nacionales">Nacionales</button>
-                                <button class="btn" data-filtro="internacionales">Internacionales</button>
+                                <button class="btn" data-filtro="nacional">Nacionales</button>
+                                <button class="btn" data-filtro="internacional">Internacionales</button>
                             </div>
                         </div>
                     </div>
@@ -97,118 +51,14 @@
 
             <div class="container">
                 <div class="row">
+                    <!-- Listado de noticias -->
                     <div class="col-12 col-lg-9">
-                        <div class="row fila">
-                            <div class="col-md-12 col-lg-4 columna mb-3" data-categoria="nacionales">
-                                <div class="news">
-                                    <div class="imagen mb-4">
-                                        <img src="https://larepublica.cronosmedia.glr.pe/original/2022/09/08/631a21c221c1416ea13ce949.jpg"
-                                            alt="imagen-1">
-                                    </div>
-                                    <div class="contenido-noticia">
-                                        <span class="categoria nacionales">Nacional</span>
-                                        <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus eius
-                                            maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                                        <div class="metas mb-1">
-                                            <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            <button class="vermas">Ver mas</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-6 col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
-                                <div class="news">
-                                    <div class="imagen mb-2">
-                                        <img src="https://i.ytimg.com/vi/x0w2iZZ6zaU/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCLgD7J94lqgm4cK5NEXmA8OvAlKg"
-                                            alt="imagen-1">
-                                    </div>
-                                    <div class="contenido-noticia">
-                                        <span class="categoria internacionales">Internacional</span>
-                                        <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-                                            eius
-                                            maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                                        <div class="metas">
-                                            <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            <button class="vermas">Ver mas</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-6 col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
-                                <div class="news">
-                                    <div class="imagen mb-2">
-                                        <img src="https://ahoratabasco.com/wp-content/uploads/2025/04/sddefault.jpg"
-                                            alt="imagen-1">
-                                    </div>
-                                    <div class="contenido-noticia">
-                                        <span class="categoria internacionales">Internacional</span>
-                                        <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-                                            eius
-                                            maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                                        <div class="metas">
-                                            <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            <button class="vermas">Ver mas</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-6 col-lg-4 columna mb-3" data-categoria="internacionales">
-                                <div class="news">
-                                    <div class="imagen mb-2">
-                                        <img src="https://portal.andina.pe/EDPfotografia3/Thumbnail/2020/04/30/000672281W.jpg"
-                                            alt="imagen-1">
-                                    </div>
-                                    <div class="contenido-noticia">
-                                        <span class="categoria internacionales">Internacional</span>
-                                        <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-                                            eius
-                                            maiores perferendis placeat nostrum odio alias reprehenderit amet </p>
-
-                                        <div class="metas">
-                                            <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            <button class="vermas">Ver mas</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-6 col-lg-4 columna mb-3" data-categoria="nacionales">
-                                <div class="news">
-                                    <div class="imagen mb-2">
-                                        <img src="https://elcomercio.pe/resizer/v2/VLSVF2ZKJVGX7CMFDZPWHNEMVY.jpeg?auth=e65ce1a5e2669a1242eb747c3d20625a060095bc661975aa83e19e7246458075&width=320&height=180&quality=75&smart=true"
-                                            alt="imagen-1">
-                                    </div>
-                                    <div class="contenido-noticia">
-                                        <span class="categoria nacionales">Nacional</span>
-                                        <h3 class="py-3">Gobierno Anuncia nuevo plan economico para reactivar el empleo
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                            Voluptatibus eius
-                                            maiores perferendis placeat nostrum odio alias reprehenderit amet
-                                        </p>
-
-                                        <div class="metas">
-                                            <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            <button class="vermas">Ver mas</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="row fila" id="news-container">
+                            <!-- Noticias se cargarán aquí -->
                         </div>
                     </div>
 
+                    <!-- Noticias destacadas -->
                     <div class="col-12 col-lg-3 mt-4 mt-lg-0">
                         <div class="destacados">
                             <div class="row">
@@ -216,153 +66,18 @@
                                     <h4>Noticias Destacadas</h4>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-12 noticias">
-                                    <div class="destacadas">
-                                        <div class="imagen">
-                                            <img src="https://s.rfi.fr/media/display/851810ee-2362-11f0-9681-005056a97e36/w:980/p:16x9/7541ac33d5a353d689b5a86adcec83b9a3d0a4df.jpg"
-                                                alt="">
-                                        </div>
-
-                                        <div class="contenido">
-                                            <div class="titulo">
-                                                <h5>Gobierno anuncia nuevo plan economico para reactivar el empleo</h5>
-                                            </div>
-
-                                            <div class="metas">
-                                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="destacadas">
-                                        <div class="imagen">
-                                            <img src="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2025/04/27/17457600396041.jpg"
-                                                alt="">
-                                        </div>
-
-                                        <div class="contenido">
-                                            <div class="titulo">
-                                                <h5>Gobierno anuncia nuevo plan economico para reactivar el empleo</h5>
-                                            </div>
-
-                                            <div class="metas">
-                                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="destacadas">
-                                        <div class="imagen">
-                                            <img src="https://www.clarin.com/2023/06/14/WJlAYJhAg_2000x1500__1.jpg"
-                                                alt="">
-                                        </div>
-
-                                        <div class="contenido">
-                                            <div class="titulo">
-                                                <h5>Gobierno anuncia nuevo plan economico para reactivar el empleo</h5>
-                                            </div>
-
-                                            <div class="metas">
-                                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="destacadas">
-                                        <div class="imagen">
-                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2193583978.jpg?c=16x9&q=h_438,w_780,c_fill"
-                                                alt="">
-                                        </div>
-
-                                        <div class="contenido">
-                                            <div class="titulo">
-                                                <h5>Gobierno anuncia nuevo plan economico para reactivar el empleo</h5>
-                                            </div>
-
-                                            <div class="metas">
-                                                <span><i class="far fa-clock"></i> Hace 4 horas</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row" id="featured-news">
+                                <!-- Noticias destacadas se cargarán aquí -->
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-6 col-md-3 col-lg-4"> <!--3 para deskopt 4 para tablet 2 para movil -->
-                        <!-- CONTENIDO DE LA NOTICIA... -->
-                    </div>
-                </div>
+            </div>
+        </div>
     </main>
-    <script>
-        document.querySelector(".fas").addEventListener("click", () => {
 
-            document.querySelector(".nav-links").classList.toggle("active");
-        });
-    </script>
-
-    <script>
-        document.querySelectorAll(".botones .btn").forEach(button => {
-            button.addEventListener("click", () => {
-                document.querySelectorAll(" .btn").forEach(btn => btn.classList.remove("active"));
-                button.classList.add("active")
-
-                const filtro = button.getAttribute("data-filtro");
-
-                document.querySelectorAll(".columna").forEach(
-                    caja => {
-                        if (filtro == "all") {
-                            caja.style.display = "block";
-                        } else {
-                            if (caja.getAttribute("data-categoria") == filtro) {
-                                caja.style.display = "block"
-                            } else {
-                                caja.style.display = "none"
-                            }
-                        }
-                    }
-                )
-
-            })
-        })
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const slides = document.querySelectorAll('.carrusel_contenido');
-            const siguiente = document.getElementById('siguiente');
-            const retroceder = document.getElementById('retroceder');
-            let indiceActual = 0;
-
-            function mostrarSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.remove('active');
-                    slide.style.display = 'none';
-                });
-                slides[index].classList.add('active');
-                slides[index].style.display = 'flex';
-            }
-
-            siguiente.addEventListener('click', () => {
-                indiceActual = (indiceActual + 1) % slides.length;
-                mostrarSlide(indiceActual);
-            });
-
-            retroceder.addEventListener('click', () => {
-                indiceActual = (indiceActual - 1 + slides.length) % slides.length;
-                mostrarSlide(indiceActual);
-            });
-            mostrarSlide(indiceActual);
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
-<?php include 'footer.php'?>
+    <script src="../js/Inicio.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include 'footer.php'?>
 </body>
-
 </html>
