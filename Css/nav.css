@@ -73,7 +73,7 @@ body{
         }
 
         .login{
-            padding: 5px 30px;
+            padding: 10px 15px;
             background-color: orange;
             color: white;
             font-weight: bold;
@@ -81,6 +81,32 @@ body{
             border: none;
             text-shadow: 0px 0px 1px black;
             text-decoration: none;
+
+            
+            .nombre{
+                color: white;
+                text-decoration: none;
+                letter-spacing: 1px;
+                padding: 0;
+                margin: 0;
+            }
+
+            .barra_menu{
+                li{
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    padding: 5px 10px;
+                }
+
+                li a{
+                    text-decoration: none;
+                    color: black;
+                    font-weight: lighter;
+                    letter-spacing: 1px;
+                    padding: 0;
+                }
+            }
         }
 
         @media(max-width: 800px){
@@ -201,5 +227,111 @@ footer{
             }
         }
 
+    }
+}
+
+/* Estilos para el contenedor del usuario logueado */
+.login {
+    position: relative;
+    display: inline-block;
+}
+
+.nombre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.nombre:hover {
+    background-color: #e69500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nombre .fa-user {
+    font-size: 14px;
+}
+
+.barra_menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1000;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    margin-top: 10px;
+}
+
+.login:hover .barra_menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    margin-top: 5px;
+}
+
+.barra_menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.barra_menu li a:hover {
+    background-color: rgba(255, 165, 0, 0.1);
+    color: orange;
+    padding-left: 20px;
+}
+
+.barra_menu li a i {
+    width: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 800px) {
+    .login {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .nombre {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .barra_menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        margin-top: 0;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+    
+    .login:hover .barra_menu {
+        display: block;
+        margin-top: 0;
     }
 }

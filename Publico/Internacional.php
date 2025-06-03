@@ -1,11 +1,17 @@
-<?php include 'navar.php'?>
+<?php include 'navar.php'?><?php
+include("../Admin/checkout_admin.php");
+
+if($admin_true) {
+    include '../Admin/admin_navbar.php'; // Ruta relativa correcta
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noticias Nacionales</title>
+    <title>Internacional | Noticias Globales</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/nav.css">

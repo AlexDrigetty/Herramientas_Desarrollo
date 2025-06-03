@@ -1,12 +1,8 @@
-<?php
+<?php 
 session_start();
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../Publico/login.php");
-    exit;
-}
 
-if ($_SESSION['rol'] !== '0') {
-    header("Location: ../Publico/inicio.php"); 
+if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'ADMIN') {
+    header("Location: ../Publico/login.php");
     exit;
 }
 ?>

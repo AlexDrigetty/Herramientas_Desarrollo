@@ -1,19 +1,11 @@
 <?php include 'admin_navbar.php';?>
-<?php 
-session_start();
-
-// Redirige si no está logueado o no es ADMIN (en mayúsculas)
-if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'ADMIN') {
-    header("Location: ../Publico/login.php");
-    exit;
-}
-?>
+<?php include 'admin_auth.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard admin</title>
+    <title>Dashboard admin | Noticias Globales</title>
     <link rel="stylesheet" href="../Css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,7 +16,6 @@ if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol']) || $_SESSION['ro
 <body>
     <main>
         <?php include 'slider.php';?>
-        </div>
         <div class="panel_control">
             <div class="title py-4">
                 <h3>Panel de Control</h3>

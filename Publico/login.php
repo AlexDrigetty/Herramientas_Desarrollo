@@ -1,7 +1,10 @@
 <?php
 include '../bd/conexion.php';
 include "navar.php";
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $errors = [];
 $success = false;
@@ -42,12 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['nombre'] = $usuario['nombre'];
-            $_SESSION['rol'] = $usuario['rol']; // Ahora contiene 'ADMIN' o 'USER'
+            $_SESSION['rol'] = $usuario['rol']; 
             
-            // Debug: Verificar el valor del rol
             error_log("Rol del usuario: " . $_SESSION['rol']);
             
-            // Redirige según el rol (comparando con 'ADMIN' en mayúsculas)
             if ($_SESSION['rol'] === 'ADMIN') {
                 header("Location: ../Admin/dashboard_admin.php");
             } else {
