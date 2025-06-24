@@ -1,58 +1,48 @@
-const noticiasPorPagina = 20; // Cambiado a 12 noticias por página
-const paginasAMostrar = 20;   // Mostrar hasta 10 páginas en la paginación
+const noticiasPorPagina = 10; // 10 noticias de negocios por página
+const paginasAMostrar = 5;    // Mostrar hasta 5 páginas en la paginación
 let paginaActual = 1;
 let noticiasFiltradas = [];
 let enModoBusqueda = false;
 let noticiasCompletas = [];
-let categoriaActual = 'todas';
+let categoriaActual = 'todas'; // Cambiado a 'todas' por defecto
 
 // Configuración de categorías (actualizada para coincidir con NewsAPI)
 const configCategorias = {
-    'business': {
-        nombreES: 'economía',
-        claseCSS: 'economía',
-        imagen: 'https://fpablovi.org/images/2022/01/31/socioeconomica.jpg'
-    },
-    'entertainment': {
-        nombreES: 'cultura',
-        claseCSS: 'cultura',
-        imagen: 'https://cdn.pixabay.com/photo/2016/11/22/19/15/dark-1850121_1280.jpg'
-    },
     'general': {
         nombreES: 'general',
         claseCSS: '',
-        imagen: 'https://via.placeholder.com/300x200?text=Noticia'
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'mundo' // Término de búsqueda para noticias generales
     },
-    'health': {
+    'futbol': {
+        nombreES: 'fútbol',
+        claseCSS: 'deportes',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'fútbol OR futbol OR "liga española" OR champions'
+    },
+    'economia': {
+        nombreES: 'economía',
+        claseCSS: 'economía',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'economía OR economia OR mercado OR bolsa OR finanzas'
+    },
+    'salud': {
         nombreES: 'salud',
         claseCSS: 'salud',
-        imagen: 'https://cdn.pixabay.com/photo/2017/10/29/11/30/laboratory-2899658_1280.jpg'
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'salud OR medicina OR hospital OR médico OR vacuna'
     },
-    'science': {
-        nombreES: 'ciencia',
-        claseCSS: 'ciencia',
-        imagen: 'https://cdn.pixabay.com/photo/2016/09/08/21/09/science-1655783_1280.jpg'
-    },
-    'sports': {
-        nombreES: 'deportes',
-        claseCSS: 'deportes',
-        imagen: 'https://www.wipo.int/documents/d/wipo/getty_476895307_845'
-    },
-    'technology': {
-        nombreES: 'tecnología',
-        claseCSS: 'tecnología',
-        imagen: 'https://cdn.pixabay.com/photo/2019/02/06/16/32/architect-3979490_1280.jpg'
-    },
-    // Agrego algunas categorías adicionales que tienes en tu CSS
-    'environment': {
-        nombreES: 'medio-ambiente',
-        claseCSS: 'medio-ambiente',
-        imagen: 'https://cdn.pixabay.com/photo/2016/11/29/08/41/apple-1868496_1280.jpg'
-    },
-    'politics': {
+    'politica': {
         nombreES: 'política',
         claseCSS: 'política',
-        imagen: 'https://www.elviejotopo.com/wp-content/uploads/2016/08/Poder1.jpg'
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'política OR gobierno OR presidente OR congreso OR elecciones'
+    },
+    'tecnologia': {
+        nombreES: 'tecnología',
+        claseCSS: 'tecnología',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'tecnología OR tecnologia OR "inteligencia artificial" OR robot OR digital'
     }
 };
 
@@ -68,51 +58,55 @@ function traducirCategoria(categoria) {
     return configCategorias[categoria]?.nombreES || categoria;
 }
 
-// Función principal para obtener noticias
-async function obtenerNoticiasInternacionales() {
-    const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
-    let url;
 
-    if (categoriaActual === 'todas') {
-        // Obtener noticias generales si no hay categoría seleccionada
-        url = `https://newsapi.org/v2/everything?q=mundo&language=es&apiKey=${apiKey}`;
-    } else {
-        // Obtener noticias específicas de la categoría
-        const query = configCategorias[categoriaActual]?.query || categoriaActual;
-        url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;;
-    }
+async function obtenerNoticiasPorCategoria(categoria) {
+    const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
+    const query = configCategorias[categoria].query;
+    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&pageSize=20&apiKey=${apiKey}`;
 
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
         const data = await response.json();
-
+        
         if (data.articles?.length > 0) {
-            noticiasCompletas = data.articles.map((noticia, index) => {
-                return {
-                    id: index + 1,
-                    titulo: noticia.title || 'Sin título',
-                    imagen: obtenerImagen(noticia),
-                    resumen: noticia.description || 'Sin descripción',
-                    fecha: calcularTiempoTranscurrido(noticia.publishedAt),
-                    tipo: "internacional",
-                    categoria: traducirCategoria(categoriaActual),
-                    categoriaOriginal: categoriaActual,
-                    enlace: noticia.url || '#'
-                };
-            });
-
-            mostrarNoticias();
-            actualizarFiltrosCategoria();
-        } else {
-            mostrarMensajeSinResultados();
+            return data.articles.slice(0, 20).map((noticia, index) => ({
+                id: noticiasCompletas.length + index + 1,
+                titulo: noticia.title || 'Sin título',
+                imagen: obtenerImagen(noticia),
+                resumen: noticia.description || 'Sin descripción',
+                fecha: calcularTiempoTranscurrido(noticia.publishedAt),
+                tipo: "internacional",
+                categoria: configCategorias[categoria].nombreES,
+                categoriaOriginal: categoria,
+                enlace: noticia.url || '#'
+            }));
         }
+        return [];
     } catch (error) {
-        console.error('Error al obtener noticias:', error);
-        mostrarMensajeError('No se pudieron cargar las noticias. Intenta más tarde.');
+        console.error(`Error al obtener noticias de ${categoria}:`, error);
+        return [];
     }
 }
+
+async function obtenerTodasLasNoticias() {
+    noticiasCompletas = [];
+    const categorias = ['general', 'futbol', 'politica', 'salud', 'economia', 'tecnologia'];
+    
+    for (const categoria of categorias) {
+        const noticias = await obtenerNoticiasPorCategoria(categoria);
+        noticiasCompletas = [...noticiasCompletas, ...noticias];
+    }
+
+    mostrarNoticias();
+    actualizarFiltrosCategoria();
+}
+
+
+// Función principal para obtener noticias
+
+
+
 
 // Función para actualizar los filtros de categoría en la UI
 function actualizarFiltrosCategoria() {
@@ -133,10 +127,20 @@ function actualizarFiltrosCategoria() {
     document.querySelectorAll('.btn-filtro').forEach(btn => {
         btn.addEventListener('click', () => {
             categoriaActual = btn.dataset.categoria;
-            obtenerNoticiasInternacionales(); // Volver a cargar noticias con la nueva categoría
+            if (categoriaActual === 'todas') {
+                mostrarNoticias();
+            } else {
+                noticiasFiltradas = noticiasCompletas.filter(noticia => 
+                    noticia.categoriaOriginal === categoriaActual
+                );
+                enModoBusqueda = true;
+                paginaActual = 1;
+                mostrarNoticias();
+            }
         });
     });
 }
+
 
 // Función para mostrar noticias con paginación
 function mostrarNoticias() {
@@ -324,7 +328,7 @@ function buscarNoticias() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    obtenerNoticiasInternacionales();
+    obtenerTodasLasNoticias(); // Cambiado a la nueva función
 
     document.getElementById('buscar').addEventListener('click', buscarNoticias);
     document.getElementById('contenido').addEventListener('keypress', (e) => {

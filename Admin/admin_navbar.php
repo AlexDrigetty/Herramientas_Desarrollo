@@ -1,6 +1,6 @@
 <?php
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
-$base_url = $protocol . $_SERVER['HTTP_HOST'] . '/PROYECTO_HERRAMIENTAS/';
+$base_url = $protocol . $_SERVER['HTTP_HOST'] . '/';
 ?>
 <div class="slider">
     <div class="slider-content">

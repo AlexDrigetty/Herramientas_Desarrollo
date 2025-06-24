@@ -9,7 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
 $errors = [];
 $success = false;
 
-// Mostrar mensaje de registro exitoso
 if (isset($_GET['registro']) && $_GET['registro'] === 'exitoso') {
     $success = true;
 }

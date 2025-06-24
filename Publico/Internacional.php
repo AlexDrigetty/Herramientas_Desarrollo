@@ -20,6 +20,7 @@ if($admin_true) {
 </head>
 
 <body>
+    
     <section class="header-section texto_internacional">
         <div class="container">
             <div class="row">
@@ -52,7 +53,7 @@ if($admin_true) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <?php include 'footer.php'?>
-    <script src="../js/Internacional.js"></script>
+    <script src="../js/inter.js"></script>
 </body>
 
 </html>

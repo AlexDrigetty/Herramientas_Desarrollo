@@ -92,6 +92,7 @@ body{
             }
 
             .barra_menu{
+                margin-left: 200px;
                 li{
                     list-style: none;
                     padding: 0;
