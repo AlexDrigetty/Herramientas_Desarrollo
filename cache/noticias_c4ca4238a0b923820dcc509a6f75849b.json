@@ -1,1 +1,13 @@
-[{"id":"01abfc750a0c942167651c40d088531d","titulo":"Actualizaciones importantes en el \u00e1mbito internacional","imagen":"https:\/\/placehold.co\/600x400\/png?text=Noticia+Internacional","resumen":"Revise las \u00faltimas novedades sobre eventos globales relevantes.","fecha":"Hoy","tipo":"Internacional","categoria":"general","url":"#","fuente":"Sistema de respaldo"}]
+[
+    {
+        "id": "01abfc750a0c942167651c40d088531d",
+        "titulo": "Actualizaciones importantes en el \u00e1mbito internacional",
+        "imagen": "https:\/\/placehold.co\/600x400\/png?text=Noticia+Internacional",
+        "resumen": "Revise las \u00faltimas novedades sobre eventos globales relevantes.",
+        "fecha": "Hoy",
+        "tipo": "Internacional",
+        "categoria": "general",
+        "url": "#",
+        "fuente": "Sistema de respaldo"
+    }
+]

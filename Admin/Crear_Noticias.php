@@ -1,4 +1,4 @@
-<?php include 'admin_navbar.php';?>
+<?php include 'admin_navbar.php'; ?>
 <?php include 'admin_auth.php'; ?>
 
 <!DOCTYPE html>
@@ -10,104 +10,127 @@
     <title>Crear Noticia | Noticias Globales</title>
     <link rel="stylesheet" href="../Css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
+
 <body>
     <main>
-    <?php include 'slider.php';?>
+        <?php include 'slider.php'; ?>
         <div class="crear">
-            <div class="row box-1">
-                <div class="col-md-7">
-                    <div class="box-content mb-3">
-                        <label for="Titulo">TITULO</label>
-                        <input type="text" placeholder="Ingrese Titulo">
+            <form id="form-noticia" action="../funciones/guardar_noticia.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="accion" id="accion-hidden" value="publicar">
+                
+                <div class="row box-1">
+                    <div class="col-md-7">
+                        <div class="box-content mb-3">
+                            <label for="titulo" class="form-label">TITULO</label>
+                            <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Ingrese Titulo" required>
+                        </div>
+                        <div class="box-content mb-3">
+                            <label for="resumen" class="form-label">RESUMEN</label>
+                            <textarea name="resumen" id="resumen" class="form-control" placeholder="Ingrese breve resumen de la noticia" rows="3" required></textarea>
+                        </div>
+
+                        <div class="box-content">
+                            <label for="contenido" class="form-label">CONTENIDO</label>
+                            <div id="editor" style="height: 320px; background-color: white;"></div>
+                            <textarea id="contenido" name="contenido" style="display:none;" required></textarea>
+                        </div>
                     </div>
-                    <div class="box-content mb-3">
-                        <label for="Contenido">RESUMEN</label>
-                        <textarea name="contenido" id="" placeholder="Ingrese breve resumen de la noticia"></textarea>
-                    </div>
 
-
-                    <div class=" box-content">
-                        <label for="contenido">CONTENIDO </label>
-                        <!-- Reemplazar textarea por editor enriquecido -->
-                        <div id="editor" style="height: 320px;"></div>
-                        <textarea id="contenido" name="contenido" style="display:none;"></textarea>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="box-content mb-4">
-                        <label>FOTO DE PORTADA</label>
-
-                        <!-- Input file oculto -->
-                        <input type="file" id="portada" accept="image/*" style="display: none;">
-
-                        <!-- Contenedor clickable para la imagen -->
-                        <div class="image-upload-container" id="image-preview-container">
-                            <div class="image-preview" id="image-preview">
-                                <img id="preview" src="#" alt="Vista previa de la imagen">
-                                <div class="upload-placeholder">
-                                    <i class="fas fa-camera"></i>
-                                    <span>Haz clic para seleccionar una imagen</span>
+                    <div class="col-md-5">
+                        <div class="box-content mb-4">
+                            <label class="form-label">FOTO DE PORTADA</label>
+                            <input type="file" id="portada" name="portada" accept="image/*" style="display: none;" required>
+                            <div class="image-upload-container" id="image-upload-container">
+                                <div class="image-preview" id="image-preview">
+                                    <img id="preview" src="#" alt="Vista previa de la imagen" style="display: none;">
+                                    <div class="upload-placeholder">
+                                        <i class="fas fa-camera"></i>
+                                        <span>Haz clic para seleccionar una imagen</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row content ">
-                        <div class="col-md-6">
-                            <div class="tipo-noticia">
-                                <label for="tipo-noticia">TIPO DE NOTICIA</label>
-                                <select name="" id="" class="form-select">Selecione el tipo
-                                    <option value="">Nacional</option>
-                                    <option value="">Internacional</option>
-                                </select>
+                        <div class="row content mb-3">
+                            <div class="col-md-6">
+                                <div class="tipo-noticia">
+                                    <label for="tipo_noticia" class="form-label">TIPO DE NOTICIA</label>
+                                    <select name="tipo_noticia" id="tipo_noticia" class="form-select" required>
+                                        <option value="">Seleccione tipo</option>
+                                        <option value="nacional">Nacional</option>
+                                        <option value="internacional">Internacional</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="categoria">
+                                    <label for="categoria" class="form-label">CATEGORIA</label>
+                                    <select name="categoria" id="categoria" class="form-select" required>
+                                        <option value="">Seleccione una categoria</option>
+                                        <option value="politica">Política</option>
+                                        <option value="economia">Economía</option>
+                                        <option value="deportes">Deportes</option>
+                                        <option value="tecnologia">Tecnología</option>
+                                        <option value="cultura">Cultura</option>
+                                        <option value="salud">Salud</option>
+                                        <option value="medio-ambiente">Medio Ambiente</option>
+                                        <option value="educacion">Educación</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 ">
-                            <div class="categoria">
-                                <label for="Categoria">CATEGORIA</label>
-                                <select name="categoria" id="" class="form-select">
-                                    <option value="">Seleccione una categoria</option>
-                                    <option value="">Deportes</option>
-                                    <option value="">Cultura</option>
-                                    <option value="">Tecnologia</option>
-                                </select>
+
+                        <!-- Campo para fecha de programación -->
+                        <div class="box-content mb-3">
+                            <div class="form-check form-switch mb-1">
+                                <input class="form-check-input" type="checkbox" id="programar-noticia" name="programar_noticia">
+                                <label class="form-check-label" for="programar-noticia">PROGRAMAR FECHA</label>
+                            </div>
+
+                            <div id="programacion-container" class="programacion-container" style="display: none;">
+                                <input type="text" name="fecha_programada" id="fecha_programada" class="form-control" placeholder="Seleccione fecha y hora" required>
+                                <small class="text-muted">Seleccione cuándo desea que se publique automáticamente (mínimo 5 minutos en el futuro)</small>
                             </div>
                         </div>
-                    </div>
-                    <div class="botones">
-                        <button type="submit" class="btn-primary">
-                            <i class="fa fa-paper-plane"></i> PUBLICAR
-                        </button>
-                        <button type="button" id="guardar-borrador" class="btn-secondary">
-                            <i class="fa fa-save"></i> GUARDAR
-                        </button>
-                        <button type="button" id="previsualizar" class="btn-secondary">
-                            <i class="fa fa-eye"></i> PREVISUALIZAR
-                        </button>
-                        <button type="reset" class="btn-cancel">
-                            <i class="fa fa-times"></i> CANCELAR
-                        </button>
+
+                        <div class="botones mt-4">
+                            <button type="submit" class="btn btn-primary" id="btn-publicar">
+                                <i class="fa fa-paper-plane me-2"></i> Publicar ahora
+                            </button>
+                            <button type="button" id="btn-programar" class="btn btn-secondary" style="display: none;">
+                                <i class="fa fa-calendar-check me-2"></i> Programar publicación
+                            </button>
+                            <button type="button" id="previsualizar" class="btn btn-outline-secondary">
+                                <i class="fa fa-eye me-2"></i> Visualizar
+                            </button>
+                            <button type="reset" class="btn btn-outline-danger">
+                                <i class="fa fa-times me-2"></i> Cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </main>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script>
+        // Inicializar el editor Quill
         const quill = new Quill('#editor', {
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
+                    [{'header': [1, 2, 3, false]}],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{'color': []}, {'background': []}],
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
                     ['link', 'image', 'video'],
                     ['clean']
                 ]
@@ -115,124 +138,181 @@
             placeholder: 'Escriba el contenido de la noticia aquí...'
         });
 
-        quill.on('text-change', function () {
+        quill.on('text-change', function() {
             document.getElementById('contenido').value = quill.root.innerHTML;
         });
 
         // Vista previa de la imagen
-        document.getElementById('portada').addEventListener('change', function (e) {
+        document.getElementById('portada').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const preview = document.getElementById('preview');
-            const previewContainer = document.getElementById('image-preview');
-            const fileName = document.querySelector('.file-name');
+            const placeholder = document.querySelector('.upload-placeholder');
 
             if (file) {
-                fileName.textContent = file.name;
-
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    preview.src = event.target.result;
-                    previewContainer.style.display = 'block';
+                // Validar tipo de archivo
+                const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Por favor seleccione una imagen válida (JPEG, PNG o GIF)');
+                    this.value = '';
+                    return;
                 }
-                reader.readAsDataURL(file);
-            }
-        });
 
-        // Manejar el envío del formulario
-        document.getElementById('form-noticia').addEventListener('submit', function (e) {
-            e.preventDefault();
-            // Validación adicional puede ir aquí
-            alert('Noticia publicada con éxito!');
-            // this.submit(); // Descomentar para enviar realmente el formulario
-        });
+                // Validar tamaño (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('La imagen no debe exceder los 5MB');
+                    this.value = '';
+                    return;
+                }
 
-        // Manejar guardar borrador
-        document.getElementById('guardar-borrador').addEventListener('click', function () {
-            alert('Borrador guardado correctamente');
-        });
-
-        // Manejar previsualización
-        document.getElementById('previsualizar').addEventListener('click', function () {
-            alert('Esta función abriría una ventana de previsualización');
-        });
-    </script>
-
-    <script>
-        // Elementos del DOM
-        const fileInput = document.getElementById('portada');
-        const previewContainer = document.getElementById('image-preview-container');
-        const preview = document.getElementById('preview');
-        const placeholder = document.querySelector('.upload-placeholder');
-        const fileName = document.querySelector('.file-name');
-
-        // Cuando se hace clic en el contenedor
-        previewContainer.addEventListener('click', function () {
-            fileInput.click(); // Simula clic en el input file
-        });
-
-        // Cuando se selecciona un archivo
-        fileInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
-
-            if (file && file.type.match('image.*')) {
                 const reader = new FileReader();
-
-                reader.onload = function (event) {
-                    // Mostrar la imagen
+                reader.onload = function(event) {
                     preview.src = event.target.result;
                     preview.style.display = 'block';
                     placeholder.style.display = 'none';
-
-                    // Mostrar nombre del archivo
-                    fileName.textContent = file.name;
-
-                    // Opcional: Mostrar dimensiones
-                    const img = new Image();
-                    img.onload = function () {
-                        fileName.textContent = `${file.name} (${this.width}×${this.height}px)`;
-                    };
-                    img.src = event.target.result;
                 }
-
                 reader.readAsDataURL(file);
-            } else if (file) {
-                alert('Por favor, selecciona un archivo de imagen válido (JPEG, PNG, etc.)');
-                resetFileInput();
+            } else {
+                preview.style.display = 'none';
+                placeholder.style.display = 'block';
             }
         });
 
-        // Función para resetear el input
-        function resetFileInput() {
-            fileInput.value = '';
-            preview.style.display = 'none';
-            placeholder.style.display = 'flex';
-            fileName.textContent = 'No hay archivo seleccionado';
-        }
-
-        // Opcional: Permitir arrastrar y soltar imágenes
-        previewContainer.addEventListener('dragover', function (e) {
-            e.preventDefault();
-            this.style.borderColor = '#2a5f8a';
-            this.style.backgroundColor = '#e6f0f7';
+        // Manejar el clic en el contenedor de imagen
+        document.getElementById('image-upload-container').addEventListener('click', function() {
+            document.getElementById('portada').click();
         });
 
-        previewContainer.addEventListener('dragleave', function () {
-            this.style.borderColor = '#ccc';
-            this.style.backgroundColor = '#f9f9f9';
+        // Previsualización de la noticia
+        document.getElementById('previsualizar').addEventListener('click', function() {
+            const form = document.getElementById('form-noticia');
+            const formData = new FormData(form);
+
+            // Validar campos requeridos
+            if (!form.titulo.value || !form.resumen.value || !quill.getText().trim() || !form.portada.files[0]) {
+                alert('Por favor complete todos los campos requeridos antes de previsualizar');
+                return;
+            }
+
+            // Abrir en una nueva pestaña
+            const previewWindow = window.open('', '_blank');
+
+            // Enviar datos a un script de previsualización
+            fetch('../funciones/vizualizar.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                previewWindow.document.write(html);
+                previewWindow.document.close();
+            })
+            .catch(error => {
+                previewWindow.document.write('<h2>Error al generar la previsualización</h2>');
+                previewWindow.document.close();
+            });
         });
 
-        previewContainer.addEventListener('drop', function (e) {
-            e.preventDefault();
-            this.style.borderColor = '#ccc';
-            this.style.backgroundColor = '#f9f9f9';
+        // Control de la interfaz de programación
+        document.getElementById('programar-noticia').addEventListener('change', function() {
+            const programacionContainer = document.getElementById('programacion-container');
+            const btnPublicar = document.getElementById('btn-publicar');
+            const btnProgramar = document.getElementById('btn-programar');
+            const accionHidden = document.getElementById('accion-hidden');
 
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                const event = new Event('change');
-                fileInput.dispatchEvent(event);
+            if (this.checked) {
+                programacionContainer.style.display = 'block';
+                btnPublicar.style.display = 'none';
+                btnProgramar.style.display = 'inline-block';
+                accionHidden.value = 'programar';
+                
+                // Mostrar el datetimepicker
+                if (window.flatpickrInstances && window.flatpickrInstances.fecha_programada) {
+                    window.flatpickrInstances.fecha_programada.open();
+                }
+            } else {
+                programacionContainer.style.display = 'none';
+                btnPublicar.style.display = 'inline-block';
+                btnProgramar.style.display = 'none';
+                accionHidden.value = 'publicar';
+                document.getElementById('fecha_programada').value = '';
+            }
+        });
+
+        // Manejar el clic en el botón Programar
+        document.getElementById('btn-programar').addEventListener('click', function() {
+            const form = document.getElementById('form-noticia');
+            const fechaProgramada = document.getElementById('fecha_programada').value;
+            
+            if (!fechaProgramada) {
+                alert('Por favor seleccione una fecha y hora para programar la publicación');
+                return;
+            }
+
+            const ahora = new Date();
+            const fechaSeleccionada = new Date(fechaProgramada);
+            const diferenciaMinutos = (fechaSeleccionada - ahora) / (1000 * 60);
+
+            if (diferenciaMinutos < 5) {
+                alert('La publicación debe programarse con al menos 5 minutos de anticipación');
+                return;
+            }
+
+            // Enviar el formulario
+            form.submit();
+        });
+
+        // Inicializar datetimepicker
+        window.flatpickrInstances = window.flatpickrInstances || {};
+        window.flatpickrInstances.fecha_programada = flatpickr("#fecha_programada", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today",
+            minTime: new Date().getHours() + ":" + (new Date().getMinutes() + 5),
+            time_24hr: true,
+            locale: "es",
+            minuteIncrement: 5,
+            defaultDate: new Date(Date.now() + 3600000) // 1 hora en el futuro
+        });
+
+        // Validación al enviar el formulario
+        document.getElementById('form-noticia').addEventListener('submit', function(e) {
+            // Asegurar que el contenido del editor se guarde
+            document.getElementById('contenido').value = quill.root.innerHTML;
+
+            // Validar campos requeridos
+            if (!this.titulo.value || !this.resumen.value || !quill.getText().trim()) {
+                e.preventDefault();
+                alert('Por favor complete todos los campos requeridos');
+                return;
+            }
+
+            // Validar imagen (requerida siempre)
+            if (!this.portada.files[0]) {
+                e.preventDefault();
+                alert('Por favor seleccione una imagen de portada');
+                return;
+            }
+
+            // Si está en modo programación, validar fecha
+            if (document.getElementById('programar-noticia').checked) {
+                const fechaProgramada = document.getElementById('fecha_programada').value;
+                if (!fechaProgramada) {
+                    e.preventDefault();
+                    alert('Por favor seleccione una fecha y hora para programar la publicación');
+                    return;
+                }
+
+                const ahora = new Date();
+                const fechaSeleccionada = new Date(fechaProgramada);
+                const diferenciaMinutos = (fechaSeleccionada - ahora) / (1000 * 60);
+
+                if (diferenciaMinutos < 5) {
+                    e.preventDefault();
+                    alert('La publicación debe programarse con al menos 5 minutos de anticipación');
+                    return;
+                }
             }
         });
     </script>
 </body>
-
 </html>
