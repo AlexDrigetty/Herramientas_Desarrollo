@@ -1,6 +1,6 @@
 <?php
 session_start();
-$user_logged = isset($_SESSION['usuario_id']) && isset($_SESSION['rol']) && $_SESSION['rol'] === 'USER';
+$user_logged = isset($_SESSION['usuario_id']) && isset($_SESSION['rol']) && $_SESSION['rol'] === 'USUARIO';
 ?>
 <nav>
     <div class="container">

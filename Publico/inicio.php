@@ -3,7 +3,7 @@
 include("../Admin/checkout_admin.php");
 
 if($admin_true) {
-    include '../Admin/admin_navbar.php'; // Ruta relativa correcta
+    include '../Admin/admin_navbar.php'; 
 }
 ?>
 <!DOCTYPE html>
