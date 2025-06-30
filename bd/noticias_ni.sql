@@ -26,7 +26,7 @@ CREATE TABLE usuarios (
 -- Insertar usuarios iniciales
 INSERT INTO usuarios (nombre, apellido, correo, contrasena, rol_id) VALUES 
 ('Admin', 'Principal', 'admin@noticias.com', '$2y$10$qYxSXf0fdN7U2jYRH5km.Oto7D.scGNkf7iV2Njx0w5OAjpJG/V6C', 0),
-('Usuario', 'Normal', 'usuario@noticias.com', '$2y$10$UQzAKggPNER4FaQwjmv2te2cIbYP2HfRENdS.cUKfNXnXnTBvKT5C', 1);
+('Usuario', 'Normal' , 'usuario@noticias.com', '$2y$10$UQzAKggPNER4FaQwjmv2te2cIbYP2HfRENdS.cUKfNXnXnTBvKT5C', 1);
 
 -- Tabla de categorías
 CREATE TABLE categorias (
