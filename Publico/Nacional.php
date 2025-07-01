@@ -1,14 +1,13 @@
 <?php
 include 'navar.php';
 include '../bd/conexion.php';
-
 include("../Admin/checkout_admin.php");
 
-if($admin_true) {
-    include '../Admin/admin_navbar.php'; // Ruta relativa correcta
+if ($admin_true) {
+    include '../Admin/admin_navbar.php';
 }
 
-// Obtener noticias nacionales publicadas
+// Obtener todas las noticias nacionales publicadas (sin paginación SQL)
 $sql = "SELECT n.*, u.nombre as autor_nombre, u.apellido as autor_apellido, 
                c.nombre as categoria_nombre, c.color as categoria_color
         FROM noticias n
@@ -19,6 +18,22 @@ $sql = "SELECT n.*, u.nombre as autor_nombre, u.apellido as autor_apellido,
         ORDER BY n.fecha_publicacion DESC";
 
 $noticias = $conn->query($sql);
+
+// Preparar noticias para JSON
+$noticias_array = [];
+while ($noticia = $noticias->fetch_assoc()) {
+    $noticias_array[] = [
+        'id' => $noticia['id'],
+        'titulo' => $noticia['titulo'],
+        'imagen' => '../imagenes/' . $noticia['imagen_portada'],
+        'resumen' => $noticia['resumen'],
+        'tipo' => 'nacional',
+        'fecha' => $noticia['fecha_publicacion'],
+        'categoria_nombre' => $noticia['categoria_nombre'],
+        'categoria_color' => $noticia['categoria_color'],
+        'enlace' => 'noticia_completa.php?id=' . $noticia['id']
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,54 +65,26 @@ $noticias = $conn->query($sql);
     </section>
 
     <div class="container">
-        <div class="row news-container">
-            <?php while ($noticia = $noticias->fetch_assoc()): ?>
-                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                    <div class="news">
-                        <div class="imagen">
-                            <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>"
-                                alt="<?= htmlspecialchars($noticia['titulo']) ?>">
-                        </div>
-                        <div class="contenido-noticia">
-                            <div class="contenido-etiqueta mb-2">
-                                <span class="categoria" style="background: <?= $noticia['categoria_color'] ?>">
-                                    <?= htmlspecialchars($noticia['categoria_nombre']) ?>
-                                </span>
-                                <span class="tipo">Nacional</span>
-                            </div>
-                            <h3><?= htmlspecialchars($noticia['titulo']) ?></h3>
-                            <p><?= htmlspecialchars($noticia['resumen']) ?></p>
-                            <div class="metas mb-1">
-                                <span><i class="far fa-clock"></i>
-                                    <?= fecha_relativa($noticia['fecha_publicacion']) ?>
-                                </span>
-                                <a href="noticia_completa.php?id=<?= $noticia['id'] ?>" class="vermas">Ver más</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endwhile; ?>
+        <div class="row news-container" id="news-container">
         </div>
 
-        <!-- Paginación (puedes implementarla según necesidad) -->
         <div class="row">
             <div class="pagination-container mb-5">
                 <ul class="pagination" id="pagination">
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const noticiasData = <?php echo json_encode($noticias_array); ?>;
+    </script>
     <script src="../js/nacionales.js"></script>
 
     <?php
     include 'footer.php';
 
-    // Función para mostrar fecha relativa
     function fecha_relativa($fecha)
     {
         $ahora = new DateTime();
@@ -115,27 +102,3 @@ $noticias = $conn->query($sql);
 </body>
 
 </html>
-
-<?php
-// Función para mostrar el tiempo transcurrido
-function tiempo_transcurrido($fecha)
-{
-    $fecha = new DateTime($fecha);
-    $ahora = new DateTime();
-    $diferencia = $ahora->diff($fecha);
-
-    if ($diferencia->y > 0) {
-        return "Hace " . $diferencia->y . " año" . ($diferencia->y > 1 ? "s" : "");
-    } elseif ($diferencia->m > 0) {
-        return "Hace " . $diferencia->m . " mes" . ($diferencia->m > 1 ? "es" : "");
-    } elseif ($diferencia->d > 0) {
-        return "Hace " . $diferencia->d . " día" . ($diferencia->d > 1 ? "s" : "");
-    } elseif ($diferencia->h > 0) {
-        return "Hace " . $diferencia->h . " hora" . ($diferencia->h > 1 ? "s" : "");
-    } elseif ($diferencia->i > 0) {
-        return "Hace " . $diferencia->i . " minuto" . ($diferencia->i > 1 ? "s" : "");
-    } else {
-        return "Hace unos segundos";
-    }
-}
-?>

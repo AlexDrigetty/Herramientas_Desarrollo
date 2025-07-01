@@ -4,7 +4,7 @@
 require_once '../bd/conexion.php';
 
 // Configuración de paginación
-$noticias_por_pagina = 7;
+$noticias_por_pagina = 10;
 $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $noticias_por_pagina;
 
@@ -56,7 +56,7 @@ if (!$noticias) {
 <body>
     <main>
         <?php include 'slider.php'; ?>
-
+<div id="main-content">
         <div class="todo">
             <div class="boto mb-4">
                 <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
@@ -77,6 +77,7 @@ if (!$noticias) {
                 <table class="table table-striped">
                     <thead class="table-dark">
                         <tr>
+                            <th>IMAGEN </th>
                             <th>TÍTULO</th>
                             <th>CATEGORÍA</th>
                             <th>ESTADO</th>
@@ -158,6 +159,7 @@ if (!$noticias) {
                 </ul>
             </div>
         </div>
+</div>
     </main>
 
     <!-- Modal de edición de noticia -->
@@ -243,10 +245,10 @@ if (!$noticias) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                             <i class="fa fa-times me-2"></i> Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primary" id="btn-guardar-cambios">
+                        <button type="submit" class="btn btn-primary" style="background-color: #003366;" id="btn-guardar-cambios">
                             <i class="fa fa-save me-2"></i> Guardar Cambios
                         </button>
                     </div>
@@ -271,7 +273,7 @@ if (!$noticias) {
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>Cancelar
                     </button>
-                    <a id="confirmDeleteBtn" href="#" class="btn btn-primary" style="background-color: #003366; border-color: #003366;">
+                    <a id="confirmDeleteBtn" href="#" class="btn btn-danger" style="background-color: #003366; border-color: #003366;">
                         <i class="fas fa-trash-alt me-2"></i>Eliminar
                     </a>
                 </div>

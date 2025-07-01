@@ -41,70 +41,71 @@ $noticias = $conn->query($sql);
 <body>
     <main>
         <?php include 'slider.php'; ?>
-
-        <div class="todo">
-            <div class="boto mb-4">
-                <a href="Crear_Noticias.php" class="crear">
-                    <i class="fa fa-plus me-2"></i> Crear Noticia
-                </a>
-            </div>
-
-            <?php if ($success): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($success) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div id="main-content">
+            <div class="todo">
+                <div class="boto mb-4">
+                    <a href="Crear_Noticias.php" class="crear">
+                        <i class="fa fa-plus me-2"></i> Crear Noticia
+                    </a>
                 </div>
-            <?php endif; ?>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($error) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php endif; ?>
+                <?php if ($success): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($success) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Fecha Programada</th>
-                            <th>Autor</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($noticias->num_rows > 0): ?>
-                            <?php while ($noticia = $noticias->fetch_assoc()): ?>
+                <?php if ($error): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= htmlspecialchars($error) ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Título</th>
+                                <th>Categoría</th>
+                                <th>Fecha Programada</th>
+                                <th>Autor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($noticias->num_rows > 0): ?>
+                                <?php while ($noticia = $noticias->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($noticia['titulo']) ?></td>
+                                        <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
+                                        <td><?= $noticia['fecha_programada_formatted'] ?></td>
+                                        <td><?= htmlspecialchars($noticia['autor']) ?></td>
+                                        <td>
+                                            <a href="../funciones/publicar_ahora.php?id=<?= $noticia['id'] ?>" class="btn btn-sm publicar" title="Publicar ahora">
+                                                <i class="fas fa-paper-plane"></i>
+                                            </a>
+                                            <button class="editar" title="Editar" data-id="<?= $noticia['id'] ?>" data-bs-toggle="modal" data-bs-target="#editarNoticiaModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="eliminar" title="Eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($noticia['titulo']) ?></td>
-                                    <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
-                                    <td><?= $noticia['fecha_programada_formatted'] ?></td>
-                                    <td><?= htmlspecialchars($noticia['autor']) ?></td>
-                                    <td>
-                                        <a href="../funciones/publicar_ahora.php?id=<?= $noticia['id'] ?>" class="btn btn-sm publicar" title="Publicar ahora">
-                                            <i class="fas fa-paper-plane"></i>
-                                        </a>
-                                        <button class="editar" title="Editar" data-id="<?= $noticia['id'] ?>" data-bs-toggle="modal" data-bs-target="#editarNoticiaModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="eliminar" title="Eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <i class="fas fa-calendar-times fa-2x mb-3"></i><br>
+                                        No hay noticias programadas actualmente
                                     </td>
                                 </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
-                                    <i class="fas fa-calendar-times fa-2x mb-3"></i><br>
-                                    No hay noticias programadas actualmente
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>

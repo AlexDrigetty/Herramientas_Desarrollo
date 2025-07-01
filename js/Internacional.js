@@ -182,61 +182,58 @@ function mostrarNoticias() {
     actualizarPaginacion();
 }
 
-// Función para actualizar la paginación optimizada
 function actualizarPaginacion() {
-    const pagination = document.getElementById('pagination');
-    if (!pagination) return;
-
-    const noticiasTotales = enModoBusqueda ? noticiasFiltradas : noticiasCompletas;
+    const noticiasTotales = enModoBusqueda ? noticiasFiltradas : noticiasData;
     const totalPaginas = Math.ceil(noticiasTotales.length / noticiasPorPagina);
 
-    if (totalPaginas <= 1) {
-        pagination.style.display = 'none';
-        return;
-    }
-
-    pagination.style.display = 'flex';
     pagination.innerHTML = '';
 
-    // Calcular rango de páginas a mostrar (máximo 10 páginas)
-    let inicio = Math.max(1, paginaActual - Math.floor(paginasAMostrar / 2));
-    let fin = Math.min(totalPaginas, inicio + paginasAMostrar - 1);
-
-    if (fin - inicio + 1 < paginasAMostrar) {
-        inicio = Math.max(1, fin - paginasAMostrar + 1);
-    }
-
-    // Botón Anterior
     pagination.appendChild(crearBotonPaginacion(
-        'Anterior', paginaActual === 1, () => {
-            if (paginaActual > 1) cambiarPagina(paginaActual - 1);
-        }
+        'Anterior',
+        false, 
+        () => cambiarPagina(paginaActual - 1),
+        false,
+        paginaActual === 1 
     ));
 
-    // Páginas
+    let inicio = Math.max(1, paginaActual - 2);
+    let fin = Math.min(totalPaginas, paginaActual + 2);
+
     for (let i = inicio; i <= fin; i++) {
         pagination.appendChild(crearBotonPaginacion(
-            i, i === paginaActual, () => cambiarPagina(i)
+            i,
+            i === paginaActual,
+            () => cambiarPagina(i),
+            true
         ));
     }
 
-    // Botón Siguiente
     pagination.appendChild(crearBotonPaginacion(
-        'Siguiente', paginaActual === totalPaginas, () => {
-            if (paginaActual < totalPaginas) cambiarPagina(paginaActual + 1);
-        }
+        'Siguiente',
+        false, 
+        () => cambiarPagina(paginaActual + 1),
+        false,
+        paginaActual === totalPaginas 
     ));
 }
 
-// Función auxiliar para crear botones de paginación
-function crearBotonPaginacion(texto, disabled, onClick) {
+function crearBotonPaginacion(texto, esActivo, onClick, esNumero = true, disabled = false) {
     const li = document.createElement('li');
-    li.className = `page-item ${disabled ? 'disabled' : ''}`;
-    li.innerHTML = `<a class="page-link" href="#">${texto}</a>`;
-    li.addEventListener('click', (e) => {
-        e.preventDefault();
-        onClick();
-    });
+    li.className = `page-item ${esActivo ? 'active' : ''} ${esNumero ? 'number-page' : ''} ${disabled ? 'disabled' : ''}`;
+    
+    const link = document.createElement('a');
+    link.className = 'page-link';
+    link.href = '#';
+    link.textContent = texto;
+    
+    if (!disabled) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!esActivo) onClick();
+        });
+    }
+    
+    li.appendChild(link);
     return li;
 }
 

@@ -93,7 +93,7 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
         const configCategorias = {
             'general': {
                 nombreES: 'general',
-                claseCSS: '',
+                claseCSS: 'general',
                 imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
                 query: 'mundo'
             },
@@ -230,58 +230,69 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
             actualizarPaginacion();
         }
 
-        function actualizarPaginacion() {
+function actualizarPaginacion() {
             const pagination = document.getElementById('pagination');
             if (!pagination) return;
 
             const noticiasTotales = enModoBusqueda ? noticiasFiltradas : noticiasCompletas;
             const totalPaginas = Math.ceil(noticiasTotales.length / noticiasPorPagina);
 
-            if (totalPaginas <= 1) {
-                pagination.style.display = 'none';
-                return;
-            }
-
-            pagination.style.display = 'flex';
             pagination.innerHTML = '';
 
+            // Botón Anterior - SIEMPRE visible
+            pagination.appendChild(crearBotonPaginacion(
+                'Anterior',
+                false, // No es activo
+                () => cambiarPagina(paginaActual - 1),
+                false, // No es número
+                paginaActual === 1 // Deshabilitado en primera página
+            ));
+
+            // Números de página
             let inicio = Math.max(1, paginaActual - Math.floor(paginasAMostrar / 2));
-            let fin = Math.min(totalPaginas, inicio + paginasAMostrar - 1);
+            let fin = Math.min(totalPaginas, paginaActual + Math.floor(paginasAMostrar / 2));
 
             if (fin - inicio + 1 < paginasAMostrar) {
                 inicio = Math.max(1, fin - paginasAMostrar + 1);
             }
 
-            // Botón Anterior
-            pagination.appendChild(crearBotonPaginacion(
-                'Anterior', paginaActual === 1, () => {
-                    if (paginaActual > 1) cambiarPagina(paginaActual - 1);
-                }
-            ));
-
-            // Páginas
             for (let i = inicio; i <= fin; i++) {
                 pagination.appendChild(crearBotonPaginacion(
-                    i, i === paginaActual, () => cambiarPagina(i)
+                    i,
+                    i === paginaActual, // Activo si es la página actual
+                    () => cambiarPagina(i),
+                    true // Es número
                 ));
             }
 
-            // Botón Siguiente
+            // Botón Siguiente - SIEMPRE visible
             pagination.appendChild(crearBotonPaginacion(
-                'Siguiente', paginaActual === totalPaginas, () => {
-                    if (paginaActual < totalPaginas) cambiarPagina(paginaActual + 1);
-                }
+                'Siguiente',
+                false, // No es activo
+                () => cambiarPagina(paginaActual + 1),
+                false, // No es número
+                paginaActual === totalPaginas // Deshabilitado en última página
             ));
         }
 
-        function crearBotonPaginacion(texto, disabled, onClick) {
+        // Función para crear botones de paginación (MODIFICADA)
+        function crearBotonPaginacion(texto, esActivo, onClick, esNumero = true, disabled = false) {
             const li = document.createElement('li');
-            li.className = `page-item ${disabled ? 'disabled' : ''}`;
-            li.innerHTML = `<a class="page-link" href="#">${texto}</a>`;
-            li.addEventListener('click', (e) => {
-                e.preventDefault();
-                onClick();
-            });
+            li.className = `page-item ${esActivo ? 'active' : ''} ${esNumero ? 'number-page' : ''} ${disabled ? 'disabled' : ''}`;
+            
+            const link = document.createElement('a');
+            link.className = 'page-link';
+            link.href = '#';
+            link.textContent = texto;
+            
+            if (!disabled) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    onClick();
+                });
+            }
+            
+            li.appendChild(link);
             return li;
         }
 

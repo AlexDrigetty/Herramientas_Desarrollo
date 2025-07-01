@@ -24,6 +24,7 @@ $recientes = $conn->query("
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,111 +32,113 @@ $recientes = $conn->query("
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-        <link rel="stylesheet" href="../Css/admin.css">
+    <link rel="stylesheet" href="../Css/admin.css">
 </head>
 
 <body>
     <main>
         <?php include 'slider.php'; ?>
-        <div class="panel_control">
-            <div class="title mb-3">
-                <h3>Panel de Control</h3>
-                <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
+        <div id="main-content">
+            <div class="panel_control ">
+                <div class="title mb-3">
+                    <h3>Panel de Control</h3>
+                    <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="cads-news">
+                        <div class="cards-header">
+                            <h5>NOTICIAS TOTALES</h5>
+                            <i class="fa fa-newspaper"></i>
+                        </div>
+                        <div class="cards-body">
+                            <span><?= $total_noticias ?></span>
+                        </div>
+                    </div>
+
+                    <div class="cads-news">
+                        <div class="cards-header">
+                            <h5>PENDIENTES</h5>
+                            <i class="fa fa-clock"></i>
+                        </div>
+                        <div class="cards-body">
+                            <span><?= $pendientes ?></span>
+                        </div>
+                    </div>
+
+                    <div class="cads-news">
+                        <div class="cards-header">
+                            <h5>PROGRAMADAS</h5>
+                            <i class="fa fa-calendar-check"></i>
+                        </div>
+                        <div class="cards-body">
+                            <span><?= $programadas ?></span>
+                        </div>
+                    </div>
+
+                    <div class="cads-news">
+                        <div class="cards-header">
+                            <h5>PUBLICADAS HOY</h5>
+                            <i class="fa fa-check-circle"></i>
+                        </div>
+                        <div class="cards-body">
+                            <span><?= $publicadas_hoy ?></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="dashboard-cards">
-                <div class="cads-news">
-                    <div class="cards-header">
-                        <h5>NOTICIAS TOTALES</h5>
-                        <i class="fa fa-newspaper"></i>
-                    </div>
-                    <div class="cards-body">
-                        <span><?= $total_noticias ?></span>
-                    </div>
+            <div class="recent py-2">
+                <div class="recent-top">
+                    <h3>Noticias Recientes</h3>
+                    <a href="Todas_Noticias.php" class="ver-todas">Ver Todo</a>
                 </div>
 
-                <div class="cads-news">
-                    <div class="cards-header">
-                        <h5>PENDIENTES</h5>
-                        <i class="fa fa-clock"></i>
-                    </div>
-                    <div class="cards-body">
-                        <span><?= $pendientes ?></span>
-                    </div>
-                </div>
-                
-                <div class="cads-news">
-                    <div class="cards-header">
-                        <h5>PROGRAMADAS</h5>
-                        <i class="fa fa-calendar-check"></i>
-                    </div>
-                    <div class="cards-body">
-                        <span><?= $programadas ?></span>
-                    </div>
-                </div>
-
-                <div class="cads-news">
-                    <div class="cards-header">
-                        <h5>PUBLICADAS HOY</h5>
-                        <i class="fa fa-check-circle"></i>
-                    </div>
-                    <div class="cards-body">
-                        <span><?= $publicadas_hoy ?></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="recent py-2">
-            <div class="recent-top">
-                <h3>Noticias Recientes</h3>
-                <a href="Todas_Noticias.php" class="ver-todas">Ver Todo</a>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>TÍTULO</th>
-                        <th>TIPO</th>
-                        <th>CATEGORIA</th>
-                        <th>FECHA</th>
-                        <th>ESTADO</th>
-                        <th>ACCIONES</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php if ($recientes->num_rows > 0): ?>
-                        <?php while($noticia = $recientes->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= htmlspecialchars(substr($noticia['titulo'], 0, 50)) ?><?= strlen($noticia['titulo']) > 50 ? '...' : '' ?></td>
-                                <td><?= ucfirst($noticia['tipo_noticia']) ?></td>
-                                <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
-                                <td><?= $noticia['fecha_formateada'] ?></td>
-                                <td>
-                                    <?php if ($noticia['estado_id'] == 1): ?>
-                                        <span class="pendiente">Pendiente</span>
-                                    <?php elseif ($noticia['estado_id'] == 2): ?>
-                                        <span class="programada">Programada</span>
-                                    <?php else: ?>
-                                        <span class="publicada">Publicada</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <a href="../funciones/editar_noticia.php?id=<?= $noticia['id'] ?>" class="editar"><i class="fa fa-edit"></i></a>
-                                    <button class="eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td colspan="6" class="text-center">No hay noticias recientes</td>
+                            <th>TÍTULO</th>
+                            <th>TIPO</th>
+                            <th>CATEGORIA</th>
+                            <th>FECHA</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        <?php if ($recientes->num_rows > 0): ?>
+                            <?php while ($noticia = $recientes->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars(substr($noticia['titulo'], 0, 50)) ?><?= strlen($noticia['titulo']) > 50 ? '...' : '' ?></td>
+                                    <td><?= ucfirst($noticia['tipo_noticia']) ?></td>
+                                    <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
+                                    <td><?= $noticia['fecha_formateada'] ?></td>
+                                    <td>
+                                        <?php if ($noticia['estado_id'] == 1): ?>
+                                            <span class="pendiente">Pendiente</span>
+                                        <?php elseif ($noticia['estado_id'] == 2): ?>
+                                            <span class="programada">Programada</span>
+                                        <?php else: ?>
+                                            <span class="publicada">Publicada</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="../funciones/editar_noticia.php?id=<?= $noticia['id'] ?>" class="editar"><i class="fa fa-edit"></i></a>
+                                        <button class="eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No hay noticias recientes</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
@@ -171,11 +174,12 @@ $recientes = $conn->query("
             confirmDeleteModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 const noticiaId = button.getAttribute('data-id');
-                
+
                 const deleteBtn = document.getElementById('confirmDeleteBtn');
                 deleteBtn.href = `../funciones/eliminar_noticia.php?id=${noticiaId}`;
             });
         }
     </script>
 </body>
+
 </html>
