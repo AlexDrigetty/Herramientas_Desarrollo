@@ -37,7 +37,7 @@ $noticias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <small>Por <?= htmlspecialchars($noticia['autor']) ?> | 
                         <?= date('d/m/Y', strtotime($noticia['fecha_publicacion'])) ?>
                     </small>
-                    <a href="noticp.php?slug=<?= urlencode($noticia['slug']) ?>" class="ver-mas">Ver más</a>
+                    <a href="noticia_completa.php?slug=<?= urlencode($noticia['slug']) ?>" class="ver-mas">Ver más</a>
                 </div>
             </div>
             
