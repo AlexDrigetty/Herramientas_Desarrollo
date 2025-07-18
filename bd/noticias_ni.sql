@@ -77,3 +77,28 @@ CREATE TABLE noticias (
     FOREIGN KEY (estado_id) REFERENCES estados_noticia(id),
     FULLTEXT INDEX (titulo, resumen, contenido)
 );
+
+-- Tabla para comentarios
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contenido TEXT NOT NULL,
+    usuario_id INT NOT NULL,
+    noticia_id INT NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('activo', 'oculto', 'eliminado') DEFAULT 'activo',
+    comentario_padre_id INT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (noticia_id) REFERENCES noticias(id) ON DELETE CASCADE,
+    FOREIGN KEY (comentario_padre_id) REFERENCES comentarios(id) ON DELETE SET NULL
+);
+
+-- Tabla para votos/likes de comentarios (opcional)
+CREATE TABLE votos_comentarios (
+    usuario_id INT NOT NULL,
+    comentario_id INT NOT NULL,
+    tipo ENUM('like', 'dislike') NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (usuario_id, comentario_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (comentario_id) REFERENCES comentarios(id) ON DELETE CASCADE
+);
