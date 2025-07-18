@@ -98,3 +98,6 @@ while ($comentario = $result->fetch_assoc()):
         </button>
     </div>
 <?php endif; ?>
+<script>
+    const usuarioLogueado = <?= isset($_SESSION['usuario_id']) ? 'true' : 'false' ?>;
+</script>

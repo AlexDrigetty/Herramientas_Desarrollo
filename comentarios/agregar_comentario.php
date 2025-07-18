@@ -31,3 +31,6 @@ $stmt->execute();
 header("Location: ../noticia.php?id=$noticia_id#comentarios");
 exit;
 ?>
+<script>
+    const usuarioLogueado = <?= isset($_SESSION['usuario_id']) ? 'true' : 'false' ?>;
+</script>
