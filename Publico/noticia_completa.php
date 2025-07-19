@@ -63,10 +63,17 @@ $destacados = $pdo->query("
                     <span><i class="far fa-user"></i> <?= htmlspecialchars($noticia['autor']) ?> <?= htmlspecialchars($noticia['apellido']) ?></span>
                 </div>
                 
-                <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
-                     alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
-                     class="imagen-detalle">
-                     
+                <?php if (!empty($noticia['imagen_portada']) && file_exists("../imagenes/" . $noticia['imagen_portada'])): ?>
+                    <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
+                        alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
+                        class="imagen-detalle">
+                <?php else: ?>
+                    <div class="imagen-default imagen-detalle">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Noticia sin imagen</span>
+                    </div>
+                <?php endif; ?>
+                    
                 <div class="contenido">
                     <?= nl2br(htmlspecialchars($noticia['contenido'])) ?>
                 </div>
