@@ -49,6 +49,8 @@ $destacados = $pdo->query("
 </head>
 <body>
     <div class="contenedor-principal">
+
+    
         <!-- Columna principal con la noticia -->
         <div class="columna-noticia">
             <article class="detalle-noticia">
@@ -128,6 +130,9 @@ $destacados = $pdo->query("
             </div>
         </div>
     </div>
+    
+    <script src="../js/comentarios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
     <?php include 'footer.php'; ?>
 </body>
