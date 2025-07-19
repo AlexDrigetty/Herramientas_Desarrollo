@@ -93,16 +93,38 @@ if ($accion == 'programar') {
     $fecha_prog = null;
 }
 
-// Insertar en la base de datos
+// Antes de la inserción, genera un slug único basado en el título
+function generarSlug($titulo) {
+    $slug = strtolower(trim($titulo));
+    $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);
+    $slug = preg_replace('/-+/', '-', $slug);
+    return $slug;
+}
+
+$slug = generarSlug($titulo);
+
+// Asegurar que el slug sea único
+$slugOriginal = $slug;
+$contador = 1;
+while (true) {
+    $check = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE slug = '$slug'");
+    $existe = $check->fetch_assoc()['total'];
+    
+    if ($existe == 0) break;
+    
+    $slug = $slugOriginal . '-' . $contador;
+    $contador++;
+}
+
 $sql = "INSERT INTO noticias (
-        titulo, resumen, contenido, autor_id, categoria_id, 
+        titulo, slug, resumen, contenido, autor_id, categoria_id, 
         tipo_noticia, estado_id, imagen_portada, fecha_publicacion, fecha_programada
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // Añadido slug
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "sssiisssss", 
-    $titulo, $resumen, $contenido, $autor_id, $categoria_id,
+    "ssssiisssss", // Añadida una 's' más para el slug
+    $titulo, $slug, $resumen, $contenido, $autor_id, $categoria_id,
     $tipo_noticia, $estado_id, $imagen_nombre, $fecha_pub, $fecha_prog
 );
 
