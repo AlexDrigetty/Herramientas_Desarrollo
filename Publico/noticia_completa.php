@@ -110,7 +110,7 @@ $destacados = $pdo->query("
                 
                 <?php foreach ($destacados as $destacado): ?>
                     <div class="noticia-destacada">
-                        <a href="noticia.php?id=<?= $destacado['id'] ?>">
+                        <a href="noticia_completa.php?id=<?= $destacado['id'] ?>">
                             <img src="../imagenes/<?= htmlspecialchars($destacado['imagen_portada']) ?>" 
                                  alt="<?= htmlspecialchars($destacado['titulo']) ?>">
                             <h3><?= htmlspecialchars($destacado['titulo']) ?></h3>
