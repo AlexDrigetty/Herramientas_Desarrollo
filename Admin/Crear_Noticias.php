@@ -26,16 +26,16 @@
                     <div class="row box-1">
                         <div class="col-md-7">
                             <div class="box-content mb-3">
-                                <label for="titulo" class="form-label">TITULO</label>
+                                <label for="titulo" class="form-label mb-2">TITULO</label>
                                 <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Ingrese Titulo" required>
                             </div>
                             <div class="box-content mb-3">
-                                <label for="resumen" class="form-label">RESUMEN</label>
+                                <label for="resumen" class="form-label mb-2">RESUMEN</label>
                                 <textarea name="resumen" id="resumen" class="form-control" placeholder="Ingrese breve resumen de la noticia" rows="3" required></textarea>
                             </div>
 
                             <div class="box-content">
-                                <label for="contenido" class="form-label">CONTENIDO</label>
+                                <label for="contenido" class="form-label mb-2">CONTENIDO</label>
                                 <div id="editor" style="height: 320px; background-color: white;"></div>
                                 <textarea id="contenido" name="contenido" style="display:none;" required></textarea>
                             </div>
@@ -43,7 +43,7 @@
 
                         <div class="col-md-5">
                             <div class="box-content mb-4">
-                                <label class="form-label">FOTO DE PORTADA</label>
+                                <label class="form-label mb-2">FOTO DE PORTADA</label>
                                 <input type="file" id="portada" name="portada" accept="image/*" style="display: none;" required>
                                 <div class="image-upload-container" id="image-upload-container">
                                     <div class="image-preview" id="image-preview">
@@ -59,7 +59,7 @@
                             <div class="row content mb-3">
                                 <div class="col-md-6">
                                     <div class="tipo-noticia">
-                                        <label for="tipo_noticia" class="form-label">TIPO DE NOTICIA</label>
+                                        <label for="tipo_noticia" class="form-label mb-2">TIPO DE NOTICIA</label>
                                         <select name="tipo_noticia" id="tipo_noticia" class="form-select" required>
                                             <option value="">Seleccione tipo</option>
                                             <option value="nacional">Nacional</option>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="categoria">
-                                        <label for="categoria" class="form-label">CATEGORIA</label>
+                                        <label for="categoria" class="form-label mb-2">CATEGORIA</label>
                                         <select name="categoria" id="categoria" class="form-select" required>
                                             <option value="">Seleccione una categoria</option>
                                             <option value="politica">Política</option>

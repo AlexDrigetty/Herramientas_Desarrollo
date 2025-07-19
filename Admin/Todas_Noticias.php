@@ -56,62 +56,63 @@ if (!$noticias) {
 <body>
     <main>
         <?php include 'slider.php'; ?>
-<div id="main-content">
-        <div class="todo">
-            <div class="boto mb-4">
-                <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
-                <a href="Programar_Noticias.php" class="crear"><i class="fa fa-clock"></i> Ver Programadas</a>
-            </div>
+        <div id="main-content">
+            <div class="todo">
+                <div class="boto mb-4">
+                    <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
+                    <a href="Programar_Noticias.php" class="crear"><i class="fa fa-clock"></i> Ver Programadas</a>
+                </div>
 
-            <?php if (isset($_GET['success'])): ?>
-                <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['success'])): ?>
-                <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
-            <?php endif; ?>
+                <?php if (isset($_GET['success'])): ?>
+                    <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success"><?= htmlspecialchars($_SESSION['success']);
+                                                        unset($_SESSION['success']); ?></div>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']);
+                                                    unset($_SESSION['error']); ?></div>
+                <?php endif; ?>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>IMAGEN </th>
-                            <th>TÍTULO</th>
-                            <th>CATEGORÍA</th>
-                            <th>ESTADO</th>
-                            <th>FECHA</th>
-                            <th>ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($noticias->num_rows > 0): ?>
-                            <?php while ($noticia = $noticias->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($noticia['titulo']) ?></td>
-                                    <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
-                                    <td>
-                                        <?php if ($noticia['estado_id'] == 3): ?>
-                                            <span class="publicada">Publicada</span>
-                                        <?php elseif ($noticia['estado_id'] == 2): ?>
-                                            <span class="programada">Programada</span>
-                                        <?php else: ?>
-                                            <span class="pendiente">Pendiente</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php 
-                                        if ($noticia['estado_id'] == 3) {
-                                            echo $noticia['fecha_publicada'];
-                                        } elseif ($noticia['estado_id'] == 2) {
-                                            echo $noticia['fecha_programada'];
-                                        } else {
-                                            echo date('d/m/Y H:i', strtotime($noticia['fecha_creacion']));
-                                        }
-                                        ?>
-                                    </td>
-                                    <td>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>TÍTULO</th>
+                                <th>CATEGORÍA</th>
+                                <th>ESTADO</th>
+                                <th>FECHA</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($noticias->num_rows > 0): ?>
+                                <?php while ($noticia = $noticias->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($noticia['titulo']) ?></td>
+                                        <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
+                                        <td>
+                                            <?php if ($noticia['estado_id'] == 3): ?>
+                                                <span class="publicada">Publicada</span>
+                                            <?php elseif ($noticia['estado_id'] == 2): ?>
+                                                <span class="programada">Programada</span>
+                                            <?php else: ?>
+                                                <span class="pendiente">Pendiente</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($noticia['estado_id'] == 3) {
+                                                echo $noticia['fecha_publicada'];
+                                            } elseif ($noticia['estado_id'] == 2) {
+                                                echo $noticia['fecha_programada'];
+                                            } else {
+                                                echo date('d/m/Y H:i', strtotime($noticia['fecha_creacion']));
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
                                             <?php if ($noticia['estado_id'] == 2): ?>
                                                 <a href="../funciones/publicar_ahora.php?id=<?= $noticia['id'] ?>" class="btn btn-sm publicar" title="Publicar ahora">
                                                     <i class="fa fa-paper-plane"></i>
@@ -123,43 +124,43 @@ if (!$noticias) {
                                             <button class="eliminar" title="Eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
                                                 <i class="fa fa-trash"></i>
                                             </button>
-                                    </td>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay noticias disponibles</td>
                                 </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" class="text-center">No hay noticias disponibles</td>
-                            </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación mejorada -->
+                <div class="pagination-container">
+                    <ul class="pagination">
+                        <?php if ($pagina_actual > 1): ?>
+                            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual - 1 ?>">&laquo; Anterior</a></li>
                         <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
 
-            <!-- Paginación mejorada -->
-            <div class="pagination-container">
-                <ul class="pagination">
-                    <?php if ($pagina_actual > 1): ?>
-                        <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual - 1 ?>">&laquo; Anterior</a></li>
-                    <?php endif; ?>
+                        <?php
+                        // Mostrar hasta 5 páginas alrededor de la actual
+                        $inicio = max(1, $pagina_actual - 2);
+                        $fin = min($total_paginas, $pagina_actual + 2);
 
-                    <?php
-                    // Mostrar hasta 5 páginas alrededor de la actual
-                    $inicio = max(1, $pagina_actual - 2);
-                    $fin = min($total_paginas, $pagina_actual + 2);
+                        for ($i = $inicio; $i <= $fin; $i++): ?>
+                            <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
+                                <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                            </li>
+                        <?php endfor; ?>
 
-                    for ($i = $inicio; $i <= $fin; $i++): ?>
-                        <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
-                            <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
-                        </li>
-                    <?php endfor; ?>
-
-                    <?php if ($pagina_actual < $total_paginas): ?>
-                        <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual + 1 ?>">Siguiente &raquo;</a></li>
-                    <?php endif; ?>
-                </ul>
+                        <?php if ($pagina_actual < $total_paginas): ?>
+                            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual + 1 ?>">Siguiente &raquo;</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
         </div>
-</div>
     </main>
 
     <!-- Modal de edición de noticia -->
@@ -173,7 +174,7 @@ if (!$noticias) {
                 <form id="form-editar-noticia" action="../funciones/actualizar_noticia.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="noticia-id">
                     <input type="hidden" name="accion" id="accion-hidden" value="publicar">
-                    
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-7">
@@ -291,10 +292,20 @@ if (!$noticias) {
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{'header': [1, 2, 3, false]}],
+                    [{
+                        'header': [1, 2, 3, false]
+                    }],
                     ['bold', 'italic', 'underline', 'strike'],
-                    [{'color': []}, {'background': []}],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{
+                        'color': []
+                    }, {
+                        'background': []
+                    }],
+                    [{
+                        'list': 'ordered'
+                    }, {
+                        'list': 'bullet'
+                    }],
                     ['link', 'image', 'video'],
                     ['clean']
                 ]
@@ -325,12 +336,14 @@ if (!$noticias) {
             editarNoticiaModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget; // Botón que disparó el modal
                 const noticiaId = button.getAttribute('data-id');
-                
+
                 // Mostrar cargando
                 document.getElementById('edit-titulo').value = 'Cargando...';
                 document.getElementById('edit-resumen').value = 'Cargando...';
-                editQuill.setContents([{ insert: 'Cargando...\n' }]);
-                
+                editQuill.setContents([{
+                    insert: 'Cargando...\n'
+                }]);
+
                 // Obtener datos de la noticia
                 fetch(`../funciones/obtener_noticia.php?id=${noticiaId}`)
                     .then(response => response.json())
@@ -339,10 +352,10 @@ if (!$noticias) {
                             alert(data.error);
                             return;
                         }
-                        
+
                         const noticia = data.noticia;
                         const categorias = data.categorias;
-                        
+
                         // Llenar los campos del formulario
                         document.getElementById('noticia-id').value = noticia.id;
                         document.getElementById('edit-titulo').value = noticia.titulo;
@@ -350,7 +363,7 @@ if (!$noticias) {
                         editQuill.root.innerHTML = noticia.contenido;
                         document.getElementById('edit-contenido').value = noticia.contenido;
                         document.getElementById('edit-tipo_noticia').value = noticia.tipo_noticia;
-                        
+
                         // Llenar categorías
                         const selectCategoria = document.getElementById('edit-categoria');
                         selectCategoria.innerHTML = '<option value="">Seleccione una categoria</option>';
@@ -361,14 +374,14 @@ if (!$noticias) {
                             option.selected = (categoria.id == noticia.categoria_id);
                             selectCategoria.appendChild(option);
                         });
-                        
+
                         // Configurar programación si existe
                         if (noticia.fecha_programada_format) {
                             document.getElementById('edit-programar-noticia').checked = true;
                             document.getElementById('edit-programacion-container').style.display = 'block';
                             document.getElementById('edit-fecha_programada').value = noticia.fecha_programada_format;
                         }
-                        
+
                         // Configurar vista previa de imagen actual
                         const preview = document.getElementById('edit-preview');
                         const placeholder = document.querySelector('#edit-image-preview .upload-placeholder');
@@ -387,15 +400,15 @@ if (!$noticias) {
                     });
             });
         }
-        
+
         // Control de la interfaz de programación en edición
         document.getElementById('edit-programar-noticia').addEventListener('change', function() {
             const programacionContainer = document.getElementById('edit-programacion-container');
-            
+
             if (this.checked) {
                 programacionContainer.style.display = 'block';
                 document.getElementById('accion-hidden').value = 'programar';
-                
+
                 // Mostrar el datetimepicker
                 if (window.flatpickrInstances && window.flatpickrInstances['edit-fecha_programada']) {
                     window.flatpickrInstances['edit-fecha_programada'].open();
@@ -499,4 +512,5 @@ if (!$noticias) {
         }
     </script>
 </body>
+
 </html>

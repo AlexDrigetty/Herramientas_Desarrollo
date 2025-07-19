@@ -53,7 +53,7 @@ body {
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 
     .slider-content {
-        background: var(--acento-rosa);
+        background: rgb(233, 153, 7);
         padding: 20px;
         width: 100%;
         color: white;
@@ -142,41 +142,11 @@ main {
     .navbar {
         background: var(--tarjetas);
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 25px;
+        justify-content: flex-end;
+        padding: 15px 25px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         position: sticky;
         top: 0;
-
-        .search {
-            position: relative;
-
-            i {
-                position: absolute;
-                font-size: 18px;
-                top: 12px;
-                left: 12px;
-                color: gray;
-            }
-
-            input {
-                padding: 10px 20px 10px 40px;
-                width: 350px;
-                max-width: 100%;
-                border: 1px solid var(--negro-600);
-                border-radius: 10px;
-                background-color: white;
-                color: var(--texto-blanco);
-                transition: all 0.3s ease;
-            }
-
-            input:focus {
-                outline: none;
-                border-color: var(--acento-morado);
-                box-shadow: 0 0 0 2px rgba(127, 90, 240, 0.2);
-            }
-        }
 
         .user-admin {
             display: flex;
@@ -216,17 +186,8 @@ main {
 
         .title {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-
-            h3 {
-                font-size: 25px;
-                font-weight: 600;
-            }
-
-            i {
-                margin-right: 10px;
-            }
 
             .crear {
                 background: var(--tarjetas);
@@ -235,10 +196,9 @@ main {
                 border-radius: 5px;
                 color: white;
                 font-weight: 600;
+                font-size: 12px;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
                 text-decoration: none;
             }
 
@@ -253,13 +213,13 @@ main {
     .dashboard-cards {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 10px;
+        gap: 20px;
 
         .cads-news {
             background-color: rgb(242, 236, 236, 0.4);
             border-radius: 5px;
             padding: 10px 20px;
-            height: 130px;
+            height: 160px;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -272,19 +232,29 @@ main {
                 align-items: center;
                 margin-bottom: 10px;
                 font-size: 18px;
+
+                h5,
+                i {
+                    font-size: 20px;
+                    color: #282B46;
+                    font-weight: 600;
+                }
             }
 
-            h5 {
-                color: rgb(0, 0, 0, 0.6);
-            }
+            .cards-body {
+                display: flex;
+                justify-content: space-around;
+                flex-direction: column;
+                gap: 30px;
 
-            i {
-                color: rgb(0, 0, 0, 0.2);
-            }
+                span {
+                    font-size: 25px;
+                    font-weight: bold;
+                }
 
-            span {
-                font-size: 25px;
-                color: rgb(0, 0, 0);
+                .stats-trend {
+                    font-weight: 600;
+                }
             }
         }
 
@@ -303,6 +273,8 @@ main {
         .cads-news:nth-child(4) {
             border-left-color: #ff0022;
         }
+
+
     }
 
     .recent,
@@ -340,7 +312,7 @@ main {
                 padding: 12px 25px;
                 border: none;
                 border-radius: 5px;
-                font-size: 14px;
+                font-size: 12px;
                 font-weight: 600;
                 color: white;
                 text-decoration: none;
@@ -358,14 +330,7 @@ main {
 
         .recent-top {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-
-            h3 {
-                font-size: 25px;
-                font-weight: 600;
-            }
+            justify-content: flex-end;
 
             .ver-todas {
                 padding: 10px 20px;
@@ -376,9 +341,8 @@ main {
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
                 text-decoration: none;
+                font-size: 12px;
             }
 
             .ver-todas:hover {
@@ -391,46 +355,39 @@ main {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            color: rgb(0, 0, 0, 0.8);
             overflow: hidden;
 
             th {
-                color: rgb(0, 0, 0, 0.8);
                 background-color: rgb(40, 43, 70, 0.9);
-                text-align: center;
-                padding: 15px;
-                border-bottom: 1px solid rgb(16, 16, 16, 0.6);
-                letter-spacing: 1px;
-                font-size: 14px;
                 color: white;
+                font-weight: bold;
+                padding: 16px;
+                text-align: center;
+                font-size: 14px;
+                letter-spacing: 0.5px;
             }
 
             td {
-                padding: 15px;
-                font-size: 16px;
+                padding: 15px 0;
+                font-size: 14px;
                 text-align: center;
-                font-weight: 600;
-                border-bottom: 1px solid rgb(16, 16, 16, 0.6);
+                border-bottom: 1px solid #eee;
             }
 
             .programada {
-                background-color: rgb(255, 165, 0, 0.2);
-                color: rgb(255, 165, 0);
-                padding: 5px 10px;
-                border-radius: 5px;
-                font-size: 15px;
-                font-weight: 500;
+                color: rgb(251, 182, 54);
+                font-size: 16px;
+                text-shadow: 0 1px 0px rgb(255, 187, 0);
+                font-weight: 600;
             }
 
             .publicada {
-                background-color: #D5F5E3;
                 color: rgb(24, 133, 24);
-                padding: 5px 10px;
-                border-radius: 5px;
-                font-size: 15px;
-                font-weight: 500;
+                font-size: 16px;
+                text-shadow: 0 1px 0px rgb(187, 187, 187);
+                font-weight: 600;
             }
 
             .publicar {
@@ -542,7 +499,7 @@ main {
             }
 
             label {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 600;
                 letter-spacing: 0.5px;
                 margin-bottom: 3px;
@@ -570,15 +527,15 @@ main {
 
         .botones {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
+            gap: 10px;
 
             button {
-                margin-left: 10px;
                 padding: 10px 15px;
                 border-radius: 5px;
-                font-size: 12px;
-                border: 1px solid;
+                font-size: 13px;
+                border: none;
                 color: white;
                 font-weight: bold;
                 cursor: pointer;
@@ -594,7 +551,7 @@ main {
             }
 
             button:nth-child(1) {
-                background-color: #2ecc71;
+                background-color: #04a346;
                 border-color: #2ecc71;
             }
 
@@ -605,12 +562,12 @@ main {
             }
 
             button:nth-child(3) {
-                background-color: #95a5a6;
+                background-color: #767676;
                 border-color: #95a5a6;
             }
 
             button:nth-child(4) {
-                background-color: #f8071b;
+                background-color: #f50014;
                 color: white;
             }
         }

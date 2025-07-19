@@ -32,8 +32,8 @@
 
                 <!-- Tabla de usuarios -->
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-hover">
+                        <thead >
                             <tr>
                                 <th>NOMBRE</th>
                                 <th>APELLIDOS</th>
@@ -62,12 +62,12 @@
                                     echo '<td>' . htmlspecialchars($row['correo']) . '</td>';
                                     echo '<td>' . htmlspecialchars($row['rol']) . '</td>';
                                     echo '<td>' . htmlspecialchars($row['fecha_registro']) . '</td>';
-                                    echo '<td><span class="badge bg-success">ACTIVO</span></td>';
+                                    echo '<td><span class="publicada">Activo</span></td>';
                                     echo '<td>
-                                        <button class="btn btn-sm btn-warning editar" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal">
+                                        <button class=" editar" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-danger eliminar ms-2" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                        <button class="eliminar ms-2" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                       </td>';

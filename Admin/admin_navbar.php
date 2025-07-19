@@ -5,7 +5,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <div class="slider">
     <div class="slider-content">
-        <h4>FocoGlobal Admin</h4>
+        <h4>Panel Administrativo</h4>
     </div>
     <div class="menu">
         <h3>Principal</h3>
@@ -45,21 +45,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Solo para resaltar el menú activo - navegación tradicional
-document.addEventListener('DOMContentLoaded', function() {
-    // Obtener la ruta actual
-    var currentPath = window.location.pathname.split('/').pop();
-    
-    // Remover active de todos los items
-    var menuItems = document.querySelectorAll('.menu li');
-    menuItems.forEach(function(item) {
-        item.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var currentPath = window.location.pathname.split('/').pop();
+
+        var menuItems = document.querySelectorAll('.menu li');
+        menuItems.forEach(function(item) {
+            item.classList.remove('active');
+        });
+
+        var activeLink = document.querySelector('.menu li a[href*="' + currentPath + '"]');
+        if (activeLink) {
+            activeLink.parentElement.classList.add('active');
+        }
     });
-    
-    // Agregar active al item correspondiente
-    var activeLink = document.querySelector('.menu li a[href*="' + currentPath + '"]');
-    if (activeLink) {
-        activeLink.parentElement.classList.add('active');
-    }
-});
 </script>

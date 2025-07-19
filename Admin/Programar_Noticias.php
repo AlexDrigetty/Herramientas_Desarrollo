@@ -67,11 +67,11 @@ $noticias = $conn->query($sql);
                     <table class="table table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th>Título</th>
-                                <th>Categoría</th>
-                                <th>Fecha Programada</th>
-                                <th>Autor</th>
-                                <th>Acciones</th>
+                                <th>TITULO</th>
+                                <th>CATEGORIA</th>
+                                <th>PROGRAMADA</th>
+                                <th>AUTOR</th>
+                                <th>ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,7 +110,7 @@ $noticias = $conn->query($sql);
         </div>
     </main>
 
-    <!-- Modal de edición de noticia (igual que en el otro archivo) -->
+    <!-- Modal de edición de noticia -->
     <div class="modal fade" id="editarNoticiaModal" tabindex="-1" aria-labelledby="editarNoticiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -123,7 +123,6 @@ $noticias = $conn->query($sql);
                     <input type="hidden" name="accion" id="accion-hidden" value="programar">
 
                     <div class="modal-body">
-                        <!-- Contenido del formulario de edición (copiado del otro archivo) -->
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="box-content mb-3">
