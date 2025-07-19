@@ -118,16 +118,24 @@ $destacados = $pdo->query("
                 <?php foreach ($destacados as $destacado): ?>
                     <div class="noticia-destacada">
                         <a href="noticia_completa.php?id=<?= $destacado['id'] ?>">
-                            <img src="../imagenes/<?= htmlspecialchars($destacado['imagen_portada']) ?>" 
-                                 alt="<?= htmlspecialchars($destacado['titulo']) ?>">
+                            <?php if (!empty($destacado['imagen_portada']) && file_exists("../imagenes/" . $destacado['imagen_portada'])): ?>
+                                <img src="../imagenes/<?= htmlspecialchars($destacado['imagen_portada']) ?>" 
+                                    alt="<?= htmlspecialchars($destacado['titulo']) ?>"
+                                    class="imagen-destacada">
+                            <?php else: ?>
+                                <div class="imagen-default destacada">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Sin imagen</span>
+                                </div>
+                            <?php endif; ?>
                             <h3><?= htmlspecialchars($destacado['titulo']) ?></h3>
                         </a>
                         <div class="meta">
                             <span style="background-color: <?= $destacado['color'] ?>; 
-                                      color: white; 
-                                      padding: 2px 8px; 
-                                      border-radius: 10px;
-                                      font-size: 0.8rem;">
+                                    color: white; 
+                                    padding: 2px 8px; 
+                                    border-radius: 10px;
+                                    font-size: 0.8rem;">
                                 <?= htmlspecialchars($destacado['categoria']) ?>
                             </span>
                             <span><i class="far fa-clock"></i> <?= date('d/m/Y', strtotime($destacado['fecha_publicacion'])) ?></span>
