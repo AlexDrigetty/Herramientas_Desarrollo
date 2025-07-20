@@ -200,7 +200,7 @@ if (!$usuarios_recientes) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> nsjdnj
             </div>
 
             <div class="row recent py-4">
