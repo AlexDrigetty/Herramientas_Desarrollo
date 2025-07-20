@@ -20,6 +20,18 @@ $usuario = $result->fetch_assoc();
 if (!$usuario) {
     die("Usuario no encontrado");
 }
+
+// Obtener historial de noticias del usuario
+$query_noticias = "SELECT n.id, n.titulo, n.fecha_creacion, en.nombre as estado 
+                   FROM noticias n 
+                   JOIN estados_noticia en ON n.estado_id = en.id 
+                   WHERE n.autor_id = ? 
+                   ORDER BY n.fecha_creacion DESC";
+$stmt_noticias = $conn->prepare($query_noticias);
+$stmt_noticias->bind_param("i", $usuario_id);
+$stmt_noticias->execute();
+$result_noticias = $stmt_noticias->get_result();
+$noticias = $result_noticias->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +62,17 @@ if (!$usuario) {
             background-color: #28a745;
             color: white;
         }
+        .badge-estado {
+            font-size: 0.8rem;
+            padding: 0.35em 0.65em;
+        }
+        .historial-card {
+            margin-top: 30px;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -69,7 +92,6 @@ if (!$usuario) {
                         <i class="fas fa-edit"></i> Editar Perfil
                     </a>
                     
-                    <!-- Botón para enviar noticia (solo para usuarios normales) -->
                     <?php if ($usuario['rol_id'] == 1): ?>
                         <a href="enviar_noticia.php" class="btn btn-enviar-noticia mt-3">
                             <i class="fas fa-paper-plane"></i> Enviar Noticia
@@ -94,6 +116,59 @@ if (!$usuario) {
                                 <p><strong><i class="fas fa-calendar-alt me-2"></i>Registrado:</strong> <?= date('d/m/Y H:i', strtotime($usuario['fecha_registro'])) ?></p>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Historial de Noticias -->
+                <div class="card shadow-sm historial-card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>Historial de Noticias</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (count($noticias) > 0): ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>Fecha de Envío</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($noticias as $noticia): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($noticia['titulo']) ?></td>
+                                                <td><?= date('d/m/Y H:i', strtotime($noticia['fecha_creacion'])) ?></td>
+                                                <td>
+                                                    <?php 
+                                                        $badge_class = '';
+                                                        switch($noticia['estado']) {
+                                                            case 'Pendiente': $badge_class = 'bg-warning'; break;
+                                                            case 'Publicado': $badge_class = 'bg-success'; break;
+                                                            case 'Programado': $badge_class = 'bg-info'; break;
+                                                            case 'Rechazado': $badge_class = 'bg-danger'; break;
+                                                            default: $badge_class = 'bg-secondary';
+                                                        }
+                                                    ?>
+                                                    <span class="badge <?= $badge_class ?> badge-estado"><?= htmlspecialchars($noticia['estado']) ?></span>
+                                                </td>
+                                                <td>
+                                                    <a href="../funciones/ver_noticia.php?id=<?= $noticia['id'] ?>" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i> Ver
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-info mb-0">
+                                No has enviado ninguna noticia todavía.
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
