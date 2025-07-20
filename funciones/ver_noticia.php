@@ -68,7 +68,7 @@ if (!$noticia) {
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-newspaper me-2"></i>Mi Noticia</h2>
-            <a href="perfil_usuario.php" class="btn btn-secondary">
+            <a href="../Usuario/perfil_usuario.php" class="btn btn-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Volver al perfil
             </a>
         </div>
