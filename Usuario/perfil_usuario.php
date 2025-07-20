@@ -43,39 +43,9 @@ $noticias = $result_noticias->fetch_all(MYSQLI_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/nav.css">
-    <style>
-        .profile-header {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .btn-enviar-noticia {
-            background-color: #28a745;
-            color: white;
-        }
-        .badge-estado {
-            font-size: 0.8rem;
-            padding: 0.35em 0.65em;
-        }
-        .historial-card {
-            margin-top: 30px;
-        }
-        .table-responsive {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="../Css/perfil.css">
 </head>
-<body>
+<body class="perfil-pagina">
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-4">

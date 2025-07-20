@@ -1,0 +1,319 @@
+/* Estilos generales */
+.perfil-pagina {
+    background-color: #f0f2f5; /* Un fondo ligeramente más frío y suave */
+    color: #34495e; /* Un color de texto principal más oscuro y elegante */
+    line-height: 1.6; /* Mejora la legibilidad del texto */
+}
+
+.container.py-5 {
+    padding-top: 4rem !important; /* Más espacio para una sensación más abierta */
+    padding-bottom: 4rem !important;
+}
+
+/* Encabezado del perfil */
+.profile-header {
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%); /* Ligeramente más blanco para un look limpio */
+    border-radius: 20px; /* Bordes más redondeados */
+    padding: 30px; /* Mayor padding */
+    margin-bottom: 40px; /* Más espacio inferior */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada y suave */
+    border: 1px solid rgba(0, 0, 0, 0.04); /* Borde más sutil */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más fluida */
+}
+
+.profile-header:hover {
+    transform: translateY(-8px) scale(1.01); /* Efecto de elevación y ligero crecimiento */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); /* Sombra más intensa al pasar el ratón */
+}
+
+.profile-pic {
+    width: 160px; /* Un poco más grande */
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid #ffffff; /* Borde blanco más grueso */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra de la imagen más nítida */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más suave */
+}
+
+.profile-pic:hover {
+    transform: scale(1.08) rotate(2deg); /* Efecto de escala y ligera rotación */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Sombra más fuerte al pasar el ratón */
+}
+
+.profile-header h3 {
+    margin-top: 20px; /* Más espacio superior */
+    font-weight: 700; /* Más audaz */
+    color: #2c3e50;
+    font-size: 1.8rem; /* Tamaño de fuente ligeramente mayor */
+}
+
+.profile-header .badge {
+    font-size: 0.9rem; /* Un poco más grande */
+    padding: 0.6em 1em; /* Más padding */
+    font-weight: 600; /* Más audaz */
+    letter-spacing: 0.7px; /* Mayor espaciado entre letras */
+    border-radius: 50px; /* Completamente redondeado */
+    background-color: #e6f7ff; /* Un fondo de badge más suave */
+    color: #ffffff; /* Color de texto que combine */
+}
+
+.profile-header .text-muted {
+    font-size: 1rem; /* Un poco más grande para mejor legibilidad */
+    color: #7f8c8d !important;
+}
+
+/* Botones */
+.btn { /* Estilos generales para todos los botones */
+    border: none;
+    border-radius: 30px;
+    padding: 10px 25px; /* Mayor padding */
+    font-weight: 600; /* Más audaz */
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más fluida */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    transform: translateY(-3px); /* Efecto de elevación al pasar el ratón */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Sombra sutil al pasar el ratón */
+}
+
+.btn-enviar-noticia {
+    background-color: #2ecc71;
+    color: white;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); /* Sombra más definida */
+}
+
+.btn-enviar-noticia:hover {
+    background-color: #27ae60;
+    box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6); /* Sombra más intensa */
+}
+
+.btn-primary {
+    background-color: #3498db; /* Un azul más vibrante */
+    color: white;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+}
+
+/* Tarjetas */
+.card {
+    border: none;
+    border-radius: 20px; /* Bordes más redondeados */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Sombra más suave y pronunciada */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más fluida */
+    margin-bottom: 30px; /* Más espacio inferior */
+    overflow: hidden; /* Asegura que el contenido respete el border-radius */
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.01); /* Efecto de elevación y ligero crecimiento */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); /* Sombra más intensa al pasar el ratón */
+}
+
+.card-header {
+    background-color: #ffffff; /* Blanco puro para el header */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* Borde más definido */
+    border-radius: 20px 20px 0 0 !important; /* Bordes redondeados solo en la parte superior */
+    padding: 20px 25px; /* Mayor padding */
+}
+
+.card-header h5 {
+    font-weight: 700; /* Más audaz */
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.3rem; /* Tamaño de fuente ligeramente mayor */
+}
+
+.card-header h5 i {
+    color: #3498db;
+    margin-right: 10px; /* Más espacio a la derecha del icono */
+    font-size: 1.5rem; /* Icono más grande */
+}
+
+.card-body {
+    padding: 25px; /* Mayor padding */
+}
+
+/* Tabla de historial */
+.table-responsive {
+    max-height: 450px; /* Altura máxima ligeramente mayor */
+    overflow-y: auto;
+    border-radius: 15px; /* Bordes redondeados para el contenedor */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+}
+
+.table {
+    margin-bottom: 0;
+    border-collapse: separate; /* Permite border-spacing */
+    border-spacing: 0 10px; /* Espacio entre filas */
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e0e6eb; /* Borde inferior más suave */
+    font-weight: 700; /* Más audaz */
+    color: #2c3e50;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 15px 20px; /* Mayor padding */
+    text-align: left; /* Alineación del texto */
+}
+
+.table tbody td {
+    padding: 12px 20px; /* Padding para las celdas */
+    border-bottom: 1px solid #f0f2f5; /* Borde inferior sutil */
+}
+
+.table-hover tbody tr {
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.08); /* Fondo más suave al pasar el ratón */
+}
+
+/* Badges de estado */
+.badge-estado {
+    font-size: 0.8rem; /* Ligeramente más grande */
+    padding: 0.5em 0.8em;
+    font-weight: 600; /* Más audaz */
+    letter-spacing: 0.7px; /* Mayor espaciado */
+    text-transform: uppercase;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para el badge */
+}
+
+.bg-warning {
+    background-color: #f39c12 !important;
+    color: white; /* Color de texto blanco para contraste */
+}
+
+.bg-success {
+    background-color: #27ae60 !important;
+    color: white;
+}
+
+.bg-info {
+    background-color: #3498db !important; /* Un azul más estándar de tu paleta */
+    color: white;
+}
+
+.bg-danger {
+    background-color: #e74c3c !important;
+    color: white;
+}
+
+/* Alertas */
+.alert {
+    border-radius: 15px; /* Más redondeado */
+    padding: 18px 25px; /* Mayor padding */
+    font-size: 1rem; /* Tamaño de fuente ligeramente mayor */
+    line-height: 1.5;
+}
+
+.alert-info {
+    background-color: #e8f7ff; /* Fondo más claro y suave */
+    border-color: #cceeff; /* Borde más claro */
+    color: #2980b9;
+}
+
+/* Información personal */
+.card-body p {
+    margin-bottom: 18px; /* Más espacio entre párrafos */
+    font-size: 1rem; /* Un poco más grande para mejor legibilidad */
+    color: #555; /* Color de texto ligeramente más suave */
+}
+
+.card-body strong {
+    color: #2c3e50;
+    font-weight: 700; /* Más audaz */
+}
+
+.card-body i {
+    width: 25px; /* Ancho del icono */
+    text-align: center;
+    margin-right: 12px; /* Más espacio a la derecha del icono */
+    color: #95a5a6; /* Un color más suave para los iconos */
+    font-size: 1.1rem; /* Icono ligeramente más grande */
+}
+
+/* Botones de acción */
+.btn-sm {
+    padding: 0.35rem 0.8rem; /* Mayor padding para botones pequeños */
+    font-size: 0.85rem; /* Un poco más grande */
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-outline-primary {
+    border-color: #3498db;
+    color: #3498db;
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); /* Sombra al pasar el ratón */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .profile-header {
+        margin-bottom: 30px;
+    }
+    
+    .historial-card {
+        margin-top: 30px;
+    }
+    .card {
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-pic {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .profile-header h3 {
+        font-size: 1.6rem;
+    }
+
+    .card-body .row > div {
+        margin-bottom: 15px; /* Más espacio en móviles */
+    }
+    .card-header h5 {
+        font-size: 1.2rem;
+    }
+    .btn {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container.py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    .profile-header {
+        padding: 20px;
+    }
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-header h3 {
+        font-size: 1.4rem;
+    }
+}
