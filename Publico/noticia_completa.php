@@ -49,101 +49,106 @@ $destacados = $pdo->query("
 </head>
 <body>
     <div class="contenedor-principal">
-
-    
-        <!-- Columna principal con la noticia -->
-        <div class="columna-noticia">
-            <article class="detalle-noticia">
-                <h1><?= htmlspecialchars($noticia['titulo']) ?></h1>
-                <div class="meta-info">
-                    <span class="categoria" style="background-color: <?= $noticia['color'] ?>">
-                        <?= htmlspecialchars($noticia['categoria']) ?>
-                    </span>
-                    <span><i class="far fa-calendar-alt"></i> <?= date('d/m/Y', strtotime($noticia['fecha_publicacion'])) ?></span>
-                    <span><i class="far fa-user"></i> <?= htmlspecialchars($noticia['autor']) ?> <?= htmlspecialchars($noticia['apellido']) ?></span>
-                </div>
-                
-                <?php if (!empty($noticia['imagen_portada']) && file_exists("../imagenes/" . $noticia['imagen_portada'])): ?>
-                    <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
-                        alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
-                        class="imagen-detalle">
-                <?php else: ?>
-                    <div class="imagen-default imagen-detalle">
-                        <i class="fas fa-newspaper"></i>
-                        <span>Noticia sin imagen</span>
+        <div class="row">
+                <!-- Columna principal con la noticia -->
+            <div class="col-12 col-lg-9">
+                <article class="detalle-noticia">
+                    <h1><?= htmlspecialchars($noticia['titulo']) ?></h1>
+                    <div class="meta-info">
+                        <span class="categoria" style="background-color: <?= $noticia['color'] ?>">
+                            <?= htmlspecialchars($noticia['categoria']) ?>
+                        </span>
+                        <span><i class="far fa-calendar-alt"></i> <?= date('d/m/Y', strtotime($noticia['fecha_publicacion'])) ?></span>
+                        <span><i class="far fa-user"></i> <?= htmlspecialchars($noticia['autor']) ?> <?= htmlspecialchars($noticia['apellido']) ?></span>
                     </div>
-                <?php endif; ?>
+                    <!--... Cuando la noticia no tiene imagen-->
+                    <?php if (!empty($noticia['imagen_portada']) && file_exists("../imagenes/" . $noticia['imagen_portada'])): ?>
+                        <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
+                            alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
+                            class="imagen-detalle">
+                    <?php else: ?>
+                        <div class="imagen-default imagen-detalle">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Noticia sin imagen</span>
+                        </div>
+                    <?php endif; ?>
+                        
+                    <div class="contenido">
+                        <?= nl2br(htmlspecialchars($noticia['contenido'])) ?>
+                    </div>
                     
-                <div class="contenido">
-                    <?= nl2br(htmlspecialchars($noticia['contenido'])) ?>
-                </div>
-                
-                <a href="inicio.php" class="volver">
-                    <i class="fas fa-arrow-left"></i> Volver
-                </a>
-            </article>
+                    <a href="inicio.php" class="volver">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </article>
 
-            <section class="comentarios">
-                <h3><i class="far fa-comments"></i> Comentarios</h3>
-                
-                <?php if (isset($_SESSION['usuario_id'])): ?>
-                <div class="card">
-                    <div class="card-body">
-                        <form action="../comentarios/agregar_comentarios.php" method="POST">
-                            <input type="hidden" name="noticia_id" value="<?= $noticia['id'] ?>">
-                            <textarea class="form-control" name="contenido" rows="3" placeholder="Escribe tu comentario..." required></textarea>
-                            <button type="submit" class="btn btn-primary mt-3">
-                                <i class="fas fa-paper-plane"></i> Publicar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <?php else: ?>
-                <div class="alert alert-info">
-                    <a href="../login.php"><i class="fas fa-sign-in-alt"></i> Inicia sesión</a> para comentar
-                </div>
-                <?php endif; ?>
-
-                <div id="lista-comentarios">
-                    <?php include '../comentarios/listar_comentarios.php'; ?>
-                </div>
-            </section>
-        </div>
-
-        <!-- Columna lateral con destacados -->
-        <div class="columna-destacados">
-            <div class="destacados-container">
-                <h2><i class="fas fa-star"></i> Destacados</h2>
-                
-                <?php foreach ($destacados as $destacado): ?>
-                    <div class="noticia-destacada">
-                        <a href="noticia_completa.php?id=<?= $destacado['id'] ?>">
-                            <?php if (!empty($destacado['imagen_portada']) && file_exists("../imagenes/" . $destacado['imagen_portada'])): ?>
-                                <img src="../imagenes/<?= htmlspecialchars($destacado['imagen_portada']) ?>" 
-                                    alt="<?= htmlspecialchars($destacado['titulo']) ?>"
-                                    class="imagen-destacada">
-                            <?php else: ?>
-                                <div class="imagen-default destacada">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>Sin imagen</span>
-                                </div>
-                            <?php endif; ?>
-                            <h3><?= htmlspecialchars($destacado['titulo']) ?></h3>
-                        </a>
-                        <div class="meta">
-                            <span style="background-color: <?= $destacado['color'] ?>; 
-                                    color: white; 
-                                    padding: 2px 8px; 
-                                    border-radius: 10px;
-                                    font-size: 0.8rem;">
-                                <?= htmlspecialchars($destacado['categoria']) ?>
-                            </span>
-                            <span><i class="far fa-clock"></i> <?= date('d/m/Y', strtotime($destacado['fecha_publicacion'])) ?></span>
+                <!-- Sección de comentarios -->
+                <section class="comentarios">
+                    <h3><i class="far fa-comments"></i> Comentarios</h3>
+                    
+                    <?php if (isset($_SESSION['usuario_id'])): ?>
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="../comentarios/agregar_comentarios.php" method="POST">
+                                <input type="hidden" name="noticia_id" value="<?= $noticia['id'] ?>">
+                                <textarea class="form-control" name="contenido" rows="3" placeholder="Escribe tu comentario..." required></textarea>
+                                <button type="submit" class="btn btn-primary mt-3">
+                                    <i class="fas fa-paper-plane"></i> Publicar
+                                </button>
+                            </form>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                    <?php else: ?>
+                    <div class="alert alert-info">
+                        <a href="../login.php"><i class="fas fa-sign-in-alt"></i> Inicia sesión</a> para comentar
+                    </div>
+                    <?php endif; ?>
+
+                    <div id="lista-comentarios">
+                        <?php include '../comentarios/listar_comentarios.php'; ?>
+                    </div>
+                </section>
             </div>
-        </div>
+
+            <!-- Columna lateral con destacados -->
+            <div class="col-12 col-lg-3 mt-4 mt-lg-0">
+                <div class="destacados-container">
+                    <div class="row">
+                        <div class="col-12 noticias">
+                            <h4><i class="fas fa-star"></i> Destacados</h4>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row" id="featured-news">
+                        <?php foreach ($destacados as $destacado): ?>
+                            <div class="col-12 mb-3">
+                                <div class="noticia-destacada">
+                                    <a href="noticia_completa.php?id=<?= $destacado['id'] ?>">
+                                        <?php if (!empty($destacado['imagen_portada'])): ?>
+                                            <img src="../imagenes/<?= htmlspecialchars($destacado['imagen_portada']) ?>" 
+                                                class="imagen-destacada">
+                                        <?php else: ?>
+                                            <div class="imagen-default destacada">
+                                                <i class="fas fa-newspaper"></i>
+                                                <span>Sin imagen</span>
+                                            </div>
+                                        <?php endif; ?>
+                                        <h5><?= htmlspecialchars($destacado['titulo']) ?></h5>
+                                    </a>
+                                    <div class="meta-destacada">
+                                        <span class="categoria" style="background-color: <?= $destacado['color'] ?>">
+                                            <?= htmlspecialchars($destacado['categoria']) ?>
+                                        </span>
+                                        <span class="fecha"><i class="far fa-clock"></i> <?= date('d/m/Y', strtotime($destacado['fecha_publicacion'])) ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+         </div>
     </div>
     
     <script src="../js/comentarios.js"></script>
