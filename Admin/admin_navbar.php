@@ -29,6 +29,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="<?php echo ($current_page == 'Programar_Noticias.php') ? 'active' : ''; ?>">
                 <a href="<?php echo $base_url; ?>Admin/Programar_Noticias.php" class="nav-link"><i class="fa fa-clock"></i> Programadas</a>
             </li>
+            <li class="<?php echo ($current_page == 'revisar.php') ? 'active' : ''; ?>">
+                <a href="<?php echo $base_url; ?>Admin/revisar.php" class="nav-link"><i class="fa-solid fa-check"></i> Revisar</a>
+            </li>
         </ul>
 
         <h3>Administración</h3>

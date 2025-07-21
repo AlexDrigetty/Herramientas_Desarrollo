@@ -59,6 +59,34 @@ while ($noticia = $noticias->fetch_assoc()) {
                         <input type="text" id="search-input" class="w-50 border-1 rounded-1 p-2" placeholder="Comenzar Busqueda">
                         <button id="search-button" class="rounded-1 border-1 px-5 py-2">Buscar</button>
                     </div>
+
+                    <div class="filters w-100 mt-4">
+                        <div class="row container-categoria">
+                            <div class="col-md-6 mb-3">
+                                <label for="category-filter" class="form-label">Categoría:</label>
+                                <select id="category-filter" class="form-select custom-select">
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="política">Política</option>
+                                    <option value="economía">Economía</option>
+                                    <option value="salud">Salud</option>
+                                    <option value="educación">Educación</option>
+                                    <option value="deportes">Deportes</option>
+                                </select>
+                            </div>
+    
+                            <div class="col-md-6 mb-3">
+                                <label for="date-filter" class="form-label">Fecha de emisión:</label>
+                                <select id="date-filter" class="form-select custom-select">
+                                    <option value="">Seleccione una fecha</option>
+                                    <option value="hoy">Hoy</option>
+                                    <option value="ayer">Ayer</option>
+                                    <option value="ultima-semana">Última semana</option>
+                                    <option value="ultimo-mes">Último mes</option>
+                                </select>
+                            </div>
+    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
