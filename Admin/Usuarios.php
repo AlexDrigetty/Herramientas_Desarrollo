@@ -1,5 +1,105 @@
-<?php include 'admin_navbar.php'; ?>
-<?php include 'admin_Auth.php'; ?>
+<?php 
+include 'admin_navbar.php';
+include 'admin_Auth.php';
+
+require_once '../bd/conexion.php';
+
+// Función para remover parámetros de la URL
+function remove_query_param($param) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    unset($query_params[$param]);
+    $new_query = http_build_query($query_params);
+    return $url['path'] . ($new_query ? '?' . $new_query : '');
+}
+
+// Función para generar enlaces de paginación con filtros
+function get_pagination_link($pagina) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    $query_params['pagina'] = $pagina;
+    return $url['path'] . '?' . http_build_query($query_params);
+}
+
+// Obtener roles para el filtro
+$sql_roles = "SELECT id, nombre FROM roles ORDER BY nombre";
+$resultado_roles = $conn->query($sql_roles);
+$roles = $resultado_roles->fetch_all(MYSQLI_ASSOC);
+
+// Estados para el filtro
+$estados = [
+    ['id' => 1, 'nombre' => 'Activo'],
+    ['id' => 0, 'nombre' => 'Inactivo']
+];
+
+// Obtener parámetros de filtrado
+$rol_filtro = isset($_GET['rol']) ? (int)$_GET['rol'] : null;
+$estado_filtro = isset($_GET['estado']) ? (int)$_GET['estado'] : null;
+
+// Configuración de paginación
+$usuarios_por_pagina = 10;
+$pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_actual - 1) * $usuarios_por_pagina;
+
+// Construir consulta base con filtros
+$sql_base = "SELECT u.id, u.nombre, u.apellido, u.correo, u.fecha_registro, u.estado, 
+             r.nombre as rol, r.id as rol_id 
+             FROM usuarios u 
+             JOIN roles r ON u.rol_id = r.id";
+
+// Aplicar filtros si existen
+$where_conditions = [];
+$params = [];
+$types = '';
+
+if ($rol_filtro !== null && $rol_filtro !== '') {
+    $where_conditions[] = "u.rol_id = ?";
+    $params[] = $rol_filtro;
+    $types .= 'i';
+}
+
+if ($estado_filtro !== null && $estado_filtro !== '') {
+    $where_conditions[] = "u.estado = ?";
+    $params[] = $estado_filtro;
+    $types .= 'i';
+}
+
+if (!empty($where_conditions)) {
+    $sql_base .= " WHERE " . implode(" AND ", $where_conditions);
+}
+
+// Consulta para contar total de usuarios (para paginación)
+$sql_total = "SELECT COUNT(*) as total FROM usuarios u";
+if (!empty($where_conditions)) {
+    $sql_total .= " WHERE " . implode(" AND ", $where_conditions);
+}
+
+$stmt_total = $conn->prepare($sql_total);
+if (!empty($params)) {
+    $stmt_total->bind_param($types, ...$params);
+}
+$stmt_total->execute();
+$resultado_total = $stmt_total->get_result();
+$total_usuarios = $resultado_total->fetch_assoc()['total'];
+$total_paginas = ceil($total_usuarios / $usuarios_por_pagina);
+
+// Consulta para obtener usuarios con ordenación
+$sql = $sql_base . " ORDER BY u.fecha_registro DESC LIMIT ?, ?";
+
+// Preparar y ejecutar consulta con parámetros
+$types .= 'ii';
+$params[] = $offset;
+$params[] = $usuarios_por_pagina;
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$usuarios = $stmt->get_result();
+
+if (!$usuarios) {
+    die("Error en la consulta: " . $conn->error);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,15 +107,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios | Noticias Globales</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="../Css/admin.css">
     <link rel="stylesheet" href="../Css/Internacional.css">
-    <!-- SweetAlert2 para mensajes bonitos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        .filtros-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .filtros-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .buttons-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        .publicada { color: #28a745; font-weight: bold; }
+        .pendiente { color: #dc3545; font-weight: bold; }
+    </style>
 </head>
 
 <body>
@@ -23,17 +144,47 @@
         <?php include 'slider.php'; ?>
         <div id="main-content">
             <div class="todo mt-4">
-                <!-- Botón para abrir modal -->
-                <div class="boto mb-4">
-                    <button type="button" class="crear" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
-                        <i class="fas fa-plus me-2"></i>Agregar Usuario
-                    </button>
+                <div class="header-actions">
+                    <div class="filtros-wrapper">
+                        <form method="get" action="usuarios.php" id="filtros-form" class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <select name="rol" class="form-select" id="filtro-rol">
+                                    <option value="">Todos los roles</option>
+                                    <?php foreach ($roles as $rol): ?>
+                                        <option value="<?= $rol['id'] ?>" <?= ($rol_filtro == $rol['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($rol['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select name="estado" class="form-select" id="filtro-estado">
+                                    <option value="">Todos los estados</option>
+                                    <?php foreach ($estados as $estado): ?>
+                                        <option value="<?= $estado['id'] ?>" <?= ($estado_filtro == $estado['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($estado['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Filtrar</button>
+                                <a href="usuarios.php" class="btn btn-secondary ms-2">Limpiar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="buttons-wrapper">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
+                            <i class="fas fa-plus me-2"></i>Agregar Usuario
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tabla de usuarios -->
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead >
+                        <thead class="table-dark">
                             <tr>
                                 <th>NOMBRE</th>
                                 <th>APELLIDOS</th>
@@ -45,56 +196,65 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            require_once '../bd/conexion.php';
-
-                            $sql = "SELECT u.id, u.nombre, u.apellido, u.correo, u.fecha_registro, r.nombre as rol, r.id as rol_id 
-                                FROM usuarios u 
-                                JOIN roles r ON u.rol_id = r.id
-                                ORDER BY u.fecha_registro DESC";
-                            $result = $conn->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<tr>';
-                                    echo '<td>' . htmlspecialchars($row['nombre']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row['apellido']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row['correo']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row['rol']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row['fecha_registro']) . '</td>';
-                                    echo '<td><span class="publicada">Activo</span></td>';
-                                    echo '<td>
-                                        <button class=" editar" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="eliminar ms-2" data-id="' . $row['id'] . '" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                      </td>';
-                                    echo '</tr>';
-                                }
-                            } else {
-                                echo '<tr><td colspan="7" class="text-center">No se encontraron usuarios</td></tr>';
-                            }
-                            ?>
+                            <?php if ($usuarios->num_rows > 0): ?>
+                                <?php while ($usuario = $usuarios->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($usuario['nombre']) ?></td>
+                                        <td><?= htmlspecialchars($usuario['apellido']) ?></td>
+                                        <td><?= htmlspecialchars($usuario['correo']) ?></td>
+                                        <td><?= htmlspecialchars($usuario['rol']) ?></td>
+                                        <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
+                                        <td>
+                                            <span class="<?= $usuario['estado'] ? 'publicada' : 'pendiente' ?>">
+                                                <?= $usuario['estado'] ? 'Activo' : 'Inactivo' ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning editar" data-id="<?= $usuario['id'] ?>" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger eliminar ms-2" data-id="<?= $usuario['id'] ?>" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">
+                                        <i class="fas fa-users-slash fa-2x mb-3"></i><br>
+                                        No se encontraron usuarios <?= ($rol_filtro !== null || $estado_filtro !== null) ? 'con los filtros seleccionados' : '' ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Paginación -->
+                <?php if ($total_paginas > 1): ?>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Siguiente</a>
-                        </li>
+                        <?php if ($pagina_actual > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= get_pagination_link($pagina_actual - 1) ?>">&laquo; Anterior</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                            <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
+                                <a class="page-link" href="<?= get_pagination_link($i) ?>"><?= $i ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($pagina_actual < $total_paginas): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= get_pagination_link($pagina_actual + 1) ?>">Siguiente &raquo;</a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -132,14 +292,26 @@
                             <div class="mb-3">
                                 <label for="rol" class="form-label">Tipo de Usuario</label>
                                 <select class="form-select" id="rol" name="rol" required>
-                                    <option value="0">Administrador</option>
-                                    <option value="1" selected>Usuario</option>
+                                    <?php foreach ($roles as $rol): ?>
+                                        <option value="<?= $rol['id'] ?>"><?= htmlspecialchars($rol['nombre']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="1" selected>Activo</option>
+                                    <option value="0">Inactivo</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Cancelar</button>
-                            <button type="submit" class="btn btn-primary" style="background-color: #003366;">Guardar Usuario</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary" style="background-color: #003366;">
+                                <i class="fas fa-save me-2"></i>Guardar Usuario
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -173,8 +345,16 @@
                             <div class="mb-3">
                                 <label for="edit-rol" class="form-label">Tipo de Usuario</label>
                                 <select class="form-select" id="edit-rol" name="rol" required>
-                                    <option value="1">Usuario</option>
-                                    <option value="0">Administrador</option>
+                                    <?php foreach ($roles as $rol): ?>
+                                        <option value="<?= $rol['id'] ?>"><?= htmlspecialchars($rol['nombre']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-estado" class="form-label">Estado</label>
+                                <select class="form-select" id="edit-estado" name="estado" required>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
                                 </select>
                             </div>
                         </div>
@@ -217,17 +397,12 @@
 
     </main>
 
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 para mensajes bonitos -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
-            console.log("Script de usuarios cargado correctamente");
-
             function showAlert(icon, title, text) {
                 const Toast = Swal.mixin({
                     toast: true,
@@ -287,16 +462,6 @@
             // Manejar el envío del formulario de edición
             $('#formEditarUsuario').on('submit', function(e) {
                 e.preventDefault();
-
-                // Validación de contraseñas si se proporcionaron
-                const password = $('#edit-contrasena').val();
-                const confirmPassword = $('#edit-confirmar_contrasena').val();
-
-                if (password && password !== confirmPassword) {
-                    showAlert('error', 'Error', 'Las contraseñas no coinciden');
-                    return false;
-                }
-
                 const formData = $(this).serialize();
 
                 $.ajax({
@@ -350,6 +515,7 @@
                         $('#edit-apellido').val(data.apellido);
                         $('#edit-correo').val(data.correo);
                         $('#edit-rol').val(data.rol_id);
+                        $('#edit-estado').val(data.estado);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
@@ -393,6 +559,7 @@
             // Limpiar formularios al cerrar los modales
             $('#crearUsuarioModal').on('hidden.bs.modal', function() {
                 $(this).find('form')[0].reset();
+                $('#estado').val('1'); // Establecer estado activo por defecto
             });
 
             $('#editarUsuarioModal').on('hidden.bs.modal', function() {
@@ -400,7 +567,5 @@
             });
         });
     </script>
-
 </body>
-
 </html>

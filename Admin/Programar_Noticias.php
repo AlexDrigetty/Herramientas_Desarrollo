@@ -4,6 +4,91 @@ include 'admin_auth.php';
 
 require_once '../bd/conexion.php';
 
+// Función para remover parámetros de la URL
+function remove_query_param($param) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    unset($query_params[$param]);
+    $new_query = http_build_query($query_params);
+    return $url['path'] . ($new_query ? '?' . $new_query : '');
+}
+
+// Función para generar enlaces de paginación con filtros
+function get_pagination_link($pagina) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    $query_params['pagina'] = $pagina;
+    return $url['path'] . '?' . http_build_query($query_params);
+}
+
+// Obtener categorías para el filtro
+$sql_categorias = "SELECT id, nombre FROM categorias ORDER BY nombre";
+$resultado_categorias = $conn->query($sql_categorias);
+$categorias = $resultado_categorias->fetch_all(MYSQLI_ASSOC);
+
+// Obtener parámetros de filtrado
+$categoria_filtro = isset($_GET['categoria']) ? (int)$_GET['categoria'] : null;
+
+// Configuración de paginación
+$noticias_por_pagina = 10;
+$pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_actual - 1) * $noticias_por_pagina;
+
+// Construir consulta base para noticias programadas (estado_id = 2)
+$sql_base = "SELECT n.*, u.nombre as autor, c.nombre as categoria_nombre,
+        DATE_FORMAT(n.fecha_programada, '%d/%m/%Y %H:%i') as fecha_programada_formatted
+        FROM noticias n
+        JOIN usuarios u ON n.autor_id = u.id
+        JOIN categorias c ON n.categoria_id = c.id
+        WHERE n.estado_id = 2";
+
+// Aplicar filtros si existen
+$where_conditions = [];
+$params = [];
+$types = '';
+
+if ($categoria_filtro) {
+    $where_conditions[] = "n.categoria_id = ?";
+    $params[] = $categoria_filtro;
+    $types .= 'i';
+}
+
+if (!empty($where_conditions)) {
+    $sql_base .= " AND " . implode(" AND ", $where_conditions);
+}
+
+// Consulta para contar total de noticias (para paginación)
+$sql_total = "SELECT COUNT(*) as total FROM noticias n WHERE n.estado_id = 2";
+if (!empty($where_conditions)) {
+    $sql_total .= " AND " . implode(" AND ", $where_conditions);
+}
+
+$stmt_total = $conn->prepare($sql_total);
+if (!empty($params)) {
+    $stmt_total->bind_param($types, ...$params);
+}
+$stmt_total->execute();
+$resultado_total = $stmt_total->get_result();
+$total_noticias = $resultado_total->fetch_assoc()['total'];
+$total_paginas = ceil($total_noticias / $noticias_por_pagina);
+
+// Consulta para obtener noticias con ordenación
+$sql = $sql_base . " ORDER BY n.fecha_programada ASC LIMIT ?, ?";
+
+// Preparar y ejecutar consulta con parámetros
+$types .= 'ii';
+$params[] = $offset;
+$params[] = $noticias_por_pagina;
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$noticias = $stmt->get_result();
+
+if (!$noticias) {
+    die("Error en la consulta: " . $conn->error);
+}
+
 // Manejo de mensajes
 $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
 $error = isset($_SESSION['error']) ? $_SESSION['error'] : null;
@@ -11,17 +96,6 @@ $error = isset($_SESSION['error']) ? $_SESSION['error'] : null;
 // Limpiar mensajes después de mostrarlos
 unset($_SESSION['success']);
 unset($_SESSION['error']);
-
-// Obtener noticias programadas (estado_id = 2)
-$sql = "SELECT n.*, u.nombre as autor, c.nombre as categoria_nombre,
-        DATE_FORMAT(n.fecha_programada, '%d/%m/%Y %H:%i') as fecha_programada_formatted
-        FROM noticias n
-        JOIN usuarios u ON n.autor_id = u.id
-        JOIN categorias c ON n.categoria_id = c.id
-        WHERE n.estado_id = 2
-        ORDER BY n.fecha_programada ASC";
-
-$noticias = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +110,45 @@ $noticias = $conn->query($sql);
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../Css/admin.css">
+    <style>
+        .filtros-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .filtros-container .form-select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filtros-container .btn {
+            margin-bottom: 10px;
+        }
+
+        .active-filter {
+            background-color: #003366;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filtros-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,10 +156,29 @@ $noticias = $conn->query($sql);
         <?php include 'slider.php'; ?>
         <div id="main-content">
             <div class="todo">
-                <div class="boto mb-4">
-                    <a href="Crear_Noticias.php" class="crear">
-                        <i class="fa fa-plus me-2"></i> Crear Noticia
-                    </a>
+                <div class="header-actions">
+                    <div class="filtros-wrapper">
+                        <form method="get" action="Programar_Noticias.php" id="filtros-form" class="row g-3">
+                            <div class="col-auto">
+                                <select name="categoria" class="form-select" id="filtro-categoria">
+                                    <option value="">Todas las categorías</option>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= $categoria['id'] ?>" <?= ($categoria_filtro == $categoria['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($categoria['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <a href="Programar_Noticias.php" class="btn btn-secondary">Limpiar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="buttons-wrapper">
+                        <a href="Crear_Noticias.php" class="btn btn-primary crear"><i class="fa fa-plus"></i> Crear Noticia</a>
+                        <a href="todas_noticias.php" class="btn btn-primary crear"><i class="fa fa-list"></i> Ver Todas</a>
+                    </div>
                 </div>
 
                 <?php if ($success): ?>
@@ -99,13 +231,39 @@ $noticias = $conn->query($sql);
                                 <tr>
                                     <td colspan="5" class="text-center py-4 text-muted">
                                         <i class="fas fa-calendar-times fa-2x mb-3"></i><br>
-                                        No hay noticias programadas actualmente
+                                        No hay noticias programadas <?= $categoria_filtro ? 'para la categoría seleccionada' : 'actualmente' ?>
                                     </td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Paginación -->
+                <?php if ($total_paginas > 1): ?>
+                <div class="pagination-container">
+                    <ul class="pagination">
+                        <?php if ($pagina_actual > 1): ?>
+                            <li class="page-item"><a class="page-link" href="<?= get_pagination_link($pagina_actual - 1) ?>">&laquo; Anterior</a></li>
+                        <?php endif; ?>
+
+                        <?php
+                        // Mostrar hasta 5 páginas alrededor de la actual
+                        $inicio = max(1, $pagina_actual - 2);
+                        $fin = min($total_paginas, $pagina_actual + 2);
+
+                        for ($i = $inicio; $i <= $fin; $i++): ?>
+                            <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
+                                <a class="page-link" href="<?= get_pagination_link($i) ?>"><?= $i ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($pagina_actual < $total_paginas): ?>
+                            <li class="page-item"><a class="page-link" href="<?= get_pagination_link($pagina_actual + 1) ?>">Siguiente &raquo;</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </main>
@@ -446,6 +604,11 @@ $noticias = $conn->query($sql);
                 alert.classList.remove('show');
                 setTimeout(() => alert.remove(), 150);
             }, 5000);
+        });
+
+        // Manejar cambios en los filtros
+        document.getElementById('filtro-categoria').addEventListener('change', function() {
+            document.getElementById('filtros-form').submit();
         });
     </script>
 </body>

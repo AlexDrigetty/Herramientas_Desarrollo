@@ -3,19 +3,44 @@
 <?php
 require_once '../bd/conexion.php';
 
+// Función para remover parámetros de la URL
+function remove_query_param($param) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    unset($query_params[$param]);
+    $new_query = http_build_query($query_params);
+    return $url['path'] . ($new_query ? '?' . $new_query : '');
+}
+
+// Función para generar enlaces de paginación con filtros
+function get_pagination_link($pagina) {
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    parse_str($url['query'] ?? '', $query_params);
+    $query_params['pagina'] = $pagina;
+    return $url['path'] . '?' . http_build_query($query_params);
+}
+
+// Obtener categorías para el filtro
+$sql_categorias = "SELECT id, nombre FROM categorias ORDER BY nombre";
+$resultado_categorias = $conn->query($sql_categorias);
+$categorias = $resultado_categorias->fetch_all(MYSQLI_ASSOC);
+
+// Obtener estados para el filtro
+$sql_estados = "SELECT id, nombre FROM estados_noticia WHERE id IN (1, 2, 3) ORDER BY id";
+$resultado_estados = $conn->query($sql_estados);
+$estados = $resultado_estados->fetch_all(MYSQLI_ASSOC);
+
+// Obtener parámetros de filtrado
+$categoria_filtro = isset($_GET['categoria']) ? (int)$_GET['categoria'] : null;
+$estado_filtro = isset($_GET['estado']) ? (int)$_GET['estado'] : null;
+
 // Configuración de paginación
 $noticias_por_pagina = 10;
 $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $noticias_por_pagina;
 
-// Obtener total de noticias para paginación
-$sql_total = "SELECT COUNT(*) as total FROM noticias WHERE estado_id IN (1, 2, 3)"; // Incluye pendientes, programadas y publicadas
-$resultado_total = $conn->query($sql_total);
-$total_noticias = $resultado_total->fetch_assoc()['total'];
-$total_paginas = ceil($total_noticias / $noticias_por_pagina);
-
-// Obtener noticias paginadas (publicadas, programadas y pendientes)
-$sql = "SELECT n.*, u.nombre as autor, c.nombre as categoria_nombre,
+// Construir consulta base con filtros
+$sql_base = "SELECT n.*, u.nombre as autor, c.nombre as categoria_nombre,
         DATE_FORMAT(n.fecha_publicacion, '%d/%m/%Y %H:%i') as fecha_publicada,
         DATE_FORMAT(n.fecha_programada, '%d/%m/%Y %H:%i') as fecha_programada,
         en.nombre as estado_nombre
@@ -23,22 +48,69 @@ $sql = "SELECT n.*, u.nombre as autor, c.nombre as categoria_nombre,
         JOIN usuarios u ON n.autor_id = u.id
         JOIN categorias c ON n.categoria_id = c.id
         JOIN estados_noticia en ON n.estado_id = en.id
-        ORDER BY 
-            CASE 
-                WHEN n.estado_id = 1 THEN 0 -- Pendientes primero
-                WHEN n.estado_id = 2 THEN 1 -- Programadas después
-                ELSE 2 -- Publicadas al final
-            END,
-            n.fecha_programada ASC,
-            n.fecha_publicacion DESC
-        LIMIT $offset, $noticias_por_pagina";
+        WHERE n.estado_id IN (1, 2, 3)";
 
-$noticias = $conn->query($sql);
+// Aplicar filtros si existen
+$where_conditions = [];
+$params = [];
+$types = '';
+
+if ($categoria_filtro) {
+    $where_conditions[] = "n.categoria_id = ?";
+    $params[] = $categoria_filtro;
+    $types .= 'i';
+}
+
+if ($estado_filtro) {
+    $where_conditions[] = "n.estado_id = ?";
+    $params[] = $estado_filtro;
+    $types .= 'i';
+}
+
+if (!empty($where_conditions)) {
+    $sql_base .= " AND " . implode(" AND ", $where_conditions);
+}
+
+// Consulta para contar total de noticias (para paginación)
+$sql_total = "SELECT COUNT(*) as total FROM noticias n WHERE n.estado_id IN (1, 2, 3)";
+if (!empty($where_conditions)) {
+    $sql_total .= " AND " . implode(" AND ", $where_conditions);
+}
+
+$stmt_total = $conn->prepare($sql_total);
+if (!empty($params)) {
+    $stmt_total->bind_param($types, ...$params);
+}
+$stmt_total->execute();
+$resultado_total = $stmt_total->get_result();
+$total_noticias = $resultado_total->fetch_assoc()['total'];
+$total_paginas = ceil($total_noticias / $noticias_por_pagina);
+
+// Consulta para obtener noticias con ordenación
+$sql = $sql_base . " ORDER BY 
+        CASE 
+            WHEN n.estado_id = 1 THEN 0 -- Pendientes primero
+            WHEN n.estado_id = 2 THEN 1 -- Programadas después
+            ELSE 2 -- Publicadas al final
+        END,
+        n.fecha_programada ASC,
+        n.fecha_publicacion DESC
+        LIMIT ?, ?";
+
+// Preparar y ejecutar consulta con parámetros
+$stmt = $conn->prepare($sql);
+$types .= 'ii';
+$params[] = $offset;
+$params[] = $noticias_por_pagina;
+
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$noticias = $stmt->get_result();
+
 if (!$noticias) {
     die("Error en la consulta: " . $conn->error);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -51,6 +123,45 @@ if (!$noticias) {
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../Css/admin.css">
+    <style>
+        .filtros-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .filtros-container .form-select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filtros-container .btn {
+            margin-bottom: 10px;
+        }
+
+        .active-filter {
+            background-color: #003366;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filtros-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,9 +169,39 @@ if (!$noticias) {
         <?php include 'slider.php'; ?>
         <div id="main-content">
             <div class="todo">
-                <div class="boto mb-4">
-                    <a href="Crear_Noticias.php" class="crear"><i class="fa fa-plus"></i> Crear Noticia</a>
-                    <a href="Programar_Noticias.php" class="crear"><i class="fa fa-clock"></i> Ver Programadas</a>
+                <div class="header-actions">
+                    <div class="filtros-wrapper">
+                        <form method="get" action="todas_noticias.php" id="filtros-form" class="row g-3">
+                            <div class="col-auto">
+                                <select name="categoria" class="form-select" id="filtro-categoria">
+                                    <option value="">Todas las categorías</option>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= $categoria['id'] ?>" <?= ($categoria_filtro == $categoria['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($categoria['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select name="estado" class="form-select" id="filtro-estado">
+                                    <option value="">Todos los estados</option>
+                                    <?php foreach ($estados as $estado): ?>
+                                        <option value="<?= $estado['id'] ?>" <?= ($estado_filtro == $estado['id']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($estado['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <a href="todas_noticias.php" class="btn btn-secondary">Limpiar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="buttons-wrapper">
+                        <a href="Crear_Noticias.php" class="btn btn-primary crear"><i class="fa fa-plus"></i> Crear Noticia</a>
+                        <a href="Programar_Noticias.php" class="btn btn-primary crear"><i class="fa fa-clock"></i> Ver Programadas</a>
+                    </div>
                 </div>
 
                 <?php if (isset($_GET['success'])): ?>
@@ -129,7 +270,7 @@ if (!$noticias) {
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" class="text-center">No hay noticias disponibles</td>
+                                    <td colspan="5" class="text-center">No hay noticias disponibles con los filtros seleccionados</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -140,7 +281,7 @@ if (!$noticias) {
                 <div class="pagination-container">
                     <ul class="pagination">
                         <?php if ($pagina_actual > 1): ?>
-                            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual - 1 ?>">&laquo; Anterior</a></li>
+                            <li class="page-item"><a class="page-link" href="<?= get_pagination_link($pagina_actual - 1) ?>">&laquo; Anterior</a></li>
                         <?php endif; ?>
 
                         <?php
@@ -150,19 +291,18 @@ if (!$noticias) {
 
                         for ($i = $inicio; $i <= $fin; $i++): ?>
                             <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
-                                <a class="page-link" href="?pagina=<?= $i ?>"><?= $i ?></a>
+                                <a class="page-link" href="<?= get_pagination_link($i) ?>"><?= $i ?></a>
                             </li>
                         <?php endfor; ?>
 
                         <?php if ($pagina_actual < $total_paginas): ?>
-                            <li class="page-item"><a class="page-link" href="?pagina=<?= $pagina_actual + 1 ?>">Siguiente &raquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="<?= get_pagination_link($pagina_actual + 1) ?>">Siguiente &raquo;</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
             </div>
         </div>
     </main>
-
     <!-- Modal de edición de noticia -->
     <div class="modal fade" id="editarNoticiaModal" tabindex="-1" aria-labelledby="editarNoticiaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -509,6 +649,27 @@ if (!$noticias) {
                     window.location.href = this.href;
                 });
             });
+        }
+
+        document.getElementById('filtro-categoria').addEventListener('change', function() {
+            document.getElementById('filtros-form').submit();
+        });
+
+        document.getElementById('filtro-estado').addEventListener('change', function() {
+            document.getElementById('filtros-form').submit();
+        });
+
+        // Función para actualizar la URL con los parámetros de filtro
+        function updateFilterURL() {
+            const categoria = document.getElementById('filtro-categoria').value;
+            const estado = document.getElementById('filtro-estado').value;
+            const params = new URLSearchParams();
+
+            if (categoria) params.set('categoria', categoria);
+            if (estado) params.set('estado', estado);
+
+            // Actualizar la URL sin recargar la página
+            window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
         }
     </script>
 </body>
