@@ -48,12 +48,12 @@ $noticias = $result_noticias->fetch_all(MYSQLI_ASSOC);
 <body class="perfil-pagina">
     <div class="container py-5">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="profile-header text-center">
                     <img src="https://ui-avatars.com/api/?name=<?= urlencode($usuario['nombre'] . '+' . $usuario['apellido']) ?>&size=150" 
                          alt="Foto de perfil" class="profile-pic mb-3">
-                    <h3><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h3>
-                    <span class="badge bg-<?= $usuario['rol_id'] == 0 ? 'danger' : 'primary' ?>">
+                    <h3 class="mb-3"><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h3>
+                    <span class="badge bg-<?= $usuario['rol_id'] == 0 ? 'danger' : 'primary' ?> mb-2">
                         <?= htmlspecialchars($usuario['rol']) ?>
                     </span>
                     <p class="text-muted mt-2">Miembro desde: <?= date('d/m/Y', strtotime($usuario['fecha_registro'])) ?></p>
@@ -70,7 +70,7 @@ $noticias = $result_noticias->fetch_all(MYSQLI_ASSOC);
                 </div>
             </div>
             
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="card shadow-sm">
                     <div class="card-header bg-white">
                         <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Información Personal</h5>
@@ -97,11 +97,11 @@ $noticias = $result_noticias->fetch_all(MYSQLI_ASSOC);
                     <div class="card-body">
                         <?php if (count($noticias) > 0): ?>
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover" style="text-align: center; ">
                                     <thead>
                                         <tr>
                                             <th>Título</th>
-                                            <th>Fecha de Envío</th>
+                                            <th>Enviado</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>

@@ -1,11 +1,12 @@
-<?php 
+<?php
 include 'admin_navbar.php';
 include 'admin_Auth.php';
 
 require_once '../bd/conexion.php';
 
 // Función para remover parámetros de la URL
-function remove_query_param($param) {
+function remove_query_param($param)
+{
     $url = parse_url($_SERVER['REQUEST_URI']);
     parse_str($url['query'] ?? '', $query_params);
     unset($query_params[$param]);
@@ -14,7 +15,8 @@ function remove_query_param($param) {
 }
 
 // Función para generar enlaces de paginación con filtros
-function get_pagination_link($pagina) {
+function get_pagination_link($pagina)
+{
     $url = parse_url($_SERVER['REQUEST_URI']);
     parse_str($url['query'] ?? '', $query_params);
     $query_params['pagina'] = $pagina;
@@ -119,23 +121,34 @@ if (!$usuarios) {
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .header-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
+
         .filtros-wrapper {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .buttons-wrapper {
             display: flex;
             gap: 10px;
         }
-        .publicada { color: #28a745; font-weight: bold; }
-        .pendiente { color: #dc3545; font-weight: bold; }
+
+        .publicada {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .pendiente {
+            color: #dc3545;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -175,7 +188,17 @@ if (!$usuarios) {
                     </div>
 
                     <div class="buttons-wrapper">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
+                        <button type="button" style="background: var(--tarjetas);
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;" data-bs-toggle="modal" data-bs-target="#crearUsuarioModal">
                             <i class="fas fa-plus me-2"></i>Agregar Usuario
                         </button>
                     </div>
@@ -233,27 +256,27 @@ if (!$usuarios) {
 
                 <!-- Paginación -->
                 <?php if ($total_paginas > 1): ?>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <?php if ($pagina_actual > 1): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="<?= get_pagination_link($pagina_actual - 1) ?>">&laquo; Anterior</a>
-                            </li>
-                        <?php endif; ?>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <?php if ($pagina_actual > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= get_pagination_link($pagina_actual - 1) ?>">&laquo; Anterior</a>
+                                </li>
+                            <?php endif; ?>
 
-                        <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                            <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
-                                <a class="page-link" href="<?= get_pagination_link($i) ?>"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
+                            <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
+                                <li class="page-item <?= $i == $pagina_actual ? 'active' : '' ?>">
+                                    <a class="page-link" href="<?= get_pagination_link($i) ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
 
-                        <?php if ($pagina_actual < $total_paginas): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="<?= get_pagination_link($pagina_actual + 1) ?>">Siguiente &raquo;</a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
+                            <?php if ($pagina_actual < $total_paginas): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= get_pagination_link($pagina_actual + 1) ?>">Siguiente &raquo;</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
                 <?php endif; ?>
             </div>
         </div>
@@ -568,4 +591,5 @@ if (!$usuarios) {
         });
     </script>
 </body>
+
 </html>

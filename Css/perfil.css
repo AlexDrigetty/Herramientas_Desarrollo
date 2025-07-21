@@ -18,13 +18,8 @@
     margin-bottom: 40px; /* Más espacio inferior */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada y suave */
     border: 1px solid rgba(0, 0, 0, 0.04); /* Borde más sutil */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más fluida */
 }
 
-.profile-header:hover {
-    transform: translateY(-8px) scale(1.01); /* Efecto de elevación y ligero crecimiento */
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); /* Sombra más intensa al pasar el ratón */
-}
 
 .profile-pic {
     width: 160px; /* Un poco más grande */
@@ -107,14 +102,8 @@
     border: none;
     border-radius: 20px; /* Bordes más redondeados */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Sombra más suave y pronunciada */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más fluida */
     margin-bottom: 30px; /* Más espacio inferior */
     overflow: hidden; /* Asegura que el contenido respete el border-radius */
-}
-
-.card:hover {
-    transform: translateY(-8px) scale(1.01); /* Efecto de elevación y ligero crecimiento */
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); /* Sombra más intensa al pasar el ratón */
 }
 
 .card-header {

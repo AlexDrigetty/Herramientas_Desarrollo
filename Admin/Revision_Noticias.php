@@ -40,7 +40,7 @@ $noticias_pendientes = $conn->query($sql_pendientes);
         <?php include 'slider.php'; ?>
         <div id="main-content">
             <div class="todo">
-                <h2 class="mb-4"><i class="fas fa-clipboard-check me-2"></i>Noticias Pendientes de Revisión</h2>
+                <h2 class="mb-4"></i>Noticias de usuarios</h2>
                 
                 <?php if ($success): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">

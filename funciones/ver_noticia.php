@@ -77,11 +77,8 @@ if (!$noticia) {
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h3><?= htmlspecialchars($noticia['titulo']) ?></h3>
-                        <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
-                            <span class="badge" style="background-color: <?= $noticia['categoria_color'] ?>">
-                                <?= htmlspecialchars($noticia['categoria_nombre']) ?>
-                            </span>
+                        <h3 class ="mb-4" style="font-size: 35px;"><?= htmlspecialchars($noticia['titulo']) ?></h3>
+                        <div class="d-flex align-items-center me-3 gap-2 mt-2 flex-wrap mb-4 ">
                             <span class="badge estado-badge estado-<?= strtolower($noticia['estado_nombre']) ?>">
                                 <?= htmlspecialchars($noticia['estado_nombre']) ?>
                             </span>
@@ -103,9 +100,9 @@ if (!$noticia) {
                 
                 <?php if ($noticia['imagen_portada'] && $noticia['imagen_portada'] != 'default.jpg'): ?>
                     <div class="mb-4 text-center">
-                        <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
+                        <img src="../Imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
                              alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
-                             class="img-fluid rounded" style="max-height: 400px;">
+                             class="img-fluid rounded w-100" style="object-fit: contain; height: 450px">
                     </div>
                 <?php endif; ?>
                 

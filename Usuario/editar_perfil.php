@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         
         $_SESSION['mensaje'] = "Perfil actualizado correctamente";
-        header('Location: perfil.php');
+        header('Location: perfil_usuario.php');
         exit;
     } catch (Exception $e) {
         $error = "Error al actualizar el perfil: " . $e->getMessage();
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             
                             <div class="d-flex justify-content-between">
-                                <a href="perfil.php" class="btn btn-secondary">
+                                <a href="perfil_usuario.php" class="btn btn-secondary">
                                     <i class="fas fa-times me-2"></i>Cancelar
                                 </a>
                                 <button type="submit" class="btn btn-primary">

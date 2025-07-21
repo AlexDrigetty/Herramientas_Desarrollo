@@ -9,6 +9,53 @@ $pendientes = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_
 $programadas = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 2")->fetch_assoc()['total'];
 $publicadas_hoy = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 3 AND DATE(fecha_publicacion) = CURDATE()")->fetch_assoc()['total'];
 
+// Obtener estadísticas de ayer para calcular porcentajes diarios
+$ayer = date('Y-m-d', strtotime('-1 day'));
+
+// Noticias totales ayer vs hoy
+$total_ayer = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE DATE(fecha_creacion) = '$ayer'")->fetch_assoc()['total'];
+$total_hoy = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE DATE(fecha_creacion) = CURDATE()")->fetch_assoc()['total'];
+
+$variacion_total_diaria = 0;
+if ($total_ayer > 0) {
+    $variacion_total_diaria = (($total_hoy - $total_ayer) / $total_ayer) * 100;
+} elseif ($total_hoy > 0) {
+    $variacion_total_diaria = 100; // Si ayer fue 0 y hoy hay, es 100% de aumento
+}
+
+// Pendientes ayer vs hoy
+$pendientes_ayer = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 1 AND DATE(fecha_creacion) = '$ayer'")->fetch_assoc()['total'];
+$pendientes_hoy = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 1 AND DATE(fecha_creacion) = CURDATE()")->fetch_assoc()['total'];
+
+$variacion_pendientes_diaria = 0;
+if ($pendientes_ayer > 0) {
+    $variacion_pendientes_diaria = (($pendientes_hoy - $pendientes_ayer) / $pendientes_ayer) * 100;
+} elseif ($pendientes_hoy > 0) {
+    $variacion_pendientes_diaria = 100;
+}
+
+// Programadas ayer vs hoy
+$programadas_ayer = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 2 AND DATE(fecha_creacion) = '$ayer'")->fetch_assoc()['total'];
+$programadas_hoy = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 2 AND DATE(fecha_creacion) = CURDATE()")->fetch_assoc()['total'];
+
+$variacion_programadas_diaria = 0;
+if ($programadas_ayer > 0) {
+    $variacion_programadas_diaria = (($programadas_hoy - $programadas_ayer) / $programadas_ayer) * 100;
+} elseif ($programadas_hoy > 0) {
+    $variacion_programadas_diaria = 100;
+}
+
+// Publicadas ayer vs hoy
+$publicadas_ayer = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 3 AND DATE(fecha_publicacion) = '$ayer'")->fetch_assoc()['total'];
+$publicadas_hoy = $conn->query("SELECT COUNT(*) as total FROM noticias WHERE estado_id = 3 AND DATE(fecha_publicacion) = CURDATE()")->fetch_assoc()['total'];
+
+$variacion_publicadas_diaria = 0;
+if ($publicadas_ayer > 0) {
+    $variacion_publicadas_diaria = (($publicadas_hoy - $publicadas_ayer) / $publicadas_ayer) * 100;
+} elseif ($publicadas_hoy > 0) {
+    $variacion_publicadas_diaria = 100;
+}
+
 // Consultas para estadísticas mensuales
 $noticias_mes_actual = $conn->query("
     SELECT COUNT(*) as total 
@@ -24,10 +71,9 @@ $noticias_mes_pasado = $conn->query("
     AND YEAR(fecha_creacion) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
 ")->fetch_assoc()['total'];
 
-// Calcular variación porcentual para noticias totales
-$variacion_total = 0;
+$variacion_total_mensual = 0;
 if ($noticias_mes_pasado > 0) {
-    $variacion_total = (($noticias_mes_actual - $noticias_mes_pasado) / $noticias_mes_pasado) * 100;
+    $variacion_total_mensual = (($noticias_mes_actual - $noticias_mes_pasado) / $noticias_mes_pasado) * 100;
 }
 
 // Consultas para pendientes mensuales
@@ -47,9 +93,9 @@ $pendientes_mes_pasado = $conn->query("
     AND YEAR(fecha_creacion) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
 ")->fetch_assoc()['total'];
 
-$variacion_pendientes = 0;
+$variacion_pendientes_mensual = 0;
 if ($pendientes_mes_pasado > 0) {
-    $variacion_pendientes = (($pendientes_mes_actual - $pendientes_mes_pasado) / $pendientes_mes_pasado) * 100;
+    $variacion_pendientes_mensual = (($pendientes_mes_actual - $pendientes_mes_pasado) / $pendientes_mes_pasado) * 100;
 }
 
 // Consultas para programadas mensuales
@@ -69,9 +115,9 @@ $programadas_mes_pasado = $conn->query("
     AND YEAR(fecha_creacion) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
 ")->fetch_assoc()['total'];
 
-$variacion_programadas = 0;
+$variacion_programadas_mensual = 0;
 if ($programadas_mes_pasado > 0) {
-    $variacion_programadas = (($programadas_mes_actual - $programadas_mes_pasado) / $programadas_mes_pasado) * 100;
+    $variacion_programadas_mensual = (($programadas_mes_actual - $programadas_mes_pasado) / $programadas_mes_pasado) * 100;
 }
 
 // Consultas para publicadas mensuales
@@ -91,9 +137,9 @@ $publicadas_mes_pasado = $conn->query("
     AND YEAR(fecha_publicacion) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))
 ")->fetch_assoc()['total'];
 
-$variacion_publicadas = 0;
+$variacion_publicadas_mensual = 0;
 if ($publicadas_mes_pasado > 0) {
-    $variacion_publicadas = (($publicadas_mes_actual - $publicadas_mes_pasado) / $publicadas_mes_pasado) * 100;
+    $variacion_publicadas_mensual = (($publicadas_mes_actual - $publicadas_mes_pasado) / $publicadas_mes_pasado) * 100;
 }
 
 // Consulta para las noticias recientes
@@ -110,7 +156,7 @@ $recientes = $conn->query("
 // Consulta para los usuarios recientes
 $usuarios_recientes = $conn->query("
     SELECT u.id, u.nombre, u.apellido, u.correo, r.nombre as rol_nombre, 
-           u.activo, DATE_FORMAT(u.fecha_registro, '%Y-%m-%d %H:%i') as fecha_registro_formateada
+           u.estado, DATE_FORMAT(u.fecha_registro, '%Y-%m-%d %H:%i') as fecha_registro_formateada
     FROM usuarios u
     JOIN roles r ON u.rol_id = r.id
     ORDER BY u.fecha_registro DESC
@@ -152,9 +198,9 @@ if (!$usuarios_recientes) {
                         </div>
                         <div class="cards-body">
                             <span><?= $total_noticias ?></span>
-                            <div class="stats-trend <?= ($variacion_total >= 0) ? 'text-success' : 'text-danger' ?>">
-                                <i class="fas <?= ($variacion_total >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                <?= number_format(abs($variacion_total), 1) ?>%
+                            <div class="stats-trend <?= ($variacion_total_diaria >= 0) ? 'text-success' : 'text-danger' ?>">
+                                <i class="fas <?= ($variacion_total_diaria >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
+                                <?= number_format(abs($variacion_total_diaria), 1) ?>%
                             </div>
                         </div>
                     </div>
@@ -166,9 +212,9 @@ if (!$usuarios_recientes) {
                         </div>
                         <div class="cards-body">
                             <span><?= $pendientes ?></span>
-                            <div class="stats-trend <?= ($variacion_pendientes >= 0) ? 'text-success' : 'text-danger' ?>">
-                                <i class="fas <?= ($variacion_pendientes >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                <?= number_format(abs($variacion_pendientes), 1) ?>%
+                            <div class="stats-trend <?= ($variacion_pendientes_diaria >= 0) ? 'text-success' : 'text-danger' ?>">
+                                <i class="fas <?= ($variacion_pendientes_diaria >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
+                                <?= number_format(abs($variacion_pendientes_diaria), 1) ?>%
                             </div>
                         </div>
                     </div>
@@ -180,9 +226,9 @@ if (!$usuarios_recientes) {
                         </div>
                         <div class="cards-body">
                             <span><?= $programadas ?></span>
-                            <div class="stats-trend <?= ($variacion_programadas >= 0) ? 'text-success' : 'text-danger' ?>">
-                                <i class="fas <?= ($variacion_programadas >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                <?= number_format(abs($variacion_programadas), 1) ?>%
+                            <div class="stats-trend <?= ($variacion_programadas_diaria >= 0) ? 'text-success' : 'text-danger' ?>">
+                                <i class="fas <?= ($variacion_programadas_diaria >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
+                                <?= number_format(abs($variacion_programadas_diaria), 1) ?>%
                             </div>
                         </div>
                     </div>
@@ -194,103 +240,104 @@ if (!$usuarios_recientes) {
                         </div>
                         <div class="cards-body">
                             <span><?= $publicadas_hoy ?></span>
-                            <div class="stats-trend <?= ($variacion_publicadas >= 0) ? 'text-success' : 'text-danger' ?>">
-                                <i class="fas <?= ($variacion_publicadas >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                <?= number_format(abs($variacion_publicadas), 1) ?>%
+                            <div class="stats-trend <?= ($variacion_publicadas_diaria >= 0) ? 'text-success' : 'text-danger' ?>">
+                                <i class="fas <?= ($variacion_publicadas_diaria >= 0) ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
+                                <?= number_format(abs($variacion_publicadas_diaria), 1) ?>%
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div>
-
-            <div class="row recent py-4">
-                <div class="table-responsive col-sm-12 col-md-6  mb-3">
-                    <div class="recent-top">
-                        <a href="Todas_Noticias.php" class="ver-todas mb-3">Ver Todo</a>
-                    </div>
-                    <table class="tabla table table-hover mb-0" style="color: black;">
-                        <thead>
-                            <tr>
-                                <th>TÍTULO</th>
-                                <th>TIPO</th>
-                                <th>CATEGORIA</th>
-                                <th>ESTADO</th>
-                                <th>ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if ($recientes->num_rows > 0): ?>
-                                <?php while ($noticia = $recientes->fetch_assoc()): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars(substr($noticia['titulo'], 0, 50)) ?><?= strlen($noticia['titulo']) > 50 ? '...' : '' ?></td>
-                                        <td><?= ucfirst($noticia['tipo_noticia']) ?></td>
-                                        <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
-                                        <td>
-                                            <?php if ($noticia['estado_id'] == 1): ?>
-                                                <span class="pendiente">Pendiente</span>
-                                            <?php elseif ($noticia['estado_id'] == 2): ?>
-                                                <span class="programada">Programada</span>
-                                            <?php else: ?>
-                                                <span class="publicada">Publicada</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <a href="../funciones/editar_noticia.php?id=<?= $noticia['id'] ?>" class="editar"><i class="fa fa-edit"></i></a>
-                                            <button class="eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="5" class="text-center">No hay noticias recientes</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-sm-12 col-md-6">
-                    <div class="recent-top">
-                        <a href="Todas_Usuarios.php" class="ver-todas mb-3">Ver Todo</a>
-                    </div>
-
-                    <table  class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>NOMBRE</th>
-                                <th>CORREO</th>
-                                <th>REGISTRO</th>
-                                <th>ESTADO</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php if ($usuarios_recientes->num_rows > 0): ?>
-                                <?php while ($usuario = $usuarios_recientes->fetch_assoc()): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></td>
-                                        <td><?= htmlspecialchars(substr($usuario['correo'], 0, 20)) ?><?= strlen($usuario['correo']) > 20 ? '...' : '' ?></td>
-                                        <td><?= $usuario['fecha_registro_formateada'] ?></td>
-                                        <td>
-                                            <?php if ($usuario['activo'] == 1): ?>
-                                                <span class="publicada">Activo</span>
-                                            <?php else: ?>
-                                                <span class="pendiente">Inactivo</span>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="6" class="text-center">No hay usuarios registrados</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
                 </div>
             </div>
+        </div>
+
+        <div class="row recent py-4">
+            <div class="table-responsive col-sm-12 col-md-6  mb-3">
+                <div class="recent-top">
+                    <a href="Todas_Noticias.php" class="ver-todas mb-3">Ver Todo</a>
+                </div>
+                <table class="tabla table table-hover mb-0" style="color: black;">
+                    <thead>
+                        <tr>
+                            <th>TÍTULO</th>
+                            <th>TIPO</th>
+                            <th>CATEGORIA</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($recientes->num_rows > 0): ?>
+                            <?php while ($noticia = $recientes->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars(substr($noticia['titulo'], 0, 50)) ?><?= strlen($noticia['titulo']) > 50 ? '...' : '' ?></td>
+                                    <td><?= ucfirst($noticia['tipo_noticia']) ?></td>
+                                    <td><?= htmlspecialchars($noticia['categoria_nombre']) ?></td>
+                                    <td>
+                                        <?php if ($noticia['estado_id'] == 1): ?>
+                                            <span class="pendiente">Pendiente</span>
+                                        <?php elseif ($noticia['estado_id'] == 2): ?>
+                                            <span class="programada">Programada</span>
+                                        <?php else: ?>
+                                            <span class="publicada">Publicada</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="../funciones/editar_noticia.php?id=<?= $noticia['id'] ?>" class="editar"><i class="fa fa-edit"></i></a>
+                                        <button class="eliminar" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<?= $noticia['id'] ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="text-center">No hay noticias recientes</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="recent-top">
+                    <a href="Todas_Usuarios.php" class="ver-todas mb-3">Ver Todo</a>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>NOMBRE</th>
+                            <th>CORREO</th>
+                            <th>REGISTRO</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php if ($usuarios_recientes->num_rows > 0): ?>
+                            <?php while ($usuario = $usuarios_recientes->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></td>
+                                    <td><?= htmlspecialchars(substr($usuario['correo'], 0, 20)) ?><?= strlen($usuario['correo']) > 20 ? '...' : '' ?></td>
+                                    <td><?= $usuario['fecha_registro_formateada'] ?></td>
+                                    <td>
+                                        <?php if ($usuario['estado'] == 1): ?>
+                                            <span class="publicada">Activo</span>
+                                        <?php else: ?>
+                                            <span class="pendiente">Inactivo</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No hay usuarios registrados</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </div>
     </main>
 

@@ -250,57 +250,64 @@ function buscarNoticias() {
 
 // Función para obtener noticias de la API (manteniendo tu implementación)
 async function obtenerNoticiasPorCategoria(categoria) {
-    const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
-    const query = configCategorias[categoria].query;
-    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&pageSize=20&apiKey=${apiKey}`;
-
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-        const data = await response.json();
-
-        if (data.articles?.length > 0) {
-            return data.articles.slice(0, 20).map((noticia, index) => ({
-                id: 'api-' + (noticiasCompletas.length + index + 1),
-                titulo: noticia.title || 'Sin título',
-                imagen: obtenerImagen(noticia),
-                resumen: noticia.description || 'Sin descripción',
-                fecha: noticia.publishedAt,
-                tipo: "internacional",
-                categoria: configCategorias[categoria].nombreES,
-                categoriaOriginal: categoria,
-                enlace: noticia.url || '#',
-                esLocal: false
-            }));
+        // Intento principal con NewsAPI
+        const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
+        const response = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(configCategorias[categoria].query)}&language=es&pageSize=5&apiKey=${apiKey}`);
+        
+        if (response.status === 429) { // Límite excedido
+            throw new Error('Límite de API alcanzado');
         }
-        return [];
+        
+        const data = await response.json();
+        return procesarNoticiasAPI(data, categoria);
     } catch (error) {
-        console.error(`Error al obtener noticias de ${categoria}:`, error);
-        return [];
+        console.warn(`Fallo con NewsAPI (${categoria}), usando backup`, error);
+        return await obtenerNoticiasBackup(categoria);
     }
+}
+
+async function obtenerNoticiasBackup(categoria) {
+    // Puedes usar otra API alternativa aquí
+    // Por ejemplo: GNews, ContextualWeb, o datos estáticos
+    return []; // Retorna array vacío si no tienes alternativa
 }
 
 // Función para obtener todas las noticias (manteniendo tu implementación)
 async function obtenerTodasLasNoticiasAPI() {
     const categorias = ['general', 'futbol', 'politica', 'salud', 'economia', 'tecnologia'];
+    let todasLasNoticiasAPI = [];
 
-    for (const categoria of categorias) {
-        const noticias = await obtenerNoticiasPorCategoria(categoria);
-        noticiasCompletas = [...noticiasCompletas, ...noticias];
-    }
+    try {
+        // Obtener noticias para cada categoría
+        for (const categoria of categorias) {
+            console.log(`Obteniendo noticias de categoría: ${categoria}`);
+            const noticias = await obtenerNoticiasPorCategoria(categoria);
+            console.log(`Noticias obtenidas para ${categoria}:`, noticias.length);
+            todasLasNoticiasAPI = [...todasLasNoticiasAPI, ...noticias];
+        }
 
-    // Ordenar todas las noticias por fecha (más recientes primero)
-    noticiasCompletas.sort((a, b) => {
-        return new Date(b.fecha) - new Date(a.fecha);
-    });
+        // Combinar con noticias locales
+        noticiasCompletas = [...noticiasCompletas, ...todasLasNoticiasAPI];
 
-    // Inicializar noticias filtradas con todas las noticias
-    noticiasFiltradas = [...noticiasCompletas];
-    
-    // Aplicar filtros si hay alguno activo
-    if (filtrosActivos.categoria || filtrosActivos.fecha || filtrosActivos.texto) {
-        aplicarFiltros();
-    } else {
+        // Ordenar por fecha
+        noticiasCompletas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+        console.log('Total de noticias obtenidas:', noticiasCompletas.length);
+        
+        // Inicializar noticias filtradas
+        noticiasFiltradas = [...noticiasCompletas];
+        
+        // Mostrar noticias
+        if (filtrosActivos.categoria || filtrosActivos.fecha || filtrosActivos.texto) {
+            aplicarFiltros();
+        } else {
+            mostrarNoticias();
+        }
+    } catch (error) {
+        console.error('Error al obtener todas las noticias:', error);
+        // Mostrar al menos las noticias locales si hay error con la API
+        noticiasFiltradas = [...noticiasCompletas];
         mostrarNoticias();
     }
 }

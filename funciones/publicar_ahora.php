@@ -38,14 +38,6 @@ $stmt_update = $conn->prepare($sql_update);
 $stmt_update->bind_param("i", $noticia_id);
 
 if ($stmt_update->execute()) {
-    // Marcar la tarea programada como completada si existe
-    $sql_tarea = "UPDATE tareas_programadas 
-                  SET completada = 1, fecha_completada = NOW() 
-                  WHERE noticia_id = ? AND accion = 'publicar' AND completada = 0";
-    $stmt_tarea = $conn->prepare($sql_tarea);
-    $stmt_tarea->bind_param("i", $noticia_id);
-    $stmt_tarea->execute();
-    
     $_SESSION['success'] = "Noticia publicada correctamente";
 } else {
     $_SESSION['error'] = "Error al publicar la noticia: ".$conn->error;

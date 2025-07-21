@@ -1,10 +1,10 @@
-<?php include 'navar.php'?>
+<?php include 'navar.php' ?>
 <?php
 include("../Admin/checkout_admin.php");
 include("../bd/conexion.php");
 
-if($admin_true) {
-    include '../Admin/admin_navbar.php'; 
+if ($admin_true) {
+    include '../Admin/admin_navbar.php';
 }
 
 // Obtener noticias locales publicadas (nacionales e internacionales)
@@ -34,12 +34,14 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
         'categoria_color' => $noticia['categoria_color'],
         'slug' => $noticia['slug'],
         'autor' => $noticia['autor_nombre'] . ' ' . $noticia['autor_apellido'],
-        'esLocal' => true
+        'esLocal' => true,
+        'enlace' => 'noticia_completa.php?id=' . $noticia['id'] // Añadido para el botón ver más
     ];
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -144,12 +146,12 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
         document.addEventListener('DOMContentLoaded', function() {
             // Cargar carrusel con noticias locales
             cargarCarrusel(noticiasLocales.slice(0, 8));
-            
+
             // Cargar últimas noticias (locales + API)
             cargarNoticiasAPI().then(() => {
                 cargarUltimasNoticias('all');
             });
-            
+
             // Event listeners para filtros
             document.querySelectorAll('.botones .btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -169,9 +171,9 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                     const noticias = await obtenerNoticiasAPI(categoria);
                     noticiasCompletas = [...noticiasCompletas, ...noticias];
                 }
-                
+
                 // Ordenar todas por fecha
-                noticiasCompletas.sort((a, b) => 
+                noticiasCompletas.sort((a, b) =>
                     new Date(b.fecha_publicacion || b.publishedAt) - new Date(a.fecha_publicacion || a.publishedAt)
                 );
             } catch (error) {
@@ -201,7 +203,8 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                     categoria_color: '#6c757d',
                     slug: article.url,
                     autor: article.author || 'Desconocido',
-                    esLocal: false
+                    esLocal: false,
+                    enlace: article.url // Añadido para el botón ver más
                 }));
             } catch (error) {
                 console.error('Error al obtener noticias API:', error);
@@ -216,7 +219,7 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
             noticias.forEach((noticia, index) => {
                 const item = document.createElement('div');
                 item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-                
+
                 item.innerHTML = `
                     <div class="carrusel_contenido">
                         <div class="imagen">
@@ -231,16 +234,16 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                             <p>${noticia.resumen}</p>
                             <div class="metas">
                                 <span><i class="far fa-clock"></i> ${calcularTiempoTranscurrido(noticia.fecha_publicacion)}</span>
-                                <a href="${noticia.esLocal ? 'noticia.php?slug=' + noticia.slug : noticia.slug}" 
+                                <a href="${noticia.esLocal ? noticia.enlace : noticia.slug}" 
                                    ${noticia.esLocal ? '' : 'target="_blank"'} 
                                    class="vermas">
-                                    Leer más
+                                    ver más
                                 </a>
                             </div>
                         </div>
                     </div>
                 `;
-                
+
                 carouselInner.appendChild(item);
             });
 
@@ -250,14 +253,13 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
 
         function cargarUltimasNoticias(filtro) {
             let noticiasFiltradas = noticiasCompletas;
-            
+
             if (filtro !== 'all') {
-                noticiasFiltradas = noticiasCompletas.filter(noticia => 
+                noticiasFiltradas = noticiasCompletas.filter(noticia =>
                     noticia.tipo_noticia === filtro
                 );
             }
-            
-            // Mostrar solo 12 noticias
+
             renderizarUltimasNoticias(noticiasFiltradas.slice(0, 12));
         }
 
@@ -273,7 +275,7 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
             noticias.forEach(noticia => {
                 const col = document.createElement('div');
                 col.className = 'col-12 col-md-6 col-lg-4 mb-4';
-                
+
                 col.innerHTML = `
                     <div class="news">
                         <div class="imagen">
@@ -288,16 +290,16 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                             <p>${noticia.resumen}</p>
                             <div class="metas">
                                 <span><i class="far fa-clock"></i> ${calcularTiempoTranscurrido(noticia.fecha_publicacion)}</span>
-                                <a href="${noticia.esLocal ? 'noticia.php?slug=' + noticia.slug : noticia.slug}" 
+                                <a href="${noticia.esLocal ? noticia.enlace : noticia.slug}" 
                                    ${noticia.esLocal ? '' : 'target="_blank"'} 
                                    class="vermas">
-                                    Leer más
+                                    ver más
                                 </a>
                             </div>
                         </div>
                     </div>
                 `;
-                
+
                 newsContainer.appendChild(col);
             });
         }
@@ -309,7 +311,7 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
             noticias.slice(0, 8).forEach(noticia => {
                 const col = document.createElement('div');
                 col.className = 'col-12 mb-3 destacada-item';
-                
+
                 col.innerHTML = `
                     <div class="destacadas">
                         <div class="imagen">
@@ -317,13 +319,18 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                         </div>
                         <div class="contenido">
                             <h6>${noticia.titulo}</h6>
-                            <div class="metas">
+                            <a style="text-decoration:none; color: #1A2340; href="${noticia.esLocal ? noticia.enlace : noticia.slug}" 
+                                   ${noticia.esLocal ? '' : 'target="_blank"'} 
+                                   class="vermas">
+                                    ver más
+                                </a>
+                            <div class="metas mt-2">
                                 <span><i class="far fa-clock"></i> ${calcularTiempoTranscurrido(noticia.fecha_publicacion)}</span>
                             </div>
                         </div>
                     </div>
                 `;
-                
+
                 featuredContainer.appendChild(col);
             });
         }
@@ -353,6 +360,7 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <?php include 'footer.php'?>
+    <?php include 'footer.php' ?>
 </body>
+
 </html>

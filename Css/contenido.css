@@ -2,7 +2,7 @@
 .contenedor-principal {
     display: flex;
     max-width: 1400px;
-    margin: 100px auto 40px;
+    margin: 30px auto 40px;
     gap: 30px;
     padding: 0 20px;
 }

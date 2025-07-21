@@ -33,6 +33,7 @@ if (!$noticia) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,20 +42,22 @@ if (!$noticia) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../Css/admin.css">
 </head>
+
 <body>
     <main>
         <?php include '../Admin/slider.php'; ?>
         <div id="main-content">
             <div class="container py-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="fas fa-search me-2"></i>Revisar Noticia</h2>
-                
-                    <div>
-                        <a href="../funciones/cambiar_estado_noticia.php?id=<?= $noticia['id'] ?>&estado=3" class="btn btn-success">
-                            <i class="fas fa-check"></i>Aprobar
+                <div class="d-flex mb-4" style="flex-direction: column;">
+                    <div class="grupo_1 mb-3" style="display: flex; justify-content:space-between; align-items:center">
+                        <h2><i class="fas fa-search me-2"></i>Revisar Noticia</h2>
+                        <a href="../Admin/Revision_Noticias.php" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Volver
                         </a>
-                        <p></p>
-                        <form action="cambiar_estado_noticia.php" method="GET">
+                    </div>
+
+                    <div style="display: flex; justify-content:flex-end; align-items:center">
+                        <form action="cambiar_estado_noticia.php" method="GET" style="padding: 0; margin: 0;" class="me-2">
                             <input type="hidden" name="id" value="<?= $noticia['id'] ?>">
                             <input type="hidden" name="estado" value="2">
                             <input type="datetime-local" name="fecha_programada" required>
@@ -62,21 +65,21 @@ if (!$noticia) {
                                 <i class="fas fa-clock"></i> Programar
                             </button>
                         </form>
+                        <a href="../funciones/cambiar_estado_noticia.php?id=<?= $noticia['id'] ?>&estado=3" class="btn btn-success me-2">
+                            <i class="fas fa-check"></i>Aprobar
+                        </a>
                         <a href="../funciones/cambiar_estado_noticia.php?id=<?= $noticia['id'] ?>&estado=4" class="btn btn-danger">
                             <i class="fas fa-times"></i>Rechazar
                         </a>
-                        <a href="../Admin/Revision_Noticias.php" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left me-2"></i>Volver
-                        </a>
                     </div>
                 </div>
-                
-                <div class="card shadow-sm">
+
+                <div class="card shadow-sm mb-4" style="z-index: -1;">
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-md-8">
-                                <h3><?= htmlspecialchars($noticia['titulo']) ?></h3>
-                                <div class="d-flex align-items-center gap-2 mt-2">
+                                <h3 class="py-3"><?= htmlspecialchars($noticia['titulo']) ?></h3>
+                                <div class="d-flex align-items-center gap-2 mt-3 mb-3">
                                     <span class="badge" style="background-color: <?= $noticia['categoria_color'] ?>">
                                         <?= htmlspecialchars($noticia['categoria_nombre']) ?>
                                     </span>
@@ -89,20 +92,20 @@ if (!$noticia) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <?php if ($noticia['imagen_portada'] && $noticia['imagen_portada'] != 'default.jpg'): ?>
                             <div class="mb-4">
-                                <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>" 
-                                     alt="<?= htmlspecialchars($noticia['titulo']) ?>" 
-                                     class="img-fluid rounded">
+                                <img src="../imagenes/<?= htmlspecialchars($noticia['imagen_portada']) ?>"
+                                    alt="<?= htmlspecialchars($noticia['titulo']) ?>"
+                                    class="img-fluid rounded" style="max-height: 450px; object-fit: contain; width: 100%;">
                             </div>
                         <?php endif; ?>
-                        
+
                         <div class="mb-4">
                             <h5>Resumen:</h5>
                             <p><?= nl2br(htmlspecialchars($noticia['resumen'])) ?></p>
                         </div>
-                        
+
                         <div>
                             <h5>Contenido:</h5>
                             <div class="border p-3 rounded bg-light">
@@ -117,4 +120,5 @@ if (!$noticia) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

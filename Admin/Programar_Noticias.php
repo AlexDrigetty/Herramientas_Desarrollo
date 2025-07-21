@@ -176,8 +176,28 @@ unset($_SESSION['error']);
                     </div>
 
                     <div class="buttons-wrapper">
-                        <a href="Crear_Noticias.php" class="btn btn-primary crear"><i class="fa fa-plus"></i> Crear Noticia</a>
-                        <a href="todas_noticias.php" class="btn btn-primary crear"><i class="fa fa-list"></i> Ver Todas</a>
+                        <a href="Crear_Noticias.php" style="background: var(--tarjetas);
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;"><i class="fa fa-plus me-2"></i> Crear Noticia</a>
+                        <a href="todas_noticias.php" style="background: var(--tarjetas);
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;"><i class="fa fa-list me-2"></i> Ver Todas</a>
                     </div>
                 </div>
 

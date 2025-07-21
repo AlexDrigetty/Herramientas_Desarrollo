@@ -4,7 +4,8 @@
 require_once '../bd/conexion.php';
 
 // Función para remover parámetros de la URL
-function remove_query_param($param) {
+function remove_query_param($param)
+{
     $url = parse_url($_SERVER['REQUEST_URI']);
     parse_str($url['query'] ?? '', $query_params);
     unset($query_params[$param]);
@@ -13,7 +14,8 @@ function remove_query_param($param) {
 }
 
 // Función para generar enlaces de paginación con filtros
-function get_pagination_link($pagina) {
+function get_pagination_link($pagina)
+{
     $url = parse_url($_SERVER['REQUEST_URI']);
     parse_str($url['query'] ?? '', $query_params);
     $query_params['pagina'] = $pagina;
@@ -199,8 +201,28 @@ if (!$noticias) {
                     </div>
 
                     <div class="buttons-wrapper">
-                        <a href="Crear_Noticias.php" class="btn btn-primary crear"><i class="fa fa-plus"></i> Crear Noticia</a>
-                        <a href="Programar_Noticias.php" class="btn btn-primary crear"><i class="fa fa-clock"></i> Ver Programadas</a>
+                        <a href="Crear_Noticias.php" class="crear" style="background: var(--tarjetas);
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;"><i class="fa fa-plus me-2"></i> Crear Noticia</a>
+                        <a href="Programar_Noticias.php" class="crear" style="background: var(--tarjetas);
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;"><i class="fa fa-clock me-2"></i> Ver Programadas</a>
                     </div>
                 </div>
 

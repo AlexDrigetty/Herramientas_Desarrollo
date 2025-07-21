@@ -266,8 +266,13 @@ body {
 }
 
 .news .imagen {
-    min-height: 200px;
-    overflow: hidden;
+    max-height: 250px;
+
+    img{
+        object-fit: cover;
+        height: 250px;
+        width: 100%;
+    }
 }
 
 .news .imagen img {
@@ -350,7 +355,7 @@ body {
 }
 
 .news .vermas {
-    padding: 5px 15px;
+    padding: 5px 10px;
     border: none;
     border-radius: 3px;
     background-color: #2C3E50;
@@ -358,6 +363,7 @@ body {
     font-weight: 600;
     font-size: 0.8rem;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .news .vermas:hover {
@@ -529,7 +535,7 @@ body {
 .slider {
     position: fixed;
     min-width: 225px;
-    width: 215px;
+    width: 250px;
     height: 100vh;
     background: linear-gradient(135deg, #2f2f49 0%, #16213E 100%);
     min-height: 100vh;
@@ -538,7 +544,7 @@ body {
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 
     .slider-content {
-        background: #910226;
+        background: #E99907;
         padding: 20px;
         width: 100%;
         color: white;
