@@ -46,18 +46,13 @@ if (!$usuario) {
             border: 5px solid white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .stats-card {
-            transition: transform 0.3s;
-        }
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .btn-enviar-noticia {
+            background-color: #28a745;
+            color: white;
         }
     </style>
 </head>
 <body>
-    
-    
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-4">
@@ -73,6 +68,13 @@ if (!$usuario) {
                     <a href="editar_perfil.php" class="btn btn-primary mt-3">
                         <i class="fas fa-edit"></i> Editar Perfil
                     </a>
+                    
+                    <!-- Botón para enviar noticia (solo para usuarios normales) -->
+                    <?php if ($usuario['rol_id'] == 1): ?>
+                        <a href="enviar_noticia.php" class="btn btn-enviar-noticia mt-3">
+                            <i class="fas fa-paper-plane"></i> Enviar Noticia
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
             
@@ -94,64 +96,11 @@ if (!$usuario) {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Estadísticas del usuario -->
-                <div class="row mt-4">
-                    <div class="col-md-4 mb-4">
-                        <div class="card stats-card text-white bg-info">
-                            <div class="card-body text-center">
-                                <h5><i class="fas fa-newspaper"></i> Noticias</h5>
-                                <?php
-                                $query = "SELECT COUNT(*) FROM noticias WHERE autor_id = ?";
-                                $stmt = $conn->prepare($query);
-                                $stmt->bind_param("i", $usuario_id);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                $total_noticias = $result->fetch_row()[0];
-                                ?>
-                                <h2 class="mb-0"><?= $total_noticias ?></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4 mb-4">
-                        <div class="card stats-card text-white bg-success">
-                            <div class="card-body text-center">
-                                <h5><i class="fas fa-eye"></i> Vistas</h5>
-                                <?php
-                                $query = "SELECT SUM(vistas) FROM noticias WHERE autor_id = ?";
-                                $stmt = $conn->prepare($query);
-                                $stmt->bind_param("i", $usuario_id);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                $total_vistas = $result->fetch_row()[0] ?: 0;
-                                ?>
-                                <h2 class="mb-0"><?= number_format($total_vistas) ?></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4 mb-4">
-                        <div class="card stats-card text-white bg-warning">
-                            <div class="card-body text-center">
-                                <h5><i class="fas fa-calendar-check"></i> Programadas</h5>
-                                <?php
-                                $query = "SELECT COUNT(*) FROM noticias WHERE autor_id = ? AND estado_id = 2";
-                                $stmt = $conn->prepare($query);
-                                $stmt->bind_param("i", $usuario_id);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                $programadas = $result->fetch_row()[0];
-                                ?>
-                                <h2 class="mb-0"><?= $programadas ?></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include '../Publico/footer.php'; ?>
 </body>
 </html>

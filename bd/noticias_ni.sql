@@ -88,3 +88,4 @@ CREATE TABLE comentarios (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
     FOREIGN KEY (respuesta_id) REFERENCES comentarios(id)
 );
+INSERT INTO estados_noticia (nombre) VALUES ('Rechazado');
