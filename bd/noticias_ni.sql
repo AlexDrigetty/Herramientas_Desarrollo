@@ -77,4 +77,14 @@ CREATE TABLE noticias (
     FOREIGN KEY (estado_id) REFERENCES estados_noticia(id),
     FULLTEXT INDEX (titulo, resumen, contenido)
 );
-
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    noticia_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    respuesta_id INT NULL,
+    FOREIGN KEY (noticia_id) REFERENCES noticias(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (respuesta_id) REFERENCES comentarios(id)
+);
