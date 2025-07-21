@@ -10,8 +10,7 @@ $user_logged = isset($_SESSION['usuario_id']) && isset($_SESSION['rol']) && $_SE
                 <li><a href="../Publico/inicio.php">Inicio</a></li>
                 <li><a href="../Publico/Nacional.php">Nacionales</a></li>
                 <li><a href="../Publico/Internacional.php">Internacional</a></li>
-                <li><a href="../Publico/destacados.php">Destacados</a></li>
-                <li><a href="../Publico/Categoria.php">Categoria</a></li>
+                <li><a href="../Publico/Categoria.php">Destacados</a></li>
             </ul>
             
             <?php if($user_logged): ?>

@@ -99,6 +99,7 @@ while ($noticia = $noticias->fetch_assoc()) {
         <div class="row">
             <div class="pagination-container mb-5">
                 <ul class="pagination" id="pagination">
+                    
                 </ul>
             </div>
         </div>

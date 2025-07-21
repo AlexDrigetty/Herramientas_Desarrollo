@@ -110,127 +110,218 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
 
     <?php include 'footer.php'?>
     <script>
-        const noticiasPorPagina = 8;
-        const paginasAMostrar = 5;
-        let paginaActual = 1;
-        let noticiasFiltradas = [];
-        let enModoBusqueda = false;
-        let noticiasCompletas = <?php echo json_encode($noticias_locales_para_js); ?>;
-        let categoriaActual = 'todas';
+       // Variables globales
+const noticiasPorPagina = 8;
+const paginasAMostrar = 5;
+let paginaActual = 1;
+let noticiasFiltradas = [];
+let noticiasCompletas = <?php echo json_encode($noticias_locales_para_js); ?>;
+let filtrosActivos = {
+    categoria: '',
+    fecha: '',
+    texto: ''
+};
 
-        const configCategorias = {
-            'general': {
-                nombreES: 'general',
-                claseCSS: 'general',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'mundo'
-            },
-            'futbol': {
-                nombreES: 'fútbol',
-                claseCSS: 'deportes',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'fútbol OR futbol OR "liga española" OR champions'
-            },
-            'economia': {
-                nombreES: 'economía',
-                claseCSS: 'economía',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'economía OR economia OR mercado OR bolsa OR finanzas'
-            },
-            'salud': {
-                nombreES: 'salud',
-                claseCSS: 'salud',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'salud OR medicina OR hospital OR médico OR vacuna'
-            },
-            'politica': {
-                nombreES: 'política',
-                claseCSS: 'política',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'política OR gobierno OR presidente OR congreso OR elecciones'
-            },
-            'tecnologia': {
-                nombreES: 'tecnología',
-                claseCSS: 'tecnología',
-                imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
-                query: 'tecnología OR tecnologia OR "inteligencia artificial" OR robot OR digital'
-            }
-        };
+// Configuración de categorías (manteniendo tu estructura)
+const configCategorias = {
+    'general': {
+        nombreES: 'general',
+        claseCSS: 'general',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'mundo'
+    },
+    'futbol': {
+        nombreES: 'fútbol',
+        claseCSS: 'deportes',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'fútbol OR futbol OR "liga española" OR champions'
+    },
+    'economia': {
+        nombreES: 'economía',
+        claseCSS: 'economía',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'economía OR economia OR mercado OR bolsa OR finanzas'
+    },
+    'salud': {
+        nombreES: 'salud',
+        claseCSS: 'salud',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'salud OR medicina OR hospital OR médico OR vacuna'
+    },
+    'politica': {
+        nombreES: 'política',
+        claseCSS: 'política',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'política OR gobierno OR presidente OR congreso OR elecciones'
+    },
+    'tecnologia': {
+        nombreES: 'tecnología',
+        claseCSS: 'tecnología',
+        imagen: 'https://marketplace.canva.com/EAFrDm3ydqw/1/0/1600w/canva-presentaci%C3%B3n-noticias-telediario-corporativo-azul-rojo-Vh4S5Wt7FD4.jpg',
+        query: 'tecnología OR tecnologia OR "inteligencia artificial" OR robot OR digital'
+    }
+};
 
-        function obtenerImagen(noticia) {
-            if (noticia.imagen) return noticia.imagen;
-            if (noticia.urlToImage) return noticia.urlToImage;
-            const categoria = noticia.categoriaOriginal ? noticia.categoriaOriginal : 'general';
-            return configCategorias[categoria]?.imagen || 'https://via.placeholder.com/300x200?text=Noticia';
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    obtenerTodasLasNoticiasAPI();
+    configurarEventListeners();
+});
+
+// Configurar event listeners para los filtros
+function configurarEventListeners() {
+    document.getElementById('category-filter').addEventListener('change', aplicarFiltros);
+    document.getElementById('date-filter').addEventListener('change', aplicarFiltros);
+    document.getElementById('buscar').addEventListener('click', buscarNoticias);
+    document.getElementById('contenido').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') buscarNoticias();
+    });
+}
+
+// Función para normalizar texto (eliminar tildes)
+function normalizarTexto(texto) {
+    return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// Función principal para aplicar filtros
+function aplicarFiltros() {
+    // Capturar valores de los filtros
+    filtrosActivos = {
+        categoria: document.getElementById('category-filter').value,
+        fecha: document.getElementById('date-filter').value,
+        texto: filtrosActivos.texto // Mantener el texto de búsqueda si existe
+    };
+
+    // Aplicar todos los filtros
+    noticiasFiltradas = noticiasCompletas.filter(noticia => {
+        // Filtro por categoría
+        if (filtrosActivos.categoria && 
+            normalizarTexto(noticia.categoria) !== normalizarTexto(filtrosActivos.categoria)) {
+            return false;
         }
 
-        function traducirCategoria(categoria) {
-            return configCategorias[categoria]?.nombreES || categoria;
-        }
-
-        async function obtenerNoticiasPorCategoria(categoria) {
-            const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
-            const query = configCategorias[categoria].query;
-            const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&pageSize=20&apiKey=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-                const data = await response.json();
-
-                if (data.articles?.length > 0) {
-                    return data.articles.slice(0, 20).map((noticia, index) => ({
-                        id: 'api-' + (noticiasCompletas.length + index + 1),
-                        titulo: noticia.title || 'Sin título',
-                        imagen: obtenerImagen(noticia),
-                        resumen: noticia.description || 'Sin descripción',
-                        fecha: noticia.publishedAt,
-                        tipo: "internacional",
-                        categoria: configCategorias[categoria].nombreES,
-                        categoriaOriginal: categoria,
-                        enlace: noticia.url || '#',
-                        esLocal: false
-                    }));
-                }
-                return [];
-            } catch (error) {
-                console.error(`Error al obtener noticias de ${categoria}:`, error);
-                return [];
+        // Filtro por fecha
+        if (filtrosActivos.fecha) {
+            const fechaNoticia = new Date(noticia.fecha);
+            const ahora = new Date();
+            const diferenciaHoras = (ahora - fechaNoticia) / (1000 * 60 * 60);
+            
+            switch (filtrosActivos.fecha) {
+                case 'hoy':
+                    if (diferenciaHoras >= 24) return false;
+                    break;
+                case 'ayer':
+                    if (diferenciaHoras < 24 || diferenciaHoras >= 48) return false;
+                    break;
+                case 'ultima-semana':
+                    if (diferenciaHoras < 48 || diferenciaHoras >= 168) return false; // 168 horas = 7 días
+                    break;
+                case 'ultimo-mes':
+                    if (diferenciaHoras < 168 || diferenciaHoras >= 720) return false; // 720 horas = 30 días
+                    break;
             }
         }
 
-        async function obtenerTodasLasNoticiasAPI() {
-            const categorias = ['general', 'futbol', 'politica', 'salud', 'economia', 'tecnologia'];
+        // Filtro por texto (si existe)
+        if (filtrosActivos.texto) {
+            const textoBusqueda = normalizarTexto(filtrosActivos.texto);
+            const tituloNormalizado = normalizarTexto(noticia.titulo);
+            const resumenNormalizado = normalizarTexto(noticia.resumen);
 
-            for (const categoria of categorias) {
-                const noticias = await obtenerNoticiasPorCategoria(categoria);
-                noticiasCompletas = [...noticiasCompletas, ...noticias];
+            if (!tituloNormalizado.includes(textoBusqueda) &&
+                !resumenNormalizado.includes(textoBusqueda)) {
+                return false;
             }
-
-            // Ordenar todas las noticias por fecha (más recientes primero)
-            noticiasCompletas.sort((a, b) => {
-                return new Date(b.fecha) - new Date(a.fecha);
-            });
-
-            mostrarNoticias();
         }
 
-        function mostrarNoticias() {
-            const newsContainer = document.getElementById('news-container');
-            newsContainer.innerHTML = '';
+        return true;
+    });
 
-            const noticiasAMostrar = enModoBusqueda ? noticiasFiltradas : noticiasCompletas;
-            const noticiasPagina = noticiasAMostrar.slice(
-                (paginaActual - 1) * noticiasPorPagina,
-                paginaActual * noticiasPorPagina
-            );
+    paginaActual = 1;
+    mostrarNoticias();
+}
 
-            if (noticiasPagina.length === 0) {
-                mostrarMensajeSinResultados();
-                return;
-            }
+// Función de búsqueda
+function buscarNoticias() {
+    const textoBusqueda = document.getElementById('contenido').value.trim();
+    filtrosActivos.texto = textoBusqueda;
+    aplicarFiltros();
+}
 
-            newsContainer.innerHTML = noticiasPagina.map(noticia => `
+// Función para obtener noticias de la API (manteniendo tu implementación)
+async function obtenerNoticiasPorCategoria(categoria) {
+    const apiKey = '5bdd0c4372a34d718d9ef84931150e53';
+    const query = configCategorias[categoria].query;
+    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&pageSize=20&apiKey=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        const data = await response.json();
+
+        if (data.articles?.length > 0) {
+            return data.articles.slice(0, 20).map((noticia, index) => ({
+                id: 'api-' + (noticiasCompletas.length + index + 1),
+                titulo: noticia.title || 'Sin título',
+                imagen: obtenerImagen(noticia),
+                resumen: noticia.description || 'Sin descripción',
+                fecha: noticia.publishedAt,
+                tipo: "internacional",
+                categoria: configCategorias[categoria].nombreES,
+                categoriaOriginal: categoria,
+                enlace: noticia.url || '#',
+                esLocal: false
+            }));
+        }
+        return [];
+    } catch (error) {
+        console.error(`Error al obtener noticias de ${categoria}:`, error);
+        return [];
+    }
+}
+
+// Función para obtener todas las noticias (manteniendo tu implementación)
+async function obtenerTodasLasNoticiasAPI() {
+    const categorias = ['general', 'futbol', 'politica', 'salud', 'economia', 'tecnologia'];
+
+    for (const categoria of categorias) {
+        const noticias = await obtenerNoticiasPorCategoria(categoria);
+        noticiasCompletas = [...noticiasCompletas, ...noticias];
+    }
+
+    // Ordenar todas las noticias por fecha (más recientes primero)
+    noticiasCompletas.sort((a, b) => {
+        return new Date(b.fecha) - new Date(a.fecha);
+    });
+
+    // Inicializar noticias filtradas con todas las noticias
+    noticiasFiltradas = [...noticiasCompletas];
+    
+    // Aplicar filtros si hay alguno activo
+    if (filtrosActivos.categoria || filtrosActivos.fecha || filtrosActivos.texto) {
+        aplicarFiltros();
+    } else {
+        mostrarNoticias();
+    }
+}
+
+// Función para mostrar noticias (manteniendo tu estructura)
+function mostrarNoticias() {
+    const newsContainer = document.getElementById('news-container');
+    newsContainer.innerHTML = '';
+
+    const noticiasAMostrar = noticiasFiltradas;
+    const noticiasPagina = noticiasAMostrar.slice(
+        (paginaActual - 1) * noticiasPorPagina,
+        paginaActual * noticiasPorPagina
+    );
+
+    if (noticiasPagina.length === 0) {
+        mostrarMensajeSinResultados();
+        return;
+    }
+
+    newsContainer.innerHTML = noticiasPagina.map(noticia => `
         <div class="col-6 col-md-4 col-lg-3 mb-4">
             <div class="news">
                 <div class="imagen">
@@ -253,152 +344,108 @@ while ($noticia = $noticias_locales->fetch_assoc()) {
                 </div>
             </div>
         </div>
-        `).join('');
+    `).join('');
 
-            actualizarPaginacion();
-        }
+    actualizarPaginacion();
+}
 
+// Función para actualizar paginación (manteniendo tu estructura exacta)
 function actualizarPaginacion() {
-            const pagination = document.getElementById('pagination');
-            if (!pagination) return;
+    const pagination = document.getElementById('pagination');
+    if (!pagination) return;
 
-            const noticiasTotales = enModoBusqueda ? noticiasFiltradas : noticiasCompletas;
-            const totalPaginas = Math.ceil(noticiasTotales.length / noticiasPorPagina);
+    const totalPaginas = Math.ceil(noticiasFiltradas.length / noticiasPorPagina);
 
-            pagination.innerHTML = '';
+    pagination.innerHTML = '';
 
-            // Botón Anterior - SIEMPRE visible
-            pagination.appendChild(crearBotonPaginacion(
-                'Anterior',
-                false, // No es activo
-                () => cambiarPagina(paginaActual - 1),
-                false, // No es número
-                paginaActual === 1 // Deshabilitado en primera página
-            ));
-
-            // Números de página
-            let inicio = Math.max(1, paginaActual - Math.floor(paginasAMostrar / 2));
-            let fin = Math.min(totalPaginas, paginaActual + Math.floor(paginasAMostrar / 2));
-
-            if (fin - inicio + 1 < paginasAMostrar) {
-                inicio = Math.max(1, fin - paginasAMostrar + 1);
-            }
-
-            for (let i = inicio; i <= fin; i++) {
-                pagination.appendChild(crearBotonPaginacion(
-                    i,
-                    i === paginaActual, // Activo si es la página actual
-                    () => cambiarPagina(i),
-                    true // Es número
-                ));
-            }
-
-            // Botón Siguiente - SIEMPRE visible
-            pagination.appendChild(crearBotonPaginacion(
-                'Siguiente',
-                false, // No es activo
-                () => cambiarPagina(paginaActual + 1),
-                false, // No es número
-                paginaActual === totalPaginas // Deshabilitado en última página
-            ));
-        }
-
-        // Función para crear botones de paginación (MODIFICADA)
-        function crearBotonPaginacion(texto, esActivo, onClick, esNumero = true, disabled = false) {
-            const li = document.createElement('li');
-            li.className = `page-item ${esActivo ? 'active' : ''} ${esNumero ? 'number-page' : ''} ${disabled ? 'disabled' : ''}`;
-            
-            const link = document.createElement('a');
-            link.className = 'page-link';
-            link.href = '#';
-            link.textContent = texto;
-            
-            if (!disabled) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    onClick();
-                });
-            }
-            
-            li.appendChild(link);
-            return li;
-        }
-
-        function cambiarPagina(nuevaPagina) {
-            paginaActual = nuevaPagina;
-            mostrarNoticias();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        function calcularTiempoTranscurrido(fechaPublicacion) {
-            if (!fechaPublicacion) return 'Fecha desconocida';
-
-            const fechaPub = new Date(fechaPublicacion);
-            const ahora = new Date();
-            const diferencia = ahora - fechaPub;
-
-            const segundos = Math.floor(diferencia / 1000);
-            const minutos = Math.floor(segundos / 60);
-            const horas = Math.floor(minutos / 60);
-            const dias = Math.floor(horas / 24);
-
-            if (dias > 0) {
-                return `Hace ${dias} ${dias === 1 ? 'día' : 'días'}`;
-            } else if (horas > 0) {
-                return `Hace ${horas} ${horas === 1 ? 'hora' : 'horas'}`;
-            } else if (minutos > 0) {
-                return `Hace ${minutos} ${minutos === 1 ? 'minuto' : 'minutos'}`;
-            } else {
-                return 'Hace unos momentos';
-            }
-        }
-
-        function mostrarMensajeSinResultados() {
-            const newsContainer = document.getElementById('news-container');
-            newsContainer.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <h3>No se encontraron noticias internacionales recientes</h3>
-                <p>Intenta actualizar la página más tarde.</p>
-            </div>
-        `;
-            document.getElementById('pagination').style.display = 'none';
-        }
-
-        function normalizarTexto(texto) {
-            return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        }
-
-        function buscarNoticias() {
-            const textoBusqueda = normalizarTexto(document.getElementById('contenido').value.trim());
-
-            if (textoBusqueda === '') {
-                enModoBusqueda = false;
-            } else {
-                enModoBusqueda = true;
-                noticiasFiltradas = noticiasCompletas.filter(noticia => {
-                    const tituloNormalizado = normalizarTexto(noticia.titulo);
-                    const resumenNormalizado = normalizarTexto(noticia.resumen);
-                    return tituloNormalizado.includes(textoBusqueda) ||
-                        resumenNormalizado.includes(textoBusqueda);
-                });
-            }
-
-            paginaActual = 1;
+    // Botón Anterior
+    const liAnterior = document.createElement('li');
+    liAnterior.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+    liAnterior.innerHTML = `<a class="page-link" href="#" tabindex="-1">Anterior</a>`;
+    liAnterior.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (paginaActual > 1) {
+            paginaActual--;
             mostrarNoticias();
         }
+    });
+    pagination.appendChild(liAnterior);
 
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', () => {
-            obtenerTodasLasNoticiasAPI();
+    // Números de página
+    let inicio = Math.max(1, paginaActual - Math.floor(paginasAMostrar / 2));
+    let fin = Math.min(totalPaginas, paginaActual + Math.floor(paginasAMostrar / 2));
 
-            document.getElementById('buscar').addEventListener('click', buscarNoticias);
-            document.getElementById('contenido').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') buscarNoticias();
-            });
+    if (fin - inicio + 1 < paginasAMostrar) {
+        inicio = Math.max(1, fin - paginasAMostrar + 1);
+    }
+
+    for (let i = inicio; i <= fin; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+            e.preventDefault();
+            paginaActual = i;
+            mostrarNoticias();
         });
+        pagination.appendChild(li);
+    }
+
+    // Botón Siguiente
+    const liSiguiente = document.createElement('li');
+    liSiguiente.className = `page-item ${paginaActual === totalPaginas ? 'disabled' : ''}`;
+    liSiguiente.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+    liSiguiente.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (paginaActual < totalPaginas) {
+            paginaActual++;
+            mostrarNoticias();
+        }
+    });
+    pagination.appendChild(liSiguiente);
+}
+
+// Funciones auxiliares (manteniendo tus implementaciones)
+function obtenerImagen(noticia) {
+    if (noticia.imagen) return noticia.imagen;
+    if (noticia.urlToImage) return noticia.urlToImage;
+    const categoria = noticia.categoriaOriginal ? noticia.categoriaOriginal : 'general';
+    return configCategorias[categoria]?.imagen || 'https://via.placeholder.com/300x200?text=Noticia';
+}
+
+function calcularTiempoTranscurrido(fechaPublicacion) {
+    if (!fechaPublicacion) return 'Fecha desconocida';
+
+    const fechaPub = new Date(fechaPublicacion);
+    const ahora = new Date();
+    const diferencia = ahora - fechaPub;
+
+    const segundos = Math.floor(diferencia / 1000);
+    const minutos = Math.floor(segundos / 60);
+    const horas = Math.floor(minutos / 60);
+    const dias = Math.floor(horas / 24);
+
+    if (dias > 0) {
+        return `Hace ${dias} ${dias === 1 ? 'día' : 'días'}`;
+    } else if (horas > 0) {
+        return `Hace ${horas} ${horas === 1 ? 'hora' : 'horas'}`;
+    } else if (minutos > 0) {
+        return `Hace ${minutos} ${minutos === 1 ? 'minuto' : 'minutos'}`;
+    } else {
+        return 'Hace unos momentos';
+    }
+}
+
+function mostrarMensajeSinResultados() {
+    const newsContainer = document.getElementById('news-container');
+    newsContainer.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <h3>No se encontraron noticias con los filtros aplicados</h3>
+            <p>Intenta con otros criterios de búsqueda.</p>
+        </div>
+    `;
+    document.getElementById('pagination').style.display = 'none';
+}
     </script>
 </body>
 
